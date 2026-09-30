@@ -1,5 +1,16 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc6 (versionCode 7) — Exécution directe des commandes de développement
+
+S'installe par-dessus la **2.0.0-rc5** et toutes les versions précédentes (1.2.0, rc1 à rc4), sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Commandes de développement explicites exécutées directement**, sans boucle du modèle : « git status », « git fetch », « git pull », « crée la branche X », « pousse la branche X », « crée la branche X et pousse-la », « lance les tests », « lance le build », « inspecte le projet X », « liste mes projets ». Seulement si la demande et ses paramètres sont sans ambiguïté (projet nommé ou unique, nom de branche valide) ; sinon la demande passe par le planificateur comme avant.
+- Chaque action passe toujours par la politique : un push vers un dépôt distant demande l'empreinte (L3), un pull une confirmation. Un échec ou un refus termine la tâche avec son motif, sans relancer le modèle.
+
+### Corrigé
+- Cortana ne répète plus une action déjà en échec : un appel identique n'est relancé qu'après un changement d'état utile (fichier modifié, état Git changé, nouvelle autorisation…). La première répétition est signalée au modèle, la suivante arrête l'étape proprement au lieu d'épuiser la limite d'appels. Une action refusée n'est jamais redemandée dans la même étape. Lancer les tests, corriger, relancer les tests reste possible.
+
 ## 2.0.0-rc5 (versionCode 6) — Design « Cortana Workspace »
 
 S'installe par-dessus la **2.0.0-rc4**, les rc précédentes et la **1.2.0**, sans désinstaller : mêmes paquet et certificat. Schéma de base inchangé (**v4**) : aucune migration. Les écrans précédents restent disponibles : Réglages › Général › Interface « Workspace (rc4) » ou « Classique ».

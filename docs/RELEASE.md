@@ -475,6 +475,43 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Rendu réel sur la Galaxy Tab A11 (lueurs, flous, polices), TalkBack réel, fluidité des animations : **BLOCKED_EXTERNAL**.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL** (aucune version VNext encore essayée sur l'appareil).
 
+## 13. Rapport de la version candidate 2.0.0-rc6 (30/09/2026)
+
+**Contenu** : exécution directe des commandes de développement explicites (Git, tests, build, inspection) par le système de raccourcis déterministes existant, et garde anti-répétition dans la boucle modèle ↔ outils (voir `CHANGELOG.md`).
+- Toutes les actions passent toujours par `ToolDispatcher` et `PolicyEngine` : approbations, idempotence et audit inchangés.
+- Schéma **inchangé (v4)** : aucune migration depuis la rc4. Même clé, même paquet.
+- Le fichier `gradle/verification-metadata.xml` a reçu 8 empreintes de métadonnées manquantes pour une construction sur cache vide, chacune contrôlée contre la somme publiée par Maven Central. La vérification reste stricte.
+
+### 13.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc6-arm64-v8a.apk` (Galaxy Tab A11) | 53 873 629 o | `6c8f09d76e8c0afc2a09b2949b12bbaa5592106ae9dfa837216e3cd79ea083f2` |
+| `cortana-2.0.0-rc6-universal.apk` (secours) | 75 308 936 o | `9e18432da48216b3cb85379e3093ed93e6ed26858cd6ab6fdcbd02a7857bd581` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | 1 320 o | `2d88c4678a88be32364b0c4306cae170dec1376aab48f19fabd62b1b89085992` |
+
+### 13.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **7**, versionName **2.0.0-rc6**, non débogable.
+- `apksigner` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc5 ; `release/signing-cert.pem` inchangé).
+- S'installe par-dessus la 1.2.0 et les rc1 à rc5.
+- Manifeste : signature vérifiée par l'outil, puis acceptée par le code de l'application (`ReleaseTest`, vert avec le manifeste rc6).
+- Entrée rc6 de `release/released.json` : schéma 4, `9abbf3f6…`, inchangé.
+
+### 13.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète, tâches de test réellement exécutées | **467 tests, 0 échec, 0 ignoré** (app 454, worker 8, contrats 5), dont 22 nouveaux depuis la rc5 |
+| `verifyReleaseVersion` et `androidRegexCheck` (avant la construction release) | OK ; ICU4C 74.2 : 389 expressions compilées, 0 refusée |
+| `./gradlew :app:lintDebug` | 0 erreur, 89 avertissements (aucun dans les fichiers modifiés pour la rc6) |
+| Construction sur cache vide (GitHub Actions, `.github/workflows/android.yml`) | APK debug et tests verts |
+
+### 13.4 Non exécuté, gates
+
+- Tests instrumentés et matrice physique `RC_CHECKLIST.md` : non exécutés.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -484,6 +521,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc3 | — | `RC_CHECKLIST.md` (dont §14) | **Non exécuté à ce jour.** |
 | 2.0.0-rc4 | — | `RC_CHECKLIST.md` (dont §14 et §15) | **Non exécuté à ce jour.** |
 | 2.0.0-rc5 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc6 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).
