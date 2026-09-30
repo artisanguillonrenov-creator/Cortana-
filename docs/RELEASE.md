@@ -536,7 +536,8 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 
 | Contrôle | Résultat |
 |---|---|
-| Suite complète | voir le rapport de livraison (tests contrats, worker, app ; `ReleaseTest` avec le manifeste rc7) |
+| Suite complète, tâches de test réellement exécutées | **483 tests, 0 échec, 0 ignoré** (app 470, worker 8, contrats 5), dont 16 nouveaux depuis la rc6 ; `ReleaseTest` vert avec le manifeste rc7 |
+| `./gradlew :app:lintDebug` | 0 erreur, 93 avertissements |
 | `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 398 expressions compilées, 0 refusée |
 | Construction sur cache vide (GitHub Actions) | verte sur le commit des résultats web enrichis |
 
