@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "rules": [
+    { "match": "(?i)(gpt-4|gpt-5|gpt-4o|o3|o4)", "nativeTools": true, "nativeJson": true, "contextWindow": 128000 },
+    { "match": "(?i)claude", "nativeTools": true, "nativeJson": false, "contextWindow": 200000 },
+    { "match": "(?i)gemini", "nativeTools": true, "nativeJson": true, "contextWindow": 1000000 },
+    { "match": "(?i)(llama-?3\\.[1-9]|llama-?4|llama3\\.[1-9])", "nativeTools": true, "nativeJson": true, "contextWindow": 128000 },
+    { "match": "(?i)qwen-?(2\\.5|3)", "nativeTools": true, "nativeJson": true, "contextWindow": 32768 },
+    { "match": "(?i)(mistral|mixtral|ministral|codestral)", "nativeTools": true, "nativeJson": true, "contextWindow": 32768 },
+    { "match": "(?i)deepseek", "nativeTools": true, "nativeJson": true, "contextWindow": 64000 },
+    { "match": "(?i)(hermes|nous)", "nativeTools": true, "nativeJson": true, "contextWindow": 32768 },
+    { "match": "(?i)(kimi|glm|gpt-oss)", "nativeTools": true, "nativeJson": true, "contextWindow": 128000 }
+  ],
+  "default": { "nativeTools": false, "nativeJson": false, "contextWindow": 16384 }
+}

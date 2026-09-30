@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cortana Cognitive Council Engine Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "mode": {
+      "enum": [
+        "off",
+        "fast",
+        "reinforced",
+        "council4",
+        "deep",
+        "auto",
+        "custom"
+      ]
+    },
+    "maxAgents": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16,
+      "default": 4
+    },
+    "maxRounds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 1
+    },
+    "quorumRatio": {
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 1.0,
+      "default": 0.67
+    },
+    "topology": {
+      "enum": [
+        "auto",
+        "independent",
+        "full_mesh",
+        "hub",
+        "ring",
+        "sparse_dynamic"
+      ]
+    },
+    "decisionProtocol": {
+      "enum": [
+        "auto",
+        "simple_majority",
+        "approval",
+        "ranked",
+        "cumulative",
+        "majority_consensus",
+        "supermajority",
+        "unanimity",
+        "hybrid",
+        "judge",
+        "blind_judge_then_vote"
+      ]
+    },
+    "challengeFinal": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCouncilSummary": {
+      "type": "boolean",
+      "default": true
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxTotalTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxCostMicros": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "maxWallTimeMs": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "maxProviderCalls": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxToolCalls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxConcurrentAgents": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      },
+      "required": [
+        "maxTotalTokens",
+        "maxWallTimeMs",
+        "maxProviderCalls",
+        "maxConcurrentAgents"
+      ]
+    },
+    "retention": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "maxArgumentsPerTarget": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 6
+        },
+        "maxTokensPerTarget": {
+          "type": "integer",
+          "minimum": 128,
+          "default": 2500
+        },
+        "alwaysKeepCritical": {
+          "type": "boolean",
+          "const": true
+        },
+        "minorityProtection": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "modelId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fallbackModelIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "localOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "reasoningEffort": {
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "xhigh"
+            ]
+          },
+          "maxInputTokens": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "maxOutputTokens": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "timeoutMs": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1000
+          }
+        },
+        "required": [
+          "profileId"
+        ]
+      }
+    }
+  },
+  "required": [
+    "enabled",
+    "mode"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "packageName": "io.github.artisanguillonrenov.cortana",
+  "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33",
+  "releases": [
+    { "versionName": "1.2.0", "versionCode": 1, "dbSchema": 1, "dbIdentityHash": "4cf277f777bae1f1a7cc0e995588bd21", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc1", "versionCode": 2, "dbSchema": 2, "dbIdentityHash": "824dbfa8f80de52a3182957bdc4c98cb", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc2", "versionCode": 3, "dbSchema": 2, "dbIdentityHash": "824dbfa8f80de52a3182957bdc4c98cb", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc3", "versionCode": 4, "dbSchema": 3, "dbIdentityHash": "2ff68b15f0073a3cbe24c19815d91718", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc4", "versionCode": 5, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc5", "versionCode": 6, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" }
+  ]
+}

@@ -1,0 +1,68 @@
+# --- Gradle / Kotlin -------------------------------------------------------
+.gradle/
+.kotlin/
+build/
+out/
+
+# --- Android Studio / IntelliJ ---------------------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Machine-local configuration (Android SDK path)
+local.properties
+
+# --- Build outputs ---------------------------------------------------------
+*.apk
+*.aab
+*.apks
+*.ap_
+*.dex
+output-metadata.json
+
+# --- Signing: keys and passwords stay with the owner -----------------------
+# Template kept in Git: keystore/keystore.properties.example
+keystore/keystore.properties
+keystore/cortana-keystore.jks
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+*.pass
+*.pem
+# Public signing certificate (no private key): used to check the update manifest
+!release/signing-cert.pem
+KEYSTORE_A_CONSERVER*
+
+# --- Secrets, credentials, local environments ------------------------------
+.env
+.env.*
+*.secret
+*.secrets
+secrets.properties
+credentials.json
+google-services.json
+.cortana-worker/
+
+# --- Release deliverables built outside the tree ---------------------------
+livraison*/
+envoi*/
+*.apk.zip
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.pyc
+
+# --- Logs, OS and editor files ---------------------------------------------
+*.log
+*.hprof
+.DS_Store
+Thumbs.db
+*.swp
+*~

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "l3Keywords": [
+    "payer", "paiement", "acheter", "achat", "commander", "commande", "valider la commande", "virement", "transférer", "transfert", "abonnement", "s'abonner", "souscrire",
+    "supprimer", "suppression", "effacer", "désinstaller", "réinitialiser", "réinitialisation", "formater", "tout effacer",
+    "mot de passe", "code pin", "sécurité", "authentification", "double authentification", "compte", "déconnexion", "se déconnecter", "administrateur", "autoriser", "accorder",
+    "pay", "payment", "buy", "purchase", "checkout", "place order", "transfer", "send money", "subscribe", "subscription",
+    "delete", "remove", "uninstall", "reset", "wipe", "erase", "factory",
+    "password", "passcode", "pin", "security", "2fa", "two-factor", "authenticator", "account", "sign out", "log out", "device admin", "grant", "allow"
+  ],
+  "l3ResourceIds": ["pay", "purchase", "buy", "checkout", "delete", "uninstall", "password", "reset", "wipe", "permission_allow", "allow_button"],
+  "l2Keywords": [
+    "envoyer", "publier", "partager", "répondre", "confirmer", "poster", "tweeter", "valider", "inviter",
+    "send", "post", "publish", "share", "reply", "confirm", "tweet", "submit", "invite"
+  ],
+  "l2ResourceIds": ["send", "post", "publish", "share", "reply", "confirm", "submit"],
+  "messagingPackages": [
+    "com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "com.facebook.orca", "com.google.android.apps.messaging",
+    "com.samsung.android.messaging", "com.google.android.gm", "com.microsoft.office.outlook", "com.samsung.android.email.provider",
+    "com.discord", "org.thoughtcrime.securesms", "com.snapchat.android", "com.instagram.android", "com.twitter.android",
+    "com.linkedin.android", "com.facebook.katana", "com.Slack", "com.microsoft.teams", "ch.protonmail.android", "com.viber.voip"
+  ],
+  "sensitivePackages": [
+    "com.boursorama.android.clients", "fr.creditagricole.androidapp", "fr.lcl.android.customerarea", "net.bnpparibas.mescomptes",
+    "com.bnpp.hellobank", "fr.banquepopulaire.cyberplus", "fr.caisseepargne.cyberplus", "mobi.societegenerale.mobile.lappli",
+    "fr.laposte.lapostemobile", "com.fortuneo.android", "fr.cic.android", "com.cm_prod.bad", "fr.axa.monaxa",
+    "com.revolut.revolut", "de.number26.android", "com.paypal.android.p2pmobile", "com.lydia", "com.qonto.qonto",
+    "com.google.android.apps.walletnfcrel", "com.samsung.android.spay", "com.samsung.android.samsungpass",
+    "com.x8bit.bitwarden", "com.lastpass.lpandroid", "com.agilebits.onepassword", "com.dashlane", "keepass2android.keepass2android",
+    "com.google.android.apps.authenticator2", "com.azure.authenticator", "com.authy.authy", "com.okta.android.auth",
+    "com.coinbase.android", "com.binance.dev", "com.samsung.android.authfw", "com.android.settings.security"
+  ],
+  "sensitiveSettingsKeywords": ["sécurité", "mots de passe", "comptes", "confidentialité", "écran de verrouillage", "biométrie", "administrateur", "security", "passwords", "accounts", "lock screen", "biometrics", "device admin"]
+}

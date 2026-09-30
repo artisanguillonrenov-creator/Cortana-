@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Sora:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0..1,0&display=block">
+<style>
+html,body{margin:0;height:100%;background:#04070c;overflow:hidden}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#233046 transparent}
+a{color:#6cb6ff;text-decoration:none}a:hover{color:#9ccaff}
+input::placeholder{color:#6f7d92}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 7px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 1px rgba(120,190,255,.3),0 0 14px rgba(47,139,255,.55),inset 0 0 9px rgba(47,139,255,.6)}50%{box-shadow:0 0 0 1px rgba(120,190,255,.5),0 0 26px rgba(47,139,255,.95),inset 0 0 13px rgba(47,139,255,.9)}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes flash{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+@keyframes blink{50%{opacity:0}}
+@keyframes fade{from{opacity:0}}
+@keyframes wave{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:56px;background:radial-gradient(1200px 800px at 50% 45%,#0d1320 0%,#05070b 72%)">
+<div style="position:relative;flex:none;width:{{ sw }}px;height:{{ sh }}px;transform:scale({{ scale }});transform-origin:50% 50%">
+<sc-if value="{{ bezel }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:-20px;border-radius:46px;background:linear-gradient(150deg,#1b212c 0%,#0c0f15 38%,#080a0e 100%);box-shadow:0 0 0 1px #262e3c,0 50px 100px -30px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.06)"></div>
+<div style="position:absolute;top:{{ camT }};left:{{ camL }};width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#141a24;box-shadow:inset 0 0 0 1.5px #232b38"></div>
+</sc-if>
+<div data-screen-label="Cortana" style="position:relative;width:{{ sw }}px;height:{{ sh }}px;border-radius:26px;overflow:hidden;display:flex;background:radial-gradient(900px 520px at 58% -8%,#101a30 0%,#0a0f19 62%);color:#e8eef8;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased">
+
+<div style="position:absolute;top:0;left:0;right:0;height:36px;padding:0 28px 0 30px;display:flex;align-items:center;justify-content:space-between;z-index:90;pointer-events:none;font-size:14px;font-weight:600;color:#eef3fa">
+<div style="display:flex;gap:12px;align-items:center"><span>14:27</span><span style="font-weight:500">Mer. 23 avr.</span></div>
+<div style="display:flex;gap:9px;align-items:center">
+<span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">signal_cellular_alt</span>
+<span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">wifi</span>
+<span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">notifications_off</span>
+<span style="font-weight:500;margin-left:2px">100 %</span>
+<div style="display:flex;align-items:center;gap:1px"><div style="width:25px;height:13px;border-radius:4px;border:1.5px solid #eef3fa;padding:1.5px"><div style="width:100%;height:100%;border-radius:2px;background:#eef3fa"></div></div><div style="width:2px;height:5px;border-radius:0 1px 1px 0;background:#eef3fa"></div></div>
+</div>
+</div>
+
+<aside style="flex:none;width:288px;margin-left:{{ sbMargin }};position:{{ sbPos }};top:0;bottom:0;left:0;z-index:{{ sbZ }};transform:translateX({{ sbX }});box-shadow:{{ sbShadow }};transition:margin-left .22s cubic-bezier(.2,.7,.2,1),transform .24s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;padding:44px 12px 54px;background:linear-gradient(180deg,#0d1525 0%,#0a111d 100%);border-right:1px solid #152033;overflow:hidden">
+<div style="display:flex;align-items:center;gap:14px;padding:2px 0 0 8px;height:66px">
+<div style="flex:none;width:62px;height:62px;border-radius:50%;border:4px solid #2f8bff;background:radial-gradient(circle,#081224 55%,#0d2a55 100%);box-shadow:0 0 0 1px rgba(120,190,255,.3),0 0 18px rgba(47,139,255,.6),inset 0 0 12px rgba(47,139,255,.7);animation:glow 3.2s ease-in-out infinite"></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="font-family:'Sora',sans-serif;font-size:30px;font-weight:600;letter-spacing:.01em;line-height:1;color:#eef3fa">Cortana</div>
+<div style="font-size:13.5px;color:#a1afc3;white-space:nowrap">Votre alliée IA au quotidien</div>
+</div>
+</div>
+<div style="margin-top:38px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ navA }}" as="n" hint-placeholder-count="5">
+<div onClick="{{ n.go }}" style="position:relative;height:48px;display:flex;align-items:center;gap:18px;padding:0 10px 0 16px;border-radius:12px;cursor:pointer" style-hover="background:rgba(140,165,210,.06)">
+<sc-if value="{{ n.on }}"><div style="position:absolute;inset:0;border-radius:12px;background:linear-gradient(90deg,rgba(47,139,255,.24),rgba(47,139,255,.07));box-shadow:inset 0 0 0 1px rgba(90,167,255,.16)"></div><div style="position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:#3d8fff;box-shadow:0 0 10px rgba(61,143,255,.9)"></div></sc-if>
+<span style="position:relative;font:300 25px/1 'Material Symbols Rounded';color:{{ n.ic }}">{{ n.i }}</span>
+<span style="position:relative;flex:1;font-size:16px;font-weight:{{ n.fw }};color:{{ n.fg }}">{{ n.l }}</span>
+<sc-if value="{{ n.badge }}"><span style="position:relative;min-width:32px;height:32px;padding:0 8px;border-radius:9px;background:#172133;border:1px solid #222e42;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#d4dde9">{{ n.badge }}</span></sc-if>
+<sc-if value="{{ n.dot }}"><span style="position:relative;width:10px;height:10px;margin-right:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.8)"></span></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="height:1px;background:#1a2436;margin:16px 12px"></div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{ navB }}" as="n" hint-placeholder-count="6">
+<div onClick="{{ n.go }}" style="position:relative;height:48px;display:flex;align-items:center;gap:18px;padding:0 10px 0 16px;border-radius:12px;cursor:pointer" style-hover="background:rgba(140,165,210,.06)">
+<sc-if value="{{ n.on }}"><div style="position:absolute;inset:0;border-radius:12px;background:linear-gradient(90deg,rgba(47,139,255,.24),rgba(47,139,255,.07));box-shadow:inset 0 0 0 1px rgba(90,167,255,.16)"></div><div style="position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:#3d8fff;box-shadow:0 0 10px rgba(61,143,255,.9)"></div></sc-if>
+<span style="position:relative;font:300 25px/1 'Material Symbols Rounded';color:{{ n.ic }}">{{ n.i }}</span>
+<span style="position:relative;flex:1;font-size:16px;font-weight:{{ n.fw }};color:{{ n.fg }}">{{ n.l }}</span>
+<sc-if value="{{ n.badge }}"><span style="position:relative;min-width:32px;height:32px;padding:0 8px;border-radius:9px;background:#172133;border:1px solid #222e42;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#d4dde9">{{ n.badge }}</span></sc-if>
+<sc-if value="{{ n.dot }}"><span style="position:relative;width:10px;height:10px;margin-right:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.8)"></span></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;align-items:center;gap:12px;height:68px;padding:0 12px;border-radius:12px;background:#0e1626;border:1px solid #1c2739">
+<span style="flex:none;font:300 24px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#5aa7ff">auto_fix_high</span>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+<div style="font-size:14px;font-weight:600;color:#eef3fa;white-space:nowrap">Mode développeur</div>
+<div style="font-size:13px;color:#98a6ba;white-space:nowrap">{{ devSub }}</div>
+</div>
+<div onClick="{{ toggleDev }}" style="flex:none;width:44px;height:26px;border-radius:13px;padding:3px;cursor:pointer;background:{{ devTrack }};transition:background .18s"><div style="width:20px;height:20px;border-radius:50%;background:#ffffff;transform:translateX({{ devKnob }});transition:transform .18s"></div></div>
+</div>
+<sc-if value="{{ isRun }}" hint-placeholder-val="{{ true }}">
+<div onClick="{{ stop }}" style="height:84px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:22px;cursor:pointer;background:linear-gradient(180deg,#e5463f 0%,#c7302b 100%);border:1px solid rgba(255,140,128,.45);box-shadow:0 10px 30px -8px rgba(229,70,63,.6),inset 0 1px 0 rgba(255,255,255,.18)" style-hover="filter:brightness(1.08)" style-active="transform:scale(.985)">
+<div style="width:30px;height:30px;border-radius:9px;background:#ffffff;display:flex;align-items:center;justify-content:center"><div style="width:12px;height:12px;border-radius:3px;background:#d73a34"></div></div>
+<span style="font-size:18px;font-weight:600;letter-spacing:.08em;color:#ffffff">STOP</span>
+</div>
+</sc-if>
+<sc-if value="{{ isPaused }}">
+<div onClick="{{ resume }}" style="height:84px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:14px;cursor:pointer;background:linear-gradient(180deg,#3a8dff 0%,#1f6be8 100%);border:1px solid rgba(140,190,255,.45);box-shadow:0 10px 30px -8px rgba(47,139,255,.55),inset 0 1px 0 rgba(255,255,255,.18)" style-hover="filter:brightness(1.08)" style-active="transform:scale(.985)">
+<span style="font:300 32px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#ffffff">play_arrow</span>
+<span style="font-size:18px;font-weight:600;letter-spacing:.03em;color:#ffffff">Reprendre</span>
+</div>
+</sc-if>
+<sc-if value="{{ isDone }}">
+<div style="height:84px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:12px;background:#0f1828;border:1px solid #1e2a3d;color:#8391a6">
+<span style="font:300 24px/1 'Material Symbols Rounded'">check_circle</span>
+<span style="font-size:15.5px;font-weight:500">Aucune tâche en cours</span>
+</div>
+</sc-if>
+</div>
+</aside>
+
+<sc-if value="{{ scrChat }}" hint-placeholder-val="{{ true }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 14px 24px 18px;position:relative">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;position:relative;z-index:50">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff">
+<span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">Discussion</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Discutez, créez, automatisez, tout est possible.</div>
+</div>
+<div style="display:flex;gap:8px;align-items:center;flex:none">
+<div style="position:relative">
+<div onClick="{{ toggleModel }}" style="height:48px;display:flex;align-items:center;gap:8px;padding:0 8px 0 9px;border-radius:12px;border:1px solid #1f2a3c;background:#0e1522;cursor:pointer" style-hover="background:#131d2e">
+<div style="flex:none;width:28px;height:28px;border-radius:8px;background:{{ modelTile }};color:{{ modelColor }};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ modelKey }}</div>
+<div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<div style="font-size:14px;font-weight:600;color:#eef3fa;white-space:nowrap">{{ modelName }}</div>
+<div style="font-size:11px;color:#8f9db2;white-space:nowrap">{{ modelProv }}</div>
+</div>
+<span style="font:300 20px/1 'Material Symbols Rounded';color:#aab6c6">expand_more</span>
+</div>
+<sc-if value="{{ modelOpen }}">
+<div style="position:absolute;top:56px;right:0;width:310px;padding:8px;border-radius:16px;background:#101828;border:1px solid #243149;box-shadow:0 24px 60px -12px rgba(0,0,0,.75);animation:rise .16s ease-out;z-index:60">
+<div style="padding:8px 10px 8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0">Modèle</div>
+<sc-for list="{{ models }}" as="mo" hint-placeholder-count="4">
+<div onClick="{{ mo.pick }}" style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;background:{{ mo.bg }}" style-hover="background:#172238">
+<div style="flex:none;width:32px;height:32px;border-radius:9px;background:{{ mo.tbg }};color:{{ mo.c }};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">{{ mo.k }}</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+<div style="font-size:14px;font-weight:600;color:#eef3fa">{{ mo.n }}</div>
+<div style="font-size:12px;color:#8f9db2">{{ mo.sub }}</div>
+</div>
+<sc-if value="{{ mo.sel }}"><span style="font:300 20px/1 'Material Symbols Rounded';color:#5aa7ff">check</span></sc-if>
+</div>
+</sc-for>
+<div style="height:1px;background:#1d2839;margin:6px 4px"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;font-size:13px;color:#aab6c6;cursor:pointer" style-hover="color:#ffffff;background:#141e30">Gérer les fournisseurs<span style="font:300 18px/1 'Material Symbols Rounded'">arrow_forward</span></div>
+</div>
+</sc-if>
+</div>
+<div onClick="{{ toggleSearch }}" style="height:48px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:12px;border:1px solid #1f2a3c;background:#0e1522;cursor:pointer" style-hover="background:#131d2e">
+<span style="font:300 21px/1 'Material Symbols Rounded';color:#c9d3e0">language</span>
+<span style="font-size:13.5px;font-weight:500;color:#e6edf6">Recherche</span>
+<div style="width:34px;height:20px;border-radius:10px;padding:2px;margin-left:2px;background:{{ searchTrack }};transition:background .18s"><div style="width:16px;height:16px;border-radius:50%;background:{{ searchKnobBg }};transform:translateX({{ searchKnob }});transition:transform .18s,background .18s"></div></div>
+</div>
+<div onClick="{{ toggleVoice }}" style="height:48px;display:flex;align-items:center;gap:7px;padding:0 11px 0 10px;border-radius:12px;border:1px solid {{ voiceBd }};background:{{ voiceBg }};cursor:pointer;transition:background .18s,border-color .18s">
+<span style="font:300 21px/1 'Material Symbols Rounded';color:#4d9fff">graphic_eq</span>
+<span style="font-size:13.5px;font-weight:500;color:#e6edf6">Voix</span>
+</div>
+<sc-if value="{{ portrait }}"><div onClick="{{ openPanel }}" style="height:48px;display:flex;align-items:center;gap:8px;padding:0 12px 0 10px;border-radius:12px;border:1px solid #1f2a3c;background:#0e1522;cursor:pointer" style-hover="background:#131d2e"><span style="font:300 21px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#4d9fff">assignment</span><span style="font-size:13.5px;font-weight:500;color:#e6edf6">Tâche</span><span style="font-size:12.5px;color:#93a1b5;font-variant-numeric:tabular-nums">{{ progress }}</span></div></sc-if>
+</div>
+</div>
+<sc-if value="{{ portraitChat }}">
+<div style="margin-top:14px;height:54px;flex:none;display:flex;align-items:center;gap:14px;padding:0 8px 0 16px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<sc-if value="{{ stRun }}"><span style="flex:none;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#4ade80"><span style="width:9px;height:9px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite"></span>En cours</span></sc-if>
+<sc-if value="{{ stAsk }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#fbbf24"><span style="font:300 18px/1 'Material Symbols Rounded'">front_hand</span>Approbation</span></sc-if>
+<sc-if value="{{ stPause }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#f5a524"><span style="font:300 18px/1 'Material Symbols Rounded'">pause_circle</span>En pause</span></sc-if>
+<sc-if value="{{ stDone }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#4ade80"><span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">check_circle</span>Terminée</span></sc-if>
+<div style="flex:none;width:1px;height:24px;background:#1f2a3c"></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:7px">
+<div style="font-size:13.5px;color:#e6edf6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Étape {{ stepNo }}/6 · {{ stepName }}</div>
+<div style="height:4px;border-radius:2px;background:#1b2536;overflow:hidden"><div style="height:100%;width:{{ pct }}%;border-radius:2px;background:linear-gradient(90deg,#1f6be8,#4d9fff);transition:width .6s cubic-bezier(.2,.7,.2,1)"></div></div>
+</div>
+<span style="flex:none;font-size:13px;color:#93a1b5;white-space:nowrap">{{ remain }}</span>
+<div onClick="{{ openPanel }}" style="flex:none;height:38px;padding:0 6px 0 12px;border-radius:10px;border:1px solid #243149;display:flex;align-items:center;gap:2px;font-size:13.5px;color:#e6edf6;cursor:pointer" style-hover="background:#16213a">Détails<span style="font:300 20px/1 'Material Symbols Rounded'">chevron_right</span></div>
+<sc-if value="{{ isRun }}"><div onClick="{{ stop }}" style="flex:none;height:38px;padding:0 14px 0 10px;border-radius:10px;background:linear-gradient(180deg,#e5463f,#c7302b);display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;letter-spacing:.05em;color:#ffffff;cursor:pointer" style-hover="filter:brightness(1.08)"><span style="font:300 20px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">stop_circle</span>STOP</div></sc-if>
+<sc-if value="{{ isPaused }}"><div onClick="{{ resume }}" style="flex:none;height:38px;padding:0 14px 0 10px;border-radius:10px;background:linear-gradient(180deg,#3a8dff,#1f6be8);display:flex;align-items:center;gap:4px;font-size:13.5px;font-weight:600;color:#ffffff;cursor:pointer" style-hover="filter:brightness(1.08)"><span style="font:300 20px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">play_arrow</span>Reprendre</div></sc-if>
+</div>
+</sc-if>
+<span style="position:absolute;right:6px;top:{{ kebabTop }};font:300 20px/1 'Material Symbols Rounded';color:#8e9bb0;cursor:pointer;z-index:5">more_vert</span>
+
+<div ref="{{ timelineRef }}" style="flex:1;min-height:0;overflow-y:auto;margin-top:18px;padding:4px 14px 4px 0">
+<div style="display:flex;justify-content:flex-end">
+<div style="max-width:540px;display:flex;gap:14px;padding:12px 16px 8px 12px;border-radius:18px;background:linear-gradient(180deg,#10254a 0%,#0c1c3a 100%);border:1px solid #214274;box-shadow:inset 0 1px 0 rgba(140,190,255,.08)">
+<div style="flex:none;width:30px;height:30px;border-radius:50%;background:#cfd9e8;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><span style="font:300 28px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#4e5f7a;margin-bottom:-5px">person</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<div style="font-size:14.5px;line-height:24px;color:#eaf0f8;text-wrap:pretty">Peux-tu créer une petite application Android de prise de notes, la builder, la tester sur l’appareil et l’installer ?<br>Utilise un design moderne et stocke les notes localement.</div>
+<div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;font-size:11.5px;color:#8b9ab0">14:22<span style="font:300 16px/1 'Material Symbols Rounded';color:#5aa7ff">done_all</span></div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;gap:20px;margin-top:22px">
+<div style="flex:none;width:44px;height:44px;border-radius:50%;border:3.5px solid #2f8bff;background:radial-gradient(circle,#081224 55%,#0d2a55 100%);box-shadow:0 0 0 1px rgba(120,190,255,.3),0 0 14px rgba(47,139,255,.6),inset 0 0 9px rgba(47,139,255,.7);animation:{{ avatarAnim }}"></div>
+<div style="flex:1;min-width:0;max-width:640px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:baseline;gap:10px;margin-top:2px"><span style="font-size:14px;font-weight:600;color:#4d9fff">Cortana</span><span style="font-size:12px;color:#7f8ca0">14:22</span></div>
+<div style="margin-top:6px;font-size:15px;line-height:25px;color:#dfe7f2;text-wrap:pretty">Bien sûr ! Je vais créer une application Android de prise de notes complète, la compiler, la tester et l’installer sur votre appareil. Voici mon plan d’action :</div>
+
+<div ref="{{ planRef }}" style="position:relative;margin-top:12px;border-radius:14px;background:#0d1523;border:1px solid #1c2638;padding:9px 16px 12px 18px">
+<sc-if value="{{ planFlash }}"><div style="position:absolute;inset:-1px;border-radius:14px;border:1.5px solid #3d8fff;box-shadow:0 0 0 4px rgba(61,143,255,.18);animation:flash 1.4s ease-out forwards;pointer-events:none"></div></sc-if>
+<div style="display:flex;align-items:center;gap:12px;height:36px">
+<span style="font:300 22px/1 'Material Symbols Rounded';color:#a9bad0">list_alt</span>
+<span style="flex:1;font-size:16.5px;font-weight:600;color:#eef3fa">Plan d’exécution</span>
+<span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#a3b0c2"><span style="font:300 17px/1 'Material Symbols Rounded'">schedule</span>{{ planLabel }}</span>
+<span style="font-size:13.5px;color:#a3b0c2;margin-left:12px">{{ eta }}</span>
+<span style="font:300 22px/1 'Material Symbols Rounded';color:#a9b5c6;margin-left:16px;cursor:pointer">more_vert</span>
+</div>
+<div style="display:flex;flex-direction:column;margin-top:6px">
+<sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+<div style="height:26.6px;display:flex;align-items:center;gap:12px;font-size:14.5px;color:{{ st.fg }}">
+<div style="flex:none;width:20px;height:20px;display:flex;align-items:center;justify-content:center;position:relative">
+<sc-if value="{{ st.done }}"><span style="font:300 21px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#22c55e">check_circle</span></sc-if>
+<sc-if value="{{ st.spin }}"><div style="width:17px;height:17px;border-radius:50%;border:2px solid #3d8fff;box-shadow:0 0 8px rgba(61,143,255,.75),inset 0 0 4px rgba(61,143,255,.5)"></div><div style="position:absolute;left:1.5px;top:1.5px;width:17px;height:17px;border-radius:50%;border:2px solid transparent;border-top-color:#cfe6ff;animation:spin .9s linear infinite"></div></sc-if>
+<sc-if value="{{ st.wait }}"><div style="width:17px;height:17px;border-radius:50%;border:2px solid #f5a524;box-shadow:0 0 8px rgba(245,165,36,.5)"></div></sc-if>
+<sc-if value="{{ st.pending }}"><div style="width:17px;height:17px;border-radius:50%;border:1.5px solid #3c4960"></div></sc-if>
+</div>
+<span>{{ st.t }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:12px;font-size:15px;line-height:25px;color:#dfe7f2;text-wrap:pretty">J’ai déjà initialisé le projet et mis en place la structure. Je commence maintenant l’implémentation de la base de données locale avec Room.</div>
+
+<div style="margin-top:12px;border-radius:12px;background:#0a111d;border:1px solid #1c2638;overflow:hidden">
+<div style="height:40px;display:flex;align-items:center;gap:10px;padding:0 8px 0 14px;background:#0e1624;border-bottom:1px solid #18212f">
+<div style="flex:none;width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#7f52ff,#3d8fff);display:flex;align-items:center;justify-content:center"><span style="font:300 15px/1 'Material Symbols Rounded';color:#ffffff">data_object</span></div>
+<span style="font-size:14.5px;font-weight:600;color:#eef3fa">NoteDatabase.kt</span>
+<span style="flex:1;font-family:'Geist Mono',monospace;font-size:12.5px;color:#7d8aa0">src/main/…/data/</span>
+<span style="height:24px;padding:0 9px;border-radius:6px;background:#172133;border:1px solid #222e42;display:flex;align-items:center;font-size:12px;color:#c3cedc">Kotlin</span>
+<div onClick="{{ copy }}" title="Copier" style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:{{ copyColor }}" style-hover="background:#172133"><span style="font:300 19px/1 'Material Symbols Rounded'">{{ copyIcon }}</span></div>
+<div onClick="{{ toggleCode }}" title="Agrandir" style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b3bfcf" style-hover="background:#172133"><span style="font:300 19px/1 'Material Symbols Rounded'">{{ codeIcon }}</span></div>
+</div>
+<div style="max-height:{{ codeH }}px;overflow:auto;padding:6px 0 8px;transition:max-height .25s ease;font-family:'Geist Mono',monospace;font-size:13px;line-height:19.4px">
+<sc-for list="{{ code }}" as="ln" hint-placeholder-count="12">
+<div style="display:flex;white-space:pre">
+<span style="flex:none;width:44px;padding-right:14px;text-align:right;color:#46546b;user-select:none">{{ ln.n }}</span>
+<span><sc-for list="{{ ln.toks }}" as="tk"><span style="color:{{ tk.c }}">{{ tk.t }}</span></sc-for></span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ apPending }}">
+<div style="margin-top:16px;border-radius:14px;border:1px solid rgba(245,165,36,.45);background:linear-gradient(180deg,rgba(245,165,36,.10),rgba(245,165,36,.03));padding:14px 16px;display:flex;flex-direction:column;gap:12px;animation:rise .3s ease-out">
+<div style="display:flex;align-items:flex-start;gap:12px">
+<div style="flex:none;width:38px;height:38px;border-radius:10px;background:rgba(245,165,36,.16);display:flex;align-items:center;justify-content:center"><span style="font:300 22px/1 'Material Symbols Rounded';color:#fbbf24">gpp_maybe</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:3px">
+<div style="font-size:15px;font-weight:600;color:#fde8b8">Approbation requise</div>
+<div style="font-size:14px;color:#e6edf6">Installer « Notes » sur Pixel 8 (Android 14)</div>
+</div>
+<span style="height:24px;padding:0 9px;border-radius:6px;border:1px solid rgba(245,165,36,.35);display:flex;align-items:center;font-size:12px;color:#fcd68a">Politique sécurité</span>
+</div>
+<div style="display:flex;gap:18px;padding-left:50px;font-size:12.5px;color:#9aa8bc">
+<span>Outil <span style="font-family:'Geist Mono',monospace;color:#dfe7f2">adb install</span></span>
+<span>Cible <span style="font-family:'Geist Mono',monospace;color:#dfe7f2">com.cortana.notes</span></span>
+<span>Risque <span style="color:#fcd68a">Modéré</span></span>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:10px">
+<div onClick="{{ refuse }}" style="height:40px;padding:0 16px;border-radius:10px;border:1px solid #2a3750;background:#0f1726;display:flex;align-items:center;font-size:14px;font-weight:500;color:#dfe7f2;cursor:pointer" style-hover="background:#16213a">Refuser</div>
+<div onClick="{{ approve }}" style="height:40px;padding:0 18px;border-radius:10px;background:linear-gradient(180deg,#3a8dff,#1f6be8);display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#ffffff;cursor:pointer;box-shadow:0 6px 18px -6px rgba(47,139,255,.7)" style-hover="filter:brightness(1.08)"><span style="font:300 18px/1 'Material Symbols Rounded'">check</span>Autoriser une fois</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ apOk }}">
+<div style="margin-top:16px;align-self:flex-start;height:38px;padding:0 14px;border-radius:10px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.07);display:flex;align-items:center;gap:8px;font-size:13.5px;color:#bff0d0"><span style="font:300 19px/1 'Material Symbols Rounded';color:#4ade80">verified_user</span>Installation autorisée une fois<span style="color:#6f8a7b">· adb install</span></div>
+</sc-if>
+<sc-if value="{{ apNo }}">
+<div style="margin-top:16px;align-self:flex-start;height:38px;padding:0 14px;border-radius:10px;border:1px solid rgba(248,113,113,.35);background:rgba(248,113,113,.07);display:flex;align-items:center;gap:8px;font-size:13.5px;color:#fecaca"><span style="font:300 19px/1 'Material Symbols Rounded';color:#f87171">block</span>Installation refusée</div>
+</sc-if>
+
+<div style="margin-top:10px;display:flex;align-items:center;gap:12px;font-size:15px;line-height:25px;color:#dfe7f2">
+<span style="text-wrap:pretty">{{ say }}</span>
+<sc-if value="{{ dots }}"><span style="flex:none;display:flex;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:#3d8fff;animation:dot 1.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#3d8fff;animation:dot 1.2s .15s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#3d8fff;animation:dot 1.2s .3s infinite"></span></span></sc-if>
+</div>
+<sc-if value="{{ isDone }}">
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;animation:rise .3s ease-out">
+<div style="height:46px;display:flex;align-items:center;gap:10px;padding:0 14px 0 8px;border-radius:12px;background:#0e1624;border:1px solid #1d2838"><div style="width:30px;height:30px;border-radius:8px;background:rgba(34,197,94,.14);display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#4ade80">android</span></div><span style="font-size:13.5px;font-weight:600">app-debug.apk</span><span style="font-size:12.5px;color:#7f8ca0">6,4 Mo</span></div>
+<div style="height:46px;display:flex;align-items:center;gap:10px;padding:0 14px 0 8px;border-radius:12px;background:#0e1624;border:1px solid #1d2838"><div style="width:30px;height:30px;border-radius:8px;background:rgba(47,139,255,.14);display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#6cb6ff">fact_check</span></div><span style="font-size:13.5px;font-weight:600">Rapport de tests</span><span style="font-size:12.5px;color:#7f8ca0">14/14</span></div>
+<div style="height:46px;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:12px;border:1px solid #2a3a58;font-size:13.5px;font-weight:500;color:#9ccaff;cursor:pointer" style-hover="background:#111c30">Ouvrir sur le Pixel 8<span style="font:300 18px/1 'Material Symbols Rounded'">open_in_new</span></div>
+</div>
+</sc-if>
+</div>
+</div>
+
+<sc-for list="{{ queue }}" as="q">
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-top:18px;animation:rise .25s ease-out">
+<div style="max-width:460px;padding:10px 14px;border-radius:16px 16px 6px 16px;background:linear-gradient(180deg,#10254a,#0c1c3a);border:1px solid #214274;font-size:14.5px;line-height:22px;color:#eaf0f8">{{ q.text }}</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8391a6"><span style="font:300 15px/1 'Material Symbols Rounded';color:{{ q.ic }}">{{ q.icon }}</span>{{ q.label }}<sc-if value="{{ q.canRemove }}"><span onClick="{{ q.remove }}" style="margin-left:6px;color:#6cb6ff;cursor:pointer">Retirer</span></sc-if></div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+<sc-for list="{{ tools }}" as="t" hint-placeholder-count="6">
+<div onClick="{{ t.tog }}" style="height:38px;display:flex;align-items:center;gap:8px;padding:0 13px 0 11px;border-radius:10px;border:1px solid {{ t.bd }};background:{{ t.bg }};cursor:pointer;font-size:13.5px;font-weight:500;color:{{ t.fg }};transition:background .15s,border-color .15s">
+<span style="font:300 19px/1 'Material Symbols Rounded';font-variation-settings:'FILL' {{ t.f }};color:{{ t.ic }}">{{ t.i }}</span>{{ t.l }}
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:10px;height:66px;display:flex;align-items:center;gap:8px;padding:7px 8px 7px 6px;border-radius:16px;background:#0c1320;border:1px solid #1b2536">
+<div style="flex:none;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#c3cddb" style-hover="background:#141e30"><span style="font:300 25px/1 'Material Symbols Rounded';transform:rotate(45deg)">attach_file</span></div>
+<div style="flex:1;min-width:0;position:relative;height:52px">
+<input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onKey }}" placeholder="{{ placeholder }}" style="width:100%;height:52px;padding:0 56px 0 16px;border-radius:13px;background:#0f1726;border:1px solid #1f2a3c;color:#eef3fa;font-family:'Geist',system-ui,sans-serif;font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s" style-focus="border-color:#2f6fd6;box-shadow:0 0 0 3px rgba(47,139,255,.15)">
+<sc-if value="{{ voice }}"><div style="position:absolute;right:52px;top:0;bottom:0;display:flex;align-items:center;gap:3px;pointer-events:none"><span style="width:3px;height:18px;border-radius:2px;background:#4d9fff;animation:wave .9s ease-in-out infinite"></span><span style="width:3px;height:18px;border-radius:2px;background:#4d9fff;animation:wave .9s .15s ease-in-out infinite"></span><span style="width:3px;height:18px;border-radius:2px;background:#4d9fff;animation:wave .9s .3s ease-in-out infinite"></span><span style="width:3px;height:18px;border-radius:2px;background:#4d9fff;animation:wave .9s .45s ease-in-out infinite"></span></div></sc-if>
+<div onClick="{{ toggleVoice }}" style="position:absolute;right:6px;top:6px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:{{ micColor }}" style-hover="background:#16213a"><span style="font:300 24px/1 'Material Symbols Rounded'">mic</span></div>
+</div>
+<div onClick="{{ send }}" style="flex:none;width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:linear-gradient(180deg,#3a8dff 0%,#1f6be8 100%);box-shadow:0 8px 22px -8px rgba(47,139,255,.8),inset 0 1px 0 rgba(255,255,255,.2)" style-hover="filter:brightness(1.1)" style-active="transform:scale(.96)"><span style="font:300 24px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#ffffff">send</span></div>
+</div>
+</main>
+
+<div style="flex:none;width:{{ rpW }};display:flex;flex-direction:column;gap:11px;padding:{{ rpPad }};position:{{ rpPos }};top:0;right:0;bottom:0;z-index:{{ rpZ }};transform:translateX({{ rpX }});background:{{ rpBg }};border-left:1px solid {{ rpBd }};box-shadow:{{ rpShadow }};transition:transform .24s cubic-bezier(.2,.7,.2,1)">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:14px 16px 12px">
+<div style="display:flex;align-items:center;gap:12px;height:34px">
+<span style="font:300 22px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#4d9fff">assignment</span>
+<span style="flex:1;font-size:19px;font-weight:600;color:#f2f6fb">Tâche active</span>
+<sc-if value="{{ stRun }}" hint-placeholder-val="{{ true }}"><span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#4ade80"><span style="width:9px;height:9px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite"></span>En cours</span></sc-if>
+<sc-if value="{{ stAsk }}"><span style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#fbbf24"><span style="font:300 18px/1 'Material Symbols Rounded'">front_hand</span>Approbation</span></sc-if>
+<sc-if value="{{ stPause }}"><span style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#f5a524"><span style="font:300 18px/1 'Material Symbols Rounded'">pause_circle</span>En pause</span></sc-if>
+<sc-if value="{{ stDone }}"><span style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#4ade80"><span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">check_circle</span>Terminée</span></sc-if>
+<div onClick="{{ rpAction }}" title="{{ rpTitle }}" style="margin-left:14px;width:32px;height:32px;border-radius:9px;border:1px solid #1f2a3c;display:flex;align-items:center;justify-content:center;color:#aab6c6;cursor:pointer" style-hover="background:#141e30;color:#ffffff"><span style="font:300 18px/1 'Material Symbols Rounded'">{{ rpIcon }}</span></div>
+</div>
+<div style="margin-top:16px;display:flex;gap:14px;align-items:center">
+<div style="flex:none;width:78px;height:78px;border-radius:16px;background:linear-gradient(160deg,#1a2740,#121b2c);border:1px solid #26334a;display:flex;align-items:center;justify-content:center"><span style="font:300 42px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#e9eef6">sticky_note_2</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+<div style="font-size:17px;font-weight:600;color:#f2f6fb">Application Android - Notes</div>
+<div style="font-size:14px;color:#a3b0c2">Créer, builder, tester et installer</div>
+<div style="display:flex;gap:6px;margin-top:5px">
+<span style="height:26px;padding:0 9px;border-radius:7px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.45);display:flex;align-items:center;font-size:12.5px;font-weight:500;color:#d3c4ff">Développement</span>
+<span style="height:26px;padding:0 9px;border-radius:7px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);display:flex;align-items:center;font-size:12.5px;font-weight:500;color:#8ff0b4">Android</span>
+<span style="height:26px;padding:0 9px;border-radius:7px;background:rgba(47,139,255,.12);border:1px solid rgba(77,159,255,.4);display:flex;align-items:center;font-size:12.5px;font-weight:500;color:#a9cfff">Local</span>
+</div>
+</div>
+</div>
+<div style="margin-top:24px;display:flex;align-items:center;gap:16px">
+<div style="flex:1;height:6px;border-radius:3px;background:#1b2536;overflow:hidden"><div style="height:100%;width:{{ pct }}%;border-radius:3px;background:linear-gradient(90deg,#1f6be8,#4d9fff);box-shadow:0 0 10px rgba(77,159,255,.7);transition:width .6s cubic-bezier(.2,.7,.2,1)"></div></div>
+<span style="font-size:14px;color:#a3b0c2;font-variant-numeric:tabular-nums">{{ progress }}</span>
+</div>
+<div style="margin-top:6px;font-size:13.5px;color:#93a1b5">{{ remain }}</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div onClick="{{ showPlan }}" style="height:48px;border-radius:12px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;font-size:14px;font-weight:500;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 20px/1 'Material Symbols Rounded'">description</span>Voir le plan</div>
+<sc-if value="{{ isRun }}" hint-placeholder-val="{{ true }}"><div onClick="{{ stop }}" style="height:48px;border-radius:12px;background:linear-gradient(180deg,#e5463f,#c7302b);border:1px solid rgba(255,140,128,.45);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-size:15px;font-weight:600;letter-spacing:.06em;color:#ffffff;box-shadow:0 8px 22px -8px rgba(229,70,63,.7)" style-hover="filter:brightness(1.08)"><span style="font:300 24px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">stop_circle</span>STOP</div></sc-if>
+<sc-if value="{{ isPaused }}"><div onClick="{{ resume }}" style="height:48px;border-radius:12px;background:linear-gradient(180deg,#3a8dff,#1f6be8);border:1px solid rgba(140,190,255,.45);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-size:14.5px;font-weight:600;color:#ffffff" style-hover="filter:brightness(1.08)"><span style="font:300 24px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">play_arrow</span>Reprendre</div></sc-if>
+<sc-if value="{{ isDone }}"><div onClick="{{ reset }}" style="height:48px;border-radius:12px;border:1px solid #2a3a58;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-size:14px;font-weight:500;color:#9ccaff" style-hover="background:#16213a"><span style="font:300 20px/1 'Material Symbols Rounded'">replay</span>Rejouer la démo</div></sc-if>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+<div onClick="{{ tb.go }}" style="height:40px;border-radius:10px;border:1px solid {{ tb.bd }};background:{{ tb.bg }};display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:13px;font-weight:500;color:{{ tb.fg }};white-space:nowrap;transition:background .15s,border-color .15s"><span style="font:300 18px/1 'Material Symbols Rounded';color:{{ tb.ic }}">{{ tb.i }}</span>{{ tb.l }}</div>
+</sc-for>
+</div>
+<div style="flex:1;min-height:0;margin-top:12px;display:flex;flex-direction:column">
+<sc-if value="{{ tab0 }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ logRef }}" style="flex:1;min-height:0;overflow-y:auto;border-radius:10px;background:#09101a;border:1px solid #182130;padding:10px 10px;font-family:'Geist Mono',monospace;font-size:11.5px;line-height:18.6px">
+<sc-for list="{{ logs }}" as="l" hint-placeholder-count="10">
+<div style="display:flex;align-items:center;gap:10px;white-space:nowrap;animation:rise .25s ease-out">
+<span style="flex:none;color:#6e7b8f">{{ l.t }}</span>
+<span style="flex:none;width:14px;font:300 15px/1 'Material Symbols Rounded';font-variation-settings:'FILL' {{ l.f }};color:{{ l.ic }}">{{ l.i }}</span>
+<span style="overflow:hidden;text-overflow:ellipsis;color:{{ l.fg }}">{{ l.x }}</span>
+</div>
+</sc-for>
+<sc-if value="{{ dots }}"><div style="height:18.6px;display:flex;align-items:center;padding-left:86px"><span style="width:7px;height:13px;background:#6cb6ff;animation:blink 1s steps(1) infinite"></span></div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ tab1 }}">
+<div style="flex:1;min-height:0;overflow-y:auto;border-radius:10px;background:#09101a;border:1px solid #182130;padding:8px 6px;font-family:'Geist Mono',monospace;font-size:12px">
+<div style="display:flex;align-items:center;gap:6px;padding:2px 8px 6px;color:#6e7b8f;font-size:11.5px"><span style="font:300 15px/1 'Material Symbols Rounded'">folder_open</span>app/src/main/…/notes</div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">description</span><span style="flex:1">data/Note.kt</span><span style="color:#4ade80">+18</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">description</span><span style="flex:1">data/NoteDao.kt</span><span style="color:#4ade80">+31</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;background:rgba(47,139,255,.1);color:#ffffff"><span style="font:300 15px/1 'Material Symbols Rounded';color:#6cb6ff">description</span><span style="flex:1">data/NoteDatabase.kt</span><span style="color:#4ade80">+28</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">description</span><span style="flex:1">data/NoteRepository.kt</span><span style="color:#4ade80">+42</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">description</span><span style="flex:1">ui/NoteListScreen.kt</span><span style="color:#4ade80">+96</span><span style="color:#f87171">−12</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">description</span><span style="flex:1">ui/NoteEditorScreen.kt</span><span style="color:#4ade80">+74</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;color:#cdd6e2"><span style="font:300 15px/1 'Material Symbols Rounded';color:#8b98ab">settings</span><span style="flex:1">app/build.gradle.kts</span><span style="color:#4ade80">+6</span><span style="color:#f87171">−1</span></div>
+</div>
+</sc-if>
+<sc-if value="{{ tab2 }}">
+<div style="flex:1;min-height:0;overflow:hidden;border-radius:10px;background:#09101a;border:1px solid #182130;padding:10px 14px;display:flex;gap:16px;align-items:center">
+<div style="flex:none;width:98px;height:188px;border-radius:16px;border:3px solid #263247;background:#f3f5fa;padding:10px 7px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden">
+<div style="font-size:10px;font-weight:700;color:#141a26;padding:0 2px 3px">Mes notes</div>
+<div style="border-radius:6px;background:#ffffff;padding:5px;display:flex;flex-direction:column;gap:3px;box-shadow:0 1px 2px rgba(20,30,50,.12)"><div style="height:4px;width:70%;border-radius:2px;background:#1f2937"></div><div style="height:3px;width:90%;border-radius:2px;background:#c7ceda"></div><div style="height:3px;width:60%;border-radius:2px;background:#c7ceda"></div></div>
+<div style="border-radius:6px;background:#e8f0ff;padding:5px;display:flex;flex-direction:column;gap:3px"><div style="height:4px;width:55%;border-radius:2px;background:#1f2937"></div><div style="height:3px;width:85%;border-radius:2px;background:#b9c8e6"></div></div>
+<div style="border-radius:6px;background:#ffffff;padding:5px;display:flex;flex-direction:column;gap:3px;box-shadow:0 1px 2px rgba(20,30,50,.12)"><div style="height:4px;width:65%;border-radius:2px;background:#1f2937"></div><div style="height:3px;width:80%;border-radius:2px;background:#c7ceda"></div><div style="height:3px;width:45%;border-radius:2px;background:#c7ceda"></div></div>
+<div style="position:absolute;right:8px;bottom:10px;width:24px;height:24px;border-radius:8px;background:#2f6fe8;display:flex;align-items:center;justify-content:center"><span style="font:300 16px/1 'Material Symbols Rounded';color:#ffffff">add</span></div>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:#eef3fa"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite"></span>Aperçu en direct</div>
+<div style="font-size:12.5px;color:#9aa8bc">Pixel 8 · Android 14</div>
+<div style="font-size:12.5px;color:#9aa8bc">Écran : liste des notes</div>
+<div style="font-size:12.5px;color:#6e7b8f;font-family:'Geist Mono',monospace">debug #7 · 14:25</div>
+<div style="display:flex;gap:8px;margin-top:8px">
+<div style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #243149;display:flex;align-items:center;gap:6px;font-size:12.5px;color:#dfe7f2;cursor:pointer" style-hover="background:#16213a"><span style="font:300 16px/1 'Material Symbols Rounded'">photo_camera</span>Capture</div>
+<div style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #243149;display:flex;align-items:center;gap:6px;font-size:12.5px;color:#dfe7f2;cursor:pointer" style-hover="background:#16213a"><span style="font:300 16px/1 'Material Symbols Rounded'">cast</span>Miroir</div>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<div style="height:46px;border-radius:12px;border:1px solid #1f2a3c;background:#0f1726;display:flex;align-items:center;gap:14px;padding:0 16px;cursor:pointer;font-size:14.5px;font-weight:500;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 22px/1 'Material Symbols Rounded';color:#c9d3e0">call_split</span>Review Git</div>
+<div style="height:46px;border-radius:12px;border:1px solid #1f2a3c;background:#0f1726;display:flex;align-items:center;gap:14px;padding:0 16px;cursor:pointer;font-size:14.5px;font-weight:500;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 22px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#c9d3e0">hardware</span>Build</div>
+<div style="height:46px;border-radius:12px;border:1px solid #1f2a3c;background:#0f1726;display:flex;align-items:center;gap:14px;padding:0 16px;cursor:pointer;font-size:14.5px;font-weight:500;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 22px/1 'Material Symbols Rounded';color:#c9d3e0">science</span>Tests</div>
+<div style="height:46px;border-radius:12px;border:1px solid #1f2a3c;background:#0f1726;display:flex;align-items:center;gap:14px;padding:0 16px;cursor:pointer;font-size:14.5px;font-weight:500;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 22px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#c9d3e0">inventory_2</span>Artefacts</div>
+</div>
+</div>
+
+<div style="flex:none;display:flex;gap:14px;align-items:flex-start;padding:14px 12px 14px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:none;width:46px;height:46px;border-radius:12px;background:#141e2f;border:1px solid #243047;display:flex;align-items:center;justify-content:center"><span style="font:300 26px/1 'Material Symbols Rounded';color:#dbe3ee">smart_toy</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:center;gap:10px"><span style="flex:1;font-size:15px;font-weight:600;color:#f2f6fb">Worker appairé</span><span style="display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#4ade80"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e"></span>ACTIF</span><span style="font:300 20px/1 'Material Symbols Rounded';color:#9aa7b9;margin-left:8px;cursor:pointer">more_vert</span></div>
+<div style="font-size:14px;color:#b9c4d3">Pixel 8 (Android 14)</div>
+<div style="font-size:13px;color:#7f8ca0">ADB connecté • {{ workerSub }}</div>
+</div>
+</div>
+<div style="flex:none;display:flex;gap:14px;align-items:center;padding:13px 16px 13px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);display:flex;align-items:center;justify-content:center"><span style="font:300 23px/1 'Material Symbols Rounded';color:#4ade80">hub</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:center"><span style="flex:1;font-size:15px;font-weight:600;color:#f2f6fb">MCP connectés</span><span style="display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#4ade80"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e"></span>4/4</span></div>
+<div style="font-size:13px;color:#8391a6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Filesystem • GitHub • Play Store • Web</div>
+</div>
+</div>
+<div style="flex:none;display:flex;gap:14px;align-items:center;padding:13px 16px 13px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536;cursor:pointer" onClick="{{ goMem }}" style-hover="border-color:#2b3a55">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.35);display:flex;align-items:center;justify-content:center"><span style="font:300 23px/1 'Material Symbols Rounded';color:#c4b5fd">notes</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:center"><span style="flex:1;font-size:15px;font-weight:600;color:#f2f6fb">Mémoire active</span><span style="display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#4ade80"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e"></span>{{ memCount }} items</span></div>
+<div style="font-size:13px;color:#8391a6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Préférences, contexte projet, style, appareils…</div>
+</div>
+</div>
+<div style="flex:none;position:relative;display:flex;gap:14px;align-items:center;padding:15px 16px 15px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<sc-if value="{{ apPending }}"><div style="position:absolute;inset:-1px;border-radius:14px;border:1px solid rgba(245,165,36,.6);box-shadow:0 0 16px -4px rgba(245,165,36,.5);pointer-events:none"></div></sc-if>
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center"><span style="font:300 23px/1 'Material Symbols Rounded';color:#4ade80">verified_user</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:center"><span style="flex:1;font-size:15px;font-weight:600;color:#f2f6fb">Politique sécurité</span>
+<sc-if value="{{ secOk }}" hint-placeholder-val="{{ true }}"><span style="display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#4ade80"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e"></span>Sécurisée</span></sc-if>
+<sc-if value="{{ apPending }}"><span style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#fbbf24"><span style="font:300 17px/1 'Material Symbols Rounded'">front_hand</span>1 demande</span></sc-if>
+</div>
+<div style="font-size:13px;color:#8391a6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Approbation requise : installation, accès système</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ scrHist }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 12px 24px 18px">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;flex:none">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff"><span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">Historique</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Retrouvez vos conversations, fichiers et artefacts.</div>
+</div>
+<div style="display:flex;gap:8px;flex:none">
+<div style="position:relative;width:380px">
+<span style="position:absolute;left:14px;top:14px;font:300 20px/1 'Material Symbols Rounded';color:#8391a6;pointer-events:none">search</span>
+<input value="{{ histQ }}" onChange="{{ onHistQ }}" placeholder="Rechercher titres, messages, fichiers…" style="width:100%;height:48px;padding:0 16px 0 44px;border-radius:12px;background:#0e1522;border:1px solid #1f2a3c;color:#eef3fa;font-family:'Geist',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s" style-focus="border-color:#2f6fd6;box-shadow:0 0 0 3px rgba(47,139,255,.15)">
+</div>
+<div style="height:48px;padding:0 14px 0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:12px;font-weight:500"><span style="font:300 20px/1 'Material Symbols Rounded'">download</span>Exporter</div>
+</div>
+</div>
+<div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:none">
+<sc-for list="{{ histFilters }}" as="f" hint-placeholder-count="5">
+<div onClick="{{ f.go }}" style="height:36px;display:flex;align-items:center;gap:7px;padding:0 12px 0 10px;border-radius:10px;border:1px solid {{ f.bd }};background:{{ f.bg }};cursor:pointer;font-size:13.5px;font-weight:500;color:{{ f.fg }};transition:background .15s,border-color .15s"><span style="font:300 18px/1 'Material Symbols Rounded';color:{{ f.ic }}">{{ f.i }}</span>{{ f.l }}<span style="font-size:12px;color:#7f8ca0">{{ f.n }}</span></div>
+</sc-for>
+<div style="width:1px;height:22px;background:#1f2a3c;margin:0 6px"></div>
+<div style="height:36px;display:flex;align-items:center;gap:2px;padding:0 6px 0 12px;border-radius:10px;border:1px solid #1e293a;background:#0e1522;cursor:pointer;font-size:13.5px;color:#cfd8e4" style-hover="background:#131d2e">Projet : tous<span style="font:300 18px/1 'Material Symbols Rounded';color:#8391a6">expand_more</span></div>
+<div style="height:36px;display:flex;align-items:center;gap:2px;padding:0 6px 0 12px;border-radius:10px;border:1px solid #1e293a;background:#0e1522;cursor:pointer;font-size:13.5px;color:#cfd8e4" style-hover="background:#131d2e">Modèle : tous<span style="font:300 18px/1 'Material Symbols Rounded';color:#8391a6">expand_more</span></div>
+<div style="height:36px;display:flex;align-items:center;gap:2px;padding:0 6px 0 12px;border-radius:10px;border:1px solid #1e293a;background:#0e1522;cursor:pointer;font-size:13.5px;color:#cfd8e4" style-hover="background:#131d2e">30 derniers jours<span style="font:300 18px/1 'Material Symbols Rounded';color:#8391a6">expand_more</span></div>
+</div>
+<div style="flex:1;min-height:0;margin-top:10px;display:flex;gap:16px">
+<div style="flex:1;min-width:0;overflow-y:auto;padding-right:6px">
+<sc-for list="{{ histGroups }}" as="g">
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0;padding:14px 4px 8px">{{ g.label }}</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ g.items }}" as="c">
+<div onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;border:1px solid {{ c.bd }};background:{{ c.bg }};cursor:pointer;transition:border-color .15s,background .15s" style-hover="border-color:#2b3a55">
+<div style="flex:none;width:42px;height:42px;border-radius:12px;background:{{ c.tbg }};display:flex;align-items:center;justify-content:center"><span style="font:300 22px/1 'Material Symbols Rounded';color:{{ c.tint }}">{{ c.icon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:600;color:#eef3fa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.t }}</span><sc-if value="{{ c.pin }}"><span style="font:300 16px/1 'Material Symbols Rounded';flex:none;font-variation-settings:'FILL' 1;color:#5aa7ff">push_pin</span></sc-if></div>
+<div style="font-size:13px;color:#8e9bb0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.pv }}</div>
+</div>
+<div style="flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:7px">
+<span style="font-size:12.5px;color:#8391a6">{{ c.when }}</span>
+<div style="display:flex;gap:8px;align-items:center">
+<sc-if value="{{ c.live }}"><span style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#4ade80"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite"></span>{{ c.liveLabel }}</span></sc-if>
+<sc-if value="{{ c.brc }}"><span style="display:flex;align-items:center;gap:3px;font-size:11.5px;color:#9aa8bc"><span style="font:300 15px/1 'Material Symbols Rounded'">call_split</span>{{ c.brc }}</span></sc-if>
+<span style="height:22px;padding:0 8px;border-radius:6px;background:{{ c.tbg }};display:flex;align-items:center;font-size:11.5px;font-weight:500;color:{{ c.tint }}">{{ c.mode }}</span>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+<sc-if value="{{ histEmpty }}"><div style="padding:90px 0;display:flex;flex-direction:column;align-items:center;gap:10px;color:#8391a6;font-size:14px"><span style="font:300 36px/1 'Material Symbols Rounded'">search_off</span>Aucune conversation ne correspond.</div></sc-if>
+</div>
+<div style="flex:none;width:388px;display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto">
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:18px">
+<div style="display:flex;gap:14px;align-items:center">
+<div style="flex:none;width:52px;height:52px;border-radius:14px;background:{{ hs.tbg }};display:flex;align-items:center;justify-content:center"><span style="font:300 28px/1 'Material Symbols Rounded';color:{{ hs.tint }}">{{ hs.icon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px"><div style="font-size:17px;font-weight:600;color:#f2f6fb;text-wrap:pretty">{{ hs.t }}</div><div style="font-size:13px;color:#93a1b5">{{ hs.meta }}</div></div>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<div style="padding:10px 12px;border-radius:10px;background:#0a111d;border:1px solid #182130;display:flex;flex-direction:column;gap:3px"><span style="font-size:18px;font-weight:600;color:#eef3fa">{{ hs.msgs }}</span><span style="font-size:12px;color:#8391a6">messages</span></div>
+<div style="padding:10px 12px;border-radius:10px;background:#0a111d;border:1px solid #182130;display:flex;flex-direction:column;gap:3px"><span style="font-size:18px;font-weight:600;color:#eef3fa">{{ hs.brN }}</span><span style="font-size:12px;color:#8391a6">branches</span></div>
+<div style="padding:10px 12px;border-radius:10px;background:#0a111d;border:1px solid #182130;display:flex;flex-direction:column;gap:3px"><span style="font-size:18px;font-weight:600;color:#eef3fa">{{ hs.artN }}</span><span style="font-size:12px;color:#8391a6">artefacts</span></div>
+</div>
+<div style="margin-top:14px;display:flex;gap:8px">
+<div onClick="{{ goChat }}" style="flex:1;height:44px;border-radius:11px;background:linear-gradient(180deg,#3a8dff,#1f6be8);display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;font-weight:600;color:#ffffff" style-hover="filter:brightness(1.08)"><span style="font:300 19px/1 'Material Symbols Rounded'">open_in_new</span>Ouvrir</div>
+<div style="height:44px;padding:0 14px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 19px/1 'Material Symbols Rounded'">call_split</span>Brancher</div>
+<div style="height:44px;width:44px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6" style-hover="background:#16213a"><span style="font:300 20px/1 'Material Symbols Rounded'">more_horiz</span></div>
+</div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font:300 20px/1 'Material Symbols Rounded';color:#a9bad0">account_tree</span><span style="flex:1;font-size:15px;font-weight:600">Branches</span><span style="font-size:12.5px;color:#7f8ca0">{{ hs.brN }}</span></div>
+<sc-for list="{{ hs.branches }}" as="b">
+<div style="display:flex;align-items:center;gap:10px;height:34px;padding-left:{{ b.pad }}px">
+<sc-if value="{{ b.sub }}"><div style="flex:none;width:14px;height:22px;margin-top:-22px;border-left:1.5px solid #2a3850;border-bottom:1.5px solid #2a3850;border-bottom-left-radius:7px"></div></sc-if>
+<span style="flex:none;width:11px;height:11px;border-radius:50%;border:2px solid {{ b.c }};background:{{ b.fill }}"></span>
+<span style="flex:1;min-width:0;font-size:13.5px;color:{{ b.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.l }}</span>
+<span style="font-size:12px;color:#7f8ca0">{{ b.m }}</span>
+</div>
+</sc-for>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font:300 20px/1 'Material Symbols Rounded';color:#a9bad0">inventory_2</span><span style="flex:1;font-size:15px;font-weight:600">Fichiers et artefacts</span><span style="font-size:12.5px;color:#7f8ca0">{{ hs.artN }}</span></div>
+<sc-for list="{{ hs.arts }}" as="a">
+<div style="display:flex;align-items:center;gap:12px;padding:8px 0">
+<div style="flex:none;width:34px;height:34px;border-radius:9px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#c9d3e0">{{ a.i }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:13.5px;font-weight:500;color:#e6edf6">{{ a.n }}</span><span style="font-size:12px;color:#7f8ca0">{{ a.m }}</span></div>
+<span style="font:300 19px/1 'Material Symbols Rounded';color:#8391a6;cursor:pointer">download</span>
+</div>
+</sc-for>
+<sc-if value="{{ hs.noArts }}"><div style="font-size:13px;color:#7f8ca0;padding:6px 0">Aucun fichier ni artefact.</div></sc-if>
+</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ scrTasks }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 12px 24px 18px">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;flex:none">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff"><span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">Tâches</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Suivez, planifiez et auditez le travail de Cortana.</div>
+</div>
+<div style="display:flex;gap:8px;flex:none">
+<div style="height:48px;display:flex;align-items:center;gap:2px;padding:4px;border-radius:12px;border:1px solid #1f2a3c;background:#0e1522">
+<sc-for list="{{ taskFilters }}" as="f" hint-placeholder-count="4"><div onClick="{{ f.go }}" style="height:38px;padding:0 14px;border-radius:9px;display:flex;align-items:center;cursor:pointer;font-size:13.5px;font-weight:500;background:{{ f.bg }};color:{{ f.fg }};transition:background .15s">{{ f.l }}</div></sc-for>
+</div>
+<div style="height:48px;display:flex;align-items:center;gap:8px;padding:0 16px 0 12px;border-radius:12px;background:linear-gradient(180deg,#3a8dff,#1f6be8);cursor:pointer;font-size:14px;font-weight:600;color:#ffffff;box-shadow:0 8px 22px -8px rgba(47,139,255,.7)" style-hover="filter:brightness(1.08)"><span style="font:300 20px/1 'Material Symbols Rounded'">add</span>Nouvelle tâche</div>
+</div>
+</div>
+<div style="flex:1;min-height:0;margin-top:18px;display:flex;gap:16px">
+<div style="flex:1;min-width:0;overflow-y:auto;padding-right:6px;display:flex;flex-direction:column;gap:22px">
+<sc-if value="{{ showRun }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:8px;padding:0 4px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0">En cours<span style="height:18px;min-width:18px;padding:0 5px;border-radius:5px;background:#172133;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0;color:#aab6c6">1</span></div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:center">
+<div style="flex:none;width:64px;height:64px;border-radius:15px;background:linear-gradient(160deg,#1a2740,#121b2c);border:1px solid #26334a;display:flex;align-items:center;justify-content:center"><span style="font:300 34px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1;color:#e9eef6">sticky_note_2</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+<div style="font-size:18px;font-weight:600;color:#f2f6fb">Application Android - Notes</div>
+<div style="font-size:13px;color:#93a1b5">Démarrée à 14:22 · Worker Pixel 8 · {{ modelName }}</div>
+</div>
+<sc-if value="{{ stRun }}"><span style="flex:none;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#4ade80"><span style="width:9px;height:9px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite"></span>En cours</span></sc-if>
+<sc-if value="{{ stAsk }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#fbbf24"><span style="font:300 18px/1 'Material Symbols Rounded'">front_hand</span>Approbation</span></sc-if>
+<sc-if value="{{ stPause }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#f5a524"><span style="font:300 18px/1 'Material Symbols Rounded'">pause_circle</span>En pause</span></sc-if>
+<sc-if value="{{ stDone }}"><span style="flex:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#4ade80"><span style="font:300 18px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">check_circle</span>Terminée</span></sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:16px">
+<div style="flex:1;height:8px;border-radius:4px;background:#1b2536;overflow:hidden"><div style="height:100%;width:{{ pct }}%;border-radius:4px;background:linear-gradient(90deg,#1f6be8,#4d9fff);box-shadow:0 0 10px rgba(77,159,255,.7);transition:width .6s cubic-bezier(.2,.7,.2,1)"></div></div>
+<span style="font-size:14px;color:#a3b0c2;font-variant-numeric:tabular-nums">{{ progress }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border-radius:12px;background:#0a111d;border:1px solid #182130">
+<span style="flex:none;font:300 20px/1 'Material Symbols Rounded';color:{{ stepColor }};animation:{{ stepAnim }}">{{ stepIcon }}</span>
+<span style="flex:1;min-width:0;font-size:14px;color:#e6edf6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Étape {{ stepNo }}/6 · {{ stepName }}</span>
+<span style="flex:none;font-size:13px;color:#93a1b5;white-space:nowrap">{{ remain }}</span>
+</div>
+<div onClick="{{ goChat }}" style="flex:none;height:48px;padding:0 14px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:12px;font-weight:500" style-hover="background:#16213a"><span style="font:300 20px/1 'Material Symbols Rounded'">forum</span>Discussion</div>
+<sc-if value="{{ isRun }}"><div onClick="{{ stop }}" style="flex:none;height:48px;padding:0 18px 0 14px;border-radius:12px;background:linear-gradient(180deg,#e5463f,#c7302b);border:1px solid rgba(255,140,128,.45);display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14.5px;font-weight:600;letter-spacing:.06em;color:#ffffff;box-shadow:0 8px 22px -8px rgba(229,70,63,.7)" style-hover="filter:brightness(1.08)"><span style="font:300 22px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">stop_circle</span>STOP</div></sc-if>
+<sc-if value="{{ isPaused }}"><div onClick="{{ resume }}" style="flex:none;height:48px;padding:0 18px 0 12px;border-radius:12px;background:linear-gradient(180deg,#3a8dff,#1f6be8);display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14.5px;font-weight:600;color:#ffffff" style-hover="filter:brightness(1.08)"><span style="font:300 22px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">play_arrow</span>Reprendre</div></sc-if>
+<sc-if value="{{ isDone }}"><div onClick="{{ reset }}" style="flex:none;height:48px;padding:0 16px 0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;color:#9ccaff"><span style="font:300 20px/1 'Material Symbols Rounded'">replay</span>Rejouer la démo</div></sc-if>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:8px;padding:0 4px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0">En file</div>
+<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(139,92,246,.16);display:flex;align-items:center;justify-content:center"><span style="font:300 21px/1 'Material Symbols Rounded';color:#c4b5fd">palette</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:14.5px;font-weight:600;color:#eef3fa">Générer les icônes de l’application</span><span style="font-size:13px;color:#8391a6">Démarre après la tâche en cours · Application Android - Notes</span></div>
+<div style="display:flex;gap:2px"><div style="width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9aa8bc" style-hover="background:#16213a;color:#ffffff"><span style="font:300 19px/1 'Material Symbols Rounded'">arrow_upward</span></div><div style="width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9aa8bc" style-hover="background:#16213a;color:#ffffff"><span style="font:300 19px/1 'Material Symbols Rounded'">arrow_downward</span></div><div style="width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9aa8bc" style-hover="background:#16213a;color:#ffffff"><span style="font:300 19px/1 'Material Symbols Rounded'">close</span></div></div>
+</div>
+<sc-if value="{{ hasQueue }}"><div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(47,139,255,.13);display:flex;align-items:center;justify-content:center"><span style="font:300 21px/1 'Material Symbols Rounded';color:#6cb6ff">schedule_send</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:14.5px;font-weight:600;color:#eef3fa">{{ queueLabel }}</span><span style="font-size:13px;color:#8391a6">Transmis à Cortana après la tâche en cours · Discussion</span></div>
+<div onClick="{{ goChat }}" style="height:34px;padding:0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:9px;font-size:13px" style-hover="background:#16213a">Voir</div>
+</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ showSched }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:8px;padding:0 4px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0">Planifiées<span style="height:18px;min-width:18px;padding:0 5px;border-radius:5px;background:#172133;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0;color:#aab6c6">3</span></div>
+<sc-for list="{{ schedTasks }}" as="t">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:14px;opacity:{{ t.op }};transition:opacity .2s">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(47,139,255,.13);display:flex;align-items:center;justify-content:center"><span style="font:300 21px/1 'Material Symbols Rounded';color:#6cb6ff">{{ t.i }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:14.5px;font-weight:600;color:#eef3fa">{{ t.t }}</span><span style="font-size:13px;color:#8391a6">{{ t.d }}</span></div>
+<span style="flex:none;display:flex;align-items:center;gap:5px;font-size:12.5px;color:#9aa8bc"><span style="font:300 16px/1 'Material Symbols Rounded'">{{ t.wi }}</span>{{ t.w }}</span>
+</div>
+<div onClick="{{ t.tog }}" style="flex:none;width:44px;height:26px;border-radius:13px;padding:3px;cursor:pointer;margin-left:6px;background:{{ t.track }};transition:background .18s"><div style="width:20px;height:20px;border-radius:50%;background:#ffffff;transform:translateX({{ t.knob }});transition:transform .18s"></div></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ showDone }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:8px;padding:0 4px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca0">Terminées récemment<span style="height:18px;min-width:18px;padding:0 5px;border-radius:5px;background:#172133;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0;color:#aab6c6">3</span></div>
+<sc-for list="{{ doneTasks }}" as="t">
+<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:#0d1522;border:1px solid #1b2536">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 21px/1 'Material Symbols Rounded';color:#c9d3e0">{{ t.i }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:14.5px;font-weight:600;color:#eef3fa">{{ t.t }}</span><span style="font-size:13px;color:#8391a6">{{ t.d }}</span></div>
+<span style="flex:none;display:flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:8px;background:{{ t.sbg }};font-size:12.5px;font-weight:500;color:{{ t.sc }}"><span style="font:300 16px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">{{ t.si }}</span>{{ t.s }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div style="flex:none;width:388px;display:flex;flex-direction:column;gap:12px;min-height:0">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px"><span style="font:300 21px/1 'Material Symbols Rounded';color:#4d9fff">fact_check</span><span style="flex:1;font-size:16px;font-weight:600;color:#f2f6fb">Journal d’actions</span><span style="height:24px;padding:0 8px;border-radius:6px;border:1px solid #243149;display:flex;align-items:center;gap:5px;font-size:12px;color:#aab6c6"><span style="font:300 14px/1 'Material Symbols Rounded'">verified</span>Auditable</span></div>
+<div style="margin-top:4px;font-size:12.5px;color:#7f8ca0">Actions réellement exécutées pour « Application Android - Notes »</div>
+<div style="flex:1;min-height:0;overflow-y:auto;margin-top:14px">
+<sc-for list="{{ audit }}" as="a">
+<div style="display:flex;gap:12px;animation:rise .25s ease-out">
+<div style="flex:none;display:flex;flex-direction:column;align-items:center;width:20px">
+<span style="font:300 20px/1 'Material Symbols Rounded';font-variation-settings:'FILL' {{ a.f }};color:{{ a.c }};animation:{{ a.anim }}">{{ a.i }}</span>
+<sc-if value="{{ a.line }}"><div style="flex:1;width:1.5px;margin:4px 0;background:#1f2a3c;min-height:12px"></div></sc-if>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding-bottom:14px">
+<div style="display:flex;align-items:baseline;gap:8px"><span style="flex:1;font-size:14px;font-weight:500;color:#e6edf6">{{ a.x }}</span><span style="font-size:12px;color:#7f8ca0;font-variant-numeric:tabular-nums">{{ a.dur }}</span></div>
+<div style="font-size:12.5px;color:#8391a6">{{ a.d }}</div>
+<div style="font-family:'Geist Mono',monospace;font-size:11px;color:#5d6a80">{{ a.t }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:15px;font-weight:600">Exécution</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13px"><span style="color:#7f8ca0">Modèle</span><span style="color:#e6edf6">{{ modelName }} · {{ modelProv }}</span><span style="color:#7f8ca0">Appareil</span><span style="color:#e6edf6">Pixel 8 (Android 14) · ADB</span><span style="color:#7f8ca0">Outils</span><span style="color:#e6edf6">Gradle, ADB, Filesystem, GitHub</span><span style="color:#7f8ca0">Politique</span><span style="color:#e6edf6">Approbation pour l’installation</span></div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;margin-bottom:4px"><span style="flex:1;font-size:15px;font-weight:600">Artefacts produits</span><span style="font-size:12.5px;color:#7f8ca0">{{ taskArtN }}</span></div>
+<sc-for list="{{ taskArts }}" as="a">
+<div style="display:flex;align-items:center;gap:12px;padding:7px 0;animation:rise .25s ease-out">
+<div style="flex:none;width:34px;height:34px;border-radius:9px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:{{ a.c }}">{{ a.i }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:13.5px;font-weight:500;color:#e6edf6">{{ a.n }}</span><span style="font-size:12px;color:#7f8ca0">{{ a.m }}</span></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ scrMem }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 12px 24px 18px">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;flex:none">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff"><span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">Mémoire</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ce que Cortana retient, d’où ça vient, et ce qui est actif ici.</div>
+</div>
+<div style="display:flex;gap:8px;flex:none">
+<div style="position:relative;width:280px">
+<span style="position:absolute;left:14px;top:14px;font:300 20px/1 'Material Symbols Rounded';color:#8391a6;pointer-events:none">search</span>
+<input value="{{ memQ }}" onChange="{{ onMemQ }}" placeholder="Rechercher un souvenir…" style="width:100%;height:48px;padding:0 16px 0 44px;border-radius:12px;background:#0e1522;border:1px solid #1f2a3c;color:#eef3fa;font-family:'Geist',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s" style-focus="border-color:#2f6fd6;box-shadow:0 0 0 3px rgba(47,139,255,.15)">
+</div>
+<div onClick="{{ toggleTemp }}" style="height:48px;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:12px;border:1px solid {{ tempBd }};background:{{ tempBg }};cursor:pointer;transition:background .18s,border-color .18s"><span style="font:300 21px/1 'Material Symbols Rounded';color:#c4b5fd">visibility_off</span><span style="font-size:13.5px;font-weight:500;color:#e6edf6">Chat temporaire</span><div style="width:34px;height:20px;border-radius:10px;padding:2px;background:{{ tempTrack }};transition:background .18s"><div style="width:16px;height:16px;border-radius:50%;background:#ffffff;transform:translateX({{ tempKnob }});transition:transform .18s"></div></div></div>
+</div>
+</div>
+<div style="flex:1;min-height:0;margin-top:18px;display:flex;gap:16px">
+<div style="flex:1;min-width:0;overflow-y:auto;padding-right:6px;display:flex;flex-direction:column;gap:14px">
+<sc-if value="{{ tempChat }}"><div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;border:1px solid rgba(139,92,246,.45);background:rgba(139,92,246,.1);animation:rise .25s ease-out"><span style="font:300 22px/1 'Material Symbols Rounded';color:#c4b5fd">visibility_off</span><span style="flex:1;font-size:14px;color:#e9e2ff">Chat temporaire activé : Cortana n’écrit rien en mémoire durable pendant cette session.</span></div></sc-if>
+<sc-if value="{{ memSuggest }}"><div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid rgba(90,167,255,.35);background:linear-gradient(180deg,rgba(47,139,255,.1),rgba(47,139,255,.03));animation:rise .25s ease-out">
+<div style="flex:none;width:40px;height:40px;border-radius:11px;background:rgba(47,139,255,.16);display:flex;align-items:center;justify-content:center"><span style="font:300 21px/1 'Material Symbols Rounded';color:#8cc2ff">lightbulb</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="font-size:12.5px;font-weight:600;color:#8cc2ff">Cortana propose de retenir</div>
+<div style="font-size:14.5px;color:#eef3fa">« Kotlin + Jetpack Compose pour tes applications Android. »</div>
+<div style="font-size:12.5px;color:#7f8ca0">Source : Application Android - Notes · aujourd’hui</div>
+</div>
+<div onClick="{{ skipMem }}" style="flex:none;height:40px;padding:0 14px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:10px" style-hover="background:#16213a">Ignorer</div>
+<div onClick="{{ keepMem }}" style="flex:none;height:40px;padding:0 16px 0 12px;border-radius:10px;background:linear-gradient(180deg,#3a8dff,#1f6be8);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#ffffff;cursor:pointer" style-hover="filter:brightness(1.08)"><span style="font:300 18px/1 'Material Symbols Rounded'">check</span>Retenir</div>
+</div></sc-if>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ memCats }}" as="k" hint-placeholder-count="5">
+<div onClick="{{ k.go }}" style="height:36px;display:flex;align-items:center;gap:7px;padding:0 12px;border-radius:10px;border:1px solid {{ k.bd }};background:{{ k.bg }};cursor:pointer;font-size:13.5px;font-weight:500;color:{{ k.fg }};transition:background .15s,border-color .15s">{{ k.l }}<span style="font-size:12px;color:#7f8ca0">{{ k.n }}</span></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<sc-for list="{{ mems }}" as="m">
+<div style="display:flex;flex-direction:column;gap:10px;padding:14px 16px 10px;border-radius:14px;background:#0d1522;border:1px solid #1b2536;opacity:{{ m.op }};transition:opacity .2s">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="height:22px;padding:0 8px;border-radius:6px;background:{{ m.cbg }};display:flex;align-items:center;font-size:11.5px;font-weight:600;color:{{ m.cc }}">{{ m.cat }}</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:12px;color:{{ m.stc }}"><span style="font:300 15px/1 'Material Symbols Rounded';font-variation-settings:'FILL' 1">{{ m.sti }}</span>{{ m.st }}</span>
+</div>
+<div style="font-size:14.5px;line-height:21px;color:#e6edf6;text-wrap:pretty;min-height:42px">{{ m.x }}</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#7f8ca0"><span style="font:300 15px/1 'Material Symbols Rounded'">{{ m.si }}</span>{{ m.src }}</div>
+<div style="height:1px;background:#172131"></div>
+<div style="display:flex;align-items:center;gap:10px;height:30px">
+<sc-if value="{{ m.lock }}"><span style="font:300 18px/1 'Material Symbols Rounded';color:#8391a6">lock</span><span style="flex:1;font-size:12.5px;color:#8391a6">Géré par la politique de sécurité</span></sc-if>
+<sc-if value="{{ m.free }}">
+<div onClick="{{ m.tog }}" style="flex:none;width:38px;height:22px;border-radius:11px;padding:3px;cursor:pointer;background:{{ m.track }};transition:background .18s"><div style="width:16px;height:16px;border-radius:50%;background:#ffffff;transform:translateX({{ m.knob }});transition:transform .18s"></div></div>
+<span style="flex:1;font-size:12.5px;color:#9aa8bc">{{ m.actLabel }}</span>
+<div title="Corriger" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9aa8bc" style-hover="background:#16213a;color:#ffffff"><span style="font:300 18px/1 'Material Symbols Rounded'">edit</span></div>
+<div onClick="{{ m.del }}" title="Oublier" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9aa8bc" style-hover="background:rgba(248,113,113,.12);color:#fca5a5"><span style="font:300 18px/1 'Material Symbols Rounded'">delete</span></div>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ memEmpty }}"><div style="padding:60px 0;display:flex;flex-direction:column;align-items:center;gap:10px;color:#8391a6;font-size:14px"><span style="font:300 36px/1 'Material Symbols Rounded'">search_off</span>Aucun souvenir ne correspond.</div></sc-if>
+</div>
+<div style="flex:none;width:388px;display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto">
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px"><span style="font:300 21px/1 'Material Symbols Rounded';color:#4d9fff">data_usage</span><span style="flex:1;font-size:16px;font-weight:600;color:#f2f6fb">Contexte de la conversation</span></div>
+<div style="margin-top:4px;font-size:12.5px;color:#7f8ca0">Application Android - Notes</div>
+<div style="margin-top:14px;display:flex;align-items:baseline;gap:10px"><span style="font-size:22px;font-weight:600;color:#6cb6ff">Moyen</span><span style="font-size:13px;color:#93a1b5">Compactage non nécessaire</span></div>
+<div style="margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px"><div style="height:8px;border-radius:4px;background:#3d8fff"></div><div style="height:8px;border-radius:4px;background:#3d8fff"></div><div style="height:8px;border-radius:4px;background:#1b2536"></div><div style="height:8px;border-radius:4px;background:#1b2536"></div></div>
+<div style="margin-top:6px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:11.5px;color:#7f8ca0"><span>Faible</span><span style="color:#8cc2ff">Moyen</span><span>Élevé</span><span>Compactage</span></div>
+<sc-if value="{{ dev }}">
+<div style="margin-top:14px;padding-top:14px;border-top:1px solid #172131;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7f8ca0"><span style="font:300 15px/1 'Material Symbols Rounded'">code</span>Estimation · mode développeur</div>
+<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px"><div style="flex:18.2;background:#3d8fff"></div><div style="flex:6.4;background:#22c55e"></div><div style="flex:3.8;background:#f5a524"></div><div style="flex:1.1;background:#a78bfa"></div><div style="flex:8;background:#2a3850"></div></div>
+<div style="display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:12.5px">
+<span style="display:flex;align-items:center;gap:8px;color:#b9c4d3"><span style="width:8px;height:8px;border-radius:2px;background:#3d8fff"></span>Historique</span><span style="color:#dfe7f2;font-family:'Geist Mono',monospace;text-align:right">≈ 18,2 k</span>
+<span style="display:flex;align-items:center;gap:8px;color:#b9c4d3"><span style="width:8px;height:8px;border-radius:2px;background:#22c55e"></span>Fichiers épinglés</span><span style="color:#dfe7f2;font-family:'Geist Mono',monospace;text-align:right">≈ 6,4 k</span>
+<span style="display:flex;align-items:center;gap:8px;color:#b9c4d3"><span style="width:8px;height:8px;border-radius:2px;background:#f5a524"></span>Schémas d’outils</span><span style="color:#dfe7f2;font-family:'Geist Mono',monospace;text-align:right">≈ 3,8 k</span>
+<span style="display:flex;align-items:center;gap:8px;color:#b9c4d3"><span style="width:8px;height:8px;border-radius:2px;background:#a78bfa"></span>Mémoire</span><span style="color:#dfe7f2;font-family:'Geist Mono',monospace;text-align:right">≈ 1,1 k</span>
+<span style="display:flex;align-items:center;gap:8px;color:#b9c4d3"><span style="width:8px;height:8px;border-radius:2px;background:#2a3850"></span>Réserve de sortie</span><span style="color:#dfe7f2;font-family:'Geist Mono',monospace;text-align:right">8 k</span>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font:300 20px/1 'Material Symbols Rounded';color:#a9bad0">push_pin</span><span style="flex:1;font-size:15px;font-weight:600">Épinglé au contexte</span><span style="font-size:12.5px;color:#7f8ca0">3</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:7px 0">
+<div style="flex:none;width:34px;height:34px;border-radius:9px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#c9d3e0">data_object</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:13.5px;font-weight:500;color:#e6edf6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">NoteDatabase.kt</span><span style="font-size:12px;color:#7f8ca0">Fichier · épinglé à 14:24</span></div>
+<div title="Désépingler" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8391a6" style-hover="background:#16213a;color:#ffffff"><span style="font:300 18px/1 'Material Symbols Rounded'">close</span></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:7px 0">
+<div style="flex:none;width:34px;height:34px;border-radius:9px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#c9d3e0">chat_bubble</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:13.5px;font-weight:500;color:#e6edf6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">« Utilise un design moderne… »</span><span style="font-size:12px;color:#7f8ca0">Message · 14:22</span></div>
+<div title="Désépingler" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8391a6" style-hover="background:#16213a;color:#ffffff"><span style="font:300 18px/1 'Material Symbols Rounded'">close</span></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:7px 0">
+<div style="flex:none;width:34px;height:34px;border-radius:9px;background:#141e2f;border:1px solid #223047;display:flex;align-items:center;justify-content:center"><span style="font:300 19px/1 'Material Symbols Rounded';color:#c9d3e0">list_alt</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:13.5px;font-weight:500;color:#e6edf6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Plan d’exécution</span><span style="font-size:12px;color:#7f8ca0">Artefact · 6 étapes</span></div>
+<div title="Désépingler" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8391a6" style-hover="background:#16213a;color:#ffffff"><span style="font:300 18px/1 'Material Symbols Rounded'">close</span></div>
+</div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px"><span style="font:300 20px/1 'Material Symbols Rounded';color:#a9bad0">compress</span><span style="flex:1;font-size:15px;font-weight:600">Dernier compactage</span><span style="font-size:12.5px;color:#7f8ca0">14:02</span></div>
+<div style="margin-top:8px;font-size:13.5px;line-height:20px;color:#c3cedc;text-wrap:pretty">42 anciens messages résumés par GPT-4.1. Décisions et faits ouverts conservés.</div>
+<div style="margin-top:12px;display:flex;gap:8px"><div style="height:36px;padding:0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:9px;font-size:13px" style-hover="background:#16213a"><span style="font:300 18px/1 'Material Symbols Rounded'">manage_search</span>Inspecter</div><div style="height:36px;padding:0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;border-radius:9px;font-size:13px" style-hover="background:#16213a"><span style="font:300 18px/1 'Material Symbols Rounded'">restore</span>Restaurer</div></div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font:300 20px/1 'Material Symbols Rounded';color:#a9bad0">folder_special</span><span style="flex:1;font-size:15px;font-weight:600">Projet Cortana Labs</span></div>
+<div style="display:flex;align-items:center;gap:10px;height:34px"><span style="flex:1;font-size:13.5px;color:#dfe7f2">Instructions du projet</span><span style="height:22px;padding:0 8px;border-radius:6px;border:1px solid #243149;display:flex;align-items:center;font-size:11.5px;color:#9aa8bc">Hérité</span></div>
+<div style="display:flex;align-items:center;gap:10px;height:34px"><span style="flex:1;font-size:13.5px;color:#dfe7f2">2 fichiers : README, charte graphique</span><span style="height:22px;padding:0 8px;border-radius:6px;border:1px solid #243149;display:flex;align-items:center;font-size:11.5px;color:#9aa8bc">Hérité</span></div>
+<div style="display:flex;align-items:center;gap:10px;height:34px"><span style="flex:1;font-size:13.5px;color:#dfe7f2">Modèle préféré : {{ modelName }}</span><span style="height:22px;padding:0 8px;border-radius:6px;border:1px solid rgba(90,167,255,.45);display:flex;align-items:center;font-size:11.5px;color:#9ccaff">Cette conversation</span></div>
+</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ scrSet }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 12px 24px 18px">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;flex:none">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff"><span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">Réglages</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Affichage, modèles, outils, voix et confidentialité.</div>
+</div>
+
+</div>
+<div style="flex:1;min-height:0;margin-top:18px;display:flex;gap:16px">
+<div style="flex:none;width:256px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;padding:10px;align-self:flex-start;border-radius:16px;background:#0d1522;border:1px solid #1b2536">
+<sc-for list="{{ setSecs }}" as="n" hint-placeholder-count="11">
+<div onClick="{{ n.go }}" style="position:relative;height:44px;display:flex;align-items:center;gap:14px;padding:0 12px;border-radius:10px;cursor:pointer" style-hover="background:rgba(140,165,210,.06)">
+<sc-if value="{{ n.on }}"><div style="position:absolute;inset:0;border-radius:10px;background:linear-gradient(90deg,rgba(47,139,255,.22),rgba(47,139,255,.07));box-shadow:inset 0 0 0 1px rgba(90,167,255,.16)"></div></sc-if>
+<span style="position:relative;font:300 21px/1 'Material Symbols Rounded';color:{{ n.ic }}">{{ n.i }}</span>
+<span style="position:relative;font-size:14.5px;font-weight:{{ n.fw }};color:{{ n.fg }}">{{ n.l }}</span>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-width:0;overflow-y:auto;padding-right:6px">
+<div style="max-width:760px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:14px;padding:6px 2px">
+<div style="flex:none;width:48px;height:48px;border-radius:13px;background:rgba(47,139,255,.14);display:flex;align-items:center;justify-content:center"><span style="font:300 26px/1 'Material Symbols Rounded';color:#6cb6ff">{{ setIcon }}</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:21px;font-weight:600;color:#f2f6fb">{{ setTitle }}</div><div style="font-size:13.5px;color:#93a1b5">{{ setDesc }}</div></div>
+</div>
+<div style="border-radius:16px;background:#0d1522;border:1px solid #1b2536;overflow:hidden">
+<sc-for list="{{ setRows }}" as="r">
+<div style="display:flex;align-items:center;gap:16px;min-height:62px;padding:12px 18px;border-top:1px solid {{ r.bt }}">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:14.5px;font-weight:500;color:#eef3fa">{{ r.l }}</span><sc-if value="{{ r.hasD }}"><span style="font-size:12.5px;color:#8391a6">{{ r.d }}</span></sc-if></div>
+<sc-if value="{{ r.tog }}"><div onClick="{{ r.flip }}" style="flex:none;width:44px;height:26px;border-radius:13px;padding:3px;cursor:pointer;background:{{ r.track }};transition:background .18s"><div style="width:20px;height:20px;border-radius:50%;background:#ffffff;transform:translateX({{ r.knob }});transition:transform .18s"></div></div></sc-if>
+<sc-if value="{{ r.seg }}"><div style="flex:none;display:flex;gap:2px;padding:3px;border-radius:10px;background:#0a111d;border:1px solid #1d2839"><sc-for list="{{ r.opts }}" as="o"><div onClick="{{ o.go }}" style="height:32px;padding:0 12px;border-radius:7px;display:flex;align-items:center;cursor:pointer;font-size:13px;font-weight:500;background:{{ o.bg }};color:{{ o.fg }};box-shadow:inset 0 0 0 1px {{ o.bd }};transition:background .15s">{{ o.o }}</div></sc-for></div></sc-if>
+<sc-if value="{{ r.val }}"><div style="flex:none;display:flex;align-items:center;gap:2px;height:34px;padding:0 4px 0 12px;border-radius:9px;cursor:pointer;font-size:13.5px;color:#aab6c6" style-hover="background:#141e30;color:#ffffff">{{ r.v }}<span style="font:300 20px/1 'Material Symbols Rounded'">chevron_right</span></div></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ scrTodo }}">
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:40px 12px 24px 18px">
+<div style="height:56px;display:flex;align-items:flex-start;gap:18px;flex:none">
+<div onClick="{{ toggleSidebar }}" style="flex:none;width:40px;height:40px;border-radius:10px;border:1px solid #1e293b;background:#0e1522;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#b9c5d5" style-hover="background:#141e30;color:#ffffff"><span style="font:300 22px/1 'Material Symbols Rounded'">{{ sbIcon }}</span></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-top:6px">
+<div style="font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1;color:#f2f6fb">{{ todoTitle }}</div>
+<div style="font-size:12px;color:#93a1b5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Écran à concevoir</div>
+</div>
+
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center">
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;max-width:440px">
+<div style="width:76px;height:76px;border-radius:22px;background:#0f1828;border:1px solid #1e2a3d;display:flex;align-items:center;justify-content:center"><span style="font:300 38px/1 'Material Symbols Rounded';color:#5aa7ff">{{ todoIcon }}</span></div>
+<div style="font-size:20px;font-weight:600;color:#f2f6fb">Pas encore conçu</div>
+<div style="font-size:14px;line-height:22px;color:#93a1b5;text-wrap:pretty">{{ todoHint }}</div>
+<div onClick="{{ goChat }}" style="margin-top:6px;height:44px;padding:0 16px 0 12px;border-radius:11px;border:1px solid #243149;background:#0f1726;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:14px;color:#e6edf6;font-weight:500" style-hover="background:#16213a"><span style="font:300 19px/1 'Material Symbols Rounded'">forum</span>Revenir à la discussion</div>
+</div>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{ scrim }}"><div onClick="{{ closeOverlays }}" style="position:absolute;inset:0;z-index:75;background:rgba(3,6,12,.55);animation:fade .2s ease-out"></div></sc-if>
+<sc-if value="{{ modelOpen }}"><div onClick="{{ closeModel }}" style="position:absolute;inset:0;z-index:40"></div></sc-if>
+</div>
+</div>
+<div style="position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(14,20,31,.92);border:1px solid #232d3f;z-index:100;font-family:'Geist',system-ui,sans-serif">
+<div onClick="{{ setLand }}" style="height:34px;padding:0 12px 0 10px;border-radius:9px;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;cursor:pointer;background:{{ landBg }};color:{{ landFg }};transition:background .15s"><span style="font:300 18px/1 'Material Symbols Rounded'">stay_current_landscape</span>Paysage</div>
+<div onClick="{{ setPort }}" style="height:34px;padding:0 12px 0 10px;border-radius:9px;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;cursor:pointer;background:{{ portBg }};color:{{ portFg }};transition:background .15s"><span style="font:300 18px/1 'Material Symbols Rounded'">stay_current_portrait</span>Portrait</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;simulation&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Démo&quot;},&quot;vitesse&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:3,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Démo&quot;},&quot;orientation&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Paysage&quot;,&quot;Portrait&quot;],&quot;default&quot;:&quot;Paysage&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Affichage&quot;},&quot;cadreTablette&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Affichage&quot;}}">
+class Component extends DCLogic {
+  tl = React.createRef(); lg = React.createRef(); pl = React.createRef();
+  navDef = [
+    { i: 'forum', l: 'Discussion' }, { i: 'history', l: 'Historique' }, { i: 'event_available', l: 'Tâches', b: 'tasks' },
+    { i: 'layers', l: 'Mémoire' }, { i: 'notifications', l: 'Rappels' },
+    { i: 'deployed_code', l: 'Fournisseurs' }, { i: 'code', l: 'Développement', dev: 1 }, { i: 'memory', l: 'Worker', dot: 1, dev: 1 },
+    { i: 'cable', l: 'MCP', b: '4', dev: 1 }, { i: 'monitor_heart', l: 'Santé' }, { i: 'settings', l: 'Réglages' }
+  ];
+  toolsDef = [{ i: 'handyman', l: 'Outils' }, { i: 'hexagon', l: 'Système' }, { i: 'folder', l: 'Fichiers' }, { i: 'terminal', l: 'Terminal' }, { i: 'commit', l: 'Git' }, { i: 'language', l: 'Navigateur' }];
+  tabsDef = [{ i: 'article', l: 'Logs en direct' }, { i: 'file_copy', l: 'Fichiers' }, { i: 'preview', l: 'Aperçu' }];
+  models = [
+    { n: 'GPT-4.1', p: 'OpenAI', d: 'Polyvalent, rapide', c: '#e6ebf2', k: 'O' },
+    { n: 'Claude Sonnet 4.5', p: 'Anthropic', d: 'Code et raisonnement', c: '#f0a27a', k: 'A' },
+    { n: 'Gemini 2.5 Pro', p: 'Google', d: 'Très long contexte', c: '#7fb2ff', k: 'G' },
+    { n: 'Qwen 2.5 Coder', p: 'Local · Worker', d: 'Hors ligne, privé', c: '#b69cff', k: 'L' }
+  ];
+  stepsDef = ['Créer le projet Android (Kotlin + Jetpack Compose)', 'Développer l’interface et les fonctionnalités', 'Implémenter le stockage local (Room)', 'Builder l’application (APK)', 'Tester sur l’appareil', 'Installer et vérifier le bon fonctionnement'];
+  eta = ['~ 4 min', '~ 3-4 min', '~ 2-3 min', '~ 2 min', '~ 1 min', '< 1 min'];
+  convs = [
+    { id: 1, grp: 0, t: 'Application Android - Notes', pv: 'Je continue avec le DAO et le repository…', when: '14:22', mode: 'Agent', k: 'dev', pin: 1, file: 1, agent: 1, msgs: 38, model: 'GPT-4.1', proj: 'Cortana Labs',
+      br: [['Principale', 'actuelle', 0, 1], ['Variante Material 3', '13:58', 1, 0], ['Essai sans Room', '14:05', 1, 0]],
+      arts: [['data_object', 'NoteDatabase.kt', 'Kotlin · 17 lignes'], ['list_alt', 'Plan d’exécution', '6 étapes'], ['android', 'app-debug.apk', 'Build debug #7']] },
+    { id: 2, grp: 0, t: 'Résumé réunion équipe produit', pv: 'Voici les 5 décisions clés et les actions assignées à chacun.', when: '11:08', mode: 'Discussion', k: 'chat', file: 1, msgs: 12, model: 'Claude Sonnet 4.5', proj: 'Travail',
+      br: [['Principale', 'actuelle', 0, 1]], arts: [['mic', 'reunion-produit.m4a', 'Audio · 42 min'], ['article', 'Compte rendu', 'Markdown · 2 pages']] },
+    { id: 3, grp: 0, t: 'Comparatif forfaits mobiles', pv: 'D’après 6 sources, deux offres sortent du lot pour ton usage.', when: '09:41', mode: 'Recherche', k: 'search', msgs: 6, model: 'Gemini 2.5 Pro', proj: 'Perso',
+      br: [['Principale', 'actuelle', 0, 1]], arts: [['link', '6 sources web', 'Consultées à 09:40']] },
+    { id: 4, grp: 1, t: 'Plan d’entraînement semi-marathon', pv: 'Semaine 3 : on passe la sortie longue à 14 km.', when: 'Hier', mode: 'Discussion', k: 'chat', pin: 1, msgs: 24, model: 'GPT-4.1', proj: 'Perso',
+      br: [['Principale', 'actuelle', 0, 1], ['3 séances par semaine', 'Hier', 1, 0]], arts: [['table_chart', 'Plan sur 12 semaines', 'Tableau']] },
+    { id: 5, grp: 1, t: 'Script de sauvegarde NAS', pv: 'Le script rsync est prêt et planifié chaque nuit à 2 h.', when: 'Hier', mode: 'Développement', k: 'dev', agent: 1, msgs: 17, model: 'Qwen 2.5 Coder', proj: 'Maison',
+      br: [['Principale', 'actuelle', 0, 1]], arts: [['terminal', 'backup-nas.sh', 'Bash · 64 lignes']] },
+    { id: 6, grp: 2, t: 'Nom pour l’association du quartier', pv: 'Le conseil recommande « Les Jardins Partagés ».', when: 'Lun.', mode: 'Conseil', k: 'council', msgs: 9, model: '3 modèles', proj: 'Perso',
+      br: [['Principale', 'actuelle', 0, 1], ['Noms plus courts', 'Lun.', 1, 0]], arts: [] },
+    { id: 7, grp: 2, t: 'Traduction contrat de location', pv: 'Traduction terminée : 4 clauses à vérifier ensemble.', when: 'Dim.', mode: 'Discussion', k: 'chat', file: 1, msgs: 8, model: 'Claude Sonnet 4.5', proj: 'Maison',
+      br: [['Principale', 'actuelle', 0, 1]], arts: [['picture_as_pdf', 'bail-2026.pdf', 'PDF · 6 pages'], ['translate', 'Traduction anglaise', 'Document']] },
+    { id: 8, grp: 2, t: 'Dîner sans gluten pour 8', pv: 'Menu validé : velouté, poulet rôti, fondant au chocolat.', when: 'Sam.', mode: 'Voix', k: 'voice', msgs: 14, model: 'GPT-4.1', proj: 'Perso',
+      br: [['Principale', 'actuelle', 0, 1]], arts: [] }
+  ];
+  kinds = { chat: ['forum', '#5aa7ff', 'rgba(47,139,255,.14)'], dev: ['code', '#b69cff', 'rgba(139,92,246,.16)'], search: ['travel_explore', '#5fd4e8', 'rgba(34,190,220,.13)'], council: ['groups', '#f5b544', 'rgba(245,165,36,.14)'], voice: ['graphic_eq', '#4ade80', 'rgba(34,197,94,.13)'] };
+  groups = ['Aujourd’hui', 'Hier', 'Cette semaine'];
+  histFiltDef = [['all', 'apps', 'Tout'], ['pin', 'push_pin', 'Épinglées'], ['file', 'attach_file', 'Avec fichiers'], ['art', 'inventory_2', 'Avec artefacts'], ['agent', 'smart_toy', 'Tâches agent']];
+  schedDef = [['backup', 'Sauvegarde du NAS', 'Script backup-nas.sh · Worker PC', 'Chaque nuit · 02:00', 'repeat'], ['mail', 'Résumé de mes e-mails', 'Boîte principale · messages non lus', 'Demain · 08:00', 'event'], ['system_update', 'Vérifier les mises à jour Play Store', 'Pixel 8 · applications suivies', 'Vendredi · 10:00', 'event']];
+  doneDef = [['translate', 'Traduction contrat de location', 'Dimanche · 12 min · 2 artefacts', 'ok'], ['travel_explore', 'Comparatif forfaits mobiles', 'Aujourd’hui 09:41 · 4 min · 6 sources', 'ok'], ['photo_library', 'Nettoyage des photos en double', 'Samedi · 3 min · 2 fichiers ignorés', 'warn']];
+  cats = [['Profil', '#6cb6ff', 'rgba(47,139,255,.14)'], ['Préférences', '#c4b5fd', 'rgba(139,92,246,.16)'], ['Projets', '#5ee08f', 'rgba(34,197,94,.13)'], ['Appareils', '#f5b544', 'rgba(245,165,36,.14)']];
+  memDef = [
+    { c: 0, x: 'Tu développes principalement des applications Android.', src: 'Déduit de 9 conversations', si: 'auto_awesome', st: 'ok' },
+    { c: 0, x: 'Ta langue principale est le français.', src: 'Réglages · 2 avr.', si: 'settings', st: 'ok' },
+    { c: 0, x: 'Fuseau horaire : Europe/Paris.', src: 'Appareil · automatique', si: 'smartphone', st: 'ok' },
+    { c: 1, x: 'Réponses concises, sans détours.', src: 'Discussion · 18 avr.', si: 'forum', st: 'ok' },
+    { c: 1, x: 'Design sombre et moderne, accent bleu.', src: 'Discussion · 20 avr.', si: 'forum', st: 'ok' },
+    { c: 1, x: 'Toujours demander avant d’installer une application.', src: 'Politique sécurité', si: 'verified_user', st: 'ok', lock: 1 },
+    { c: 1, x: 'GPT-4.1 de préférence pour le code.', src: 'Déduit de 6 conversations', si: 'auto_awesome', st: 'sug' },
+    { c: 2, x: 'Cortana : assistant Android personnel, local d’abord.', src: 'Projet Cortana Labs', si: 'folder', st: 'ok' },
+    { c: 2, x: 'App Notes : stockage local avec Room, sans cloud.', src: 'Discussion · aujourd’hui', si: 'forum', st: 'ok' },
+    { c: 2, x: 'Elyndor : projet web déployé sur Vercel.', src: 'Discussion · 12 avr.', si: 'forum', st: 'ok' },
+    { c: 3, x: 'Pixel 8 (Android 14) appairé comme worker ADB.', src: 'Worker · 19 avr.', si: 'smart_toy', st: 'ok' },
+    { c: 3, x: 'PC Windows : builds Gradle et sauvegardes du NAS.', src: 'Worker · 10 avr.', si: 'smart_toy', st: 'ok' }
+  ];
+  setDef = [
+    ['Général', 'tune', 'Affichage et comportements de base.', [['Densité', '', ['Compact', 'Confort', 'Large'], 1], ['Thème', '', ['Sombre', 'Contraste élevé'], 0], ['Taille du texte', '', '100 %'], ['Envoyer avec Entrée', 'Maj + Entrée pour aller à la ligne.', true], ['Confirmer les suppressions', '', true], ['Titre automatique des conversations', '', true], ['Défilement automatique', '', true]]],
+    ['Messages', 'chat', 'Rendu du contenu dans la conversation.', [['Markdown', '', true], ['Formules LaTeX', '', true], ['Diagrammes Mermaid', '', true], ['Numéros de ligne dans le code', '', true], ['Copie enrichie', 'Conserve la mise en forme au collage.', true], ['Horodatage des messages', '', true], ['Badge du modèle', 'Affiche le modèle sous chaque réponse.', false], ['Afficher les sources', '', true]]],
+    ['Streaming', 'stream', 'Génération en direct, reprise et arrêt.', [['Affichage fluide', '', true], ['Reprise automatique', 'Reprend la génération après une coupure réseau.', true], ['File d’attente pendant la génération', 'Vos messages attendent la fin de la tâche.', true], ['Bouton STOP', '', ['Mettre en pause', 'Annuler la tâche'], 0]]],
+    ['Contexte', 'data_usage', 'Ce que Cortana garde en tête pendant une conversation.', [['Compactage automatique', 'Résume les anciens messages quand le contexte est élevé.', true], ['Seuil de compactage', '', 'Élevé'], ['Jauge de contexte', '', true], ['Épingles prioritaires', '', true], ['Hériter du contexte du projet', '', true]]],
+    ['Modèles', 'psychology', 'Choix et routage des modèles.', [['Modèle par défaut', '', 'GPT-4.1'], ['Favoris', '', '3 modèles'], ['Routage automatique', 'Choisit le modèle selon la tâche.', true], ['Verrouiller le modèle par conversation', '', false], ['Comparaison par défaut', '', '2 modèles']]],
+    ['Outils', 'handyman', 'Activité des outils et approbations.', [['Sélection automatique des outils', '', true], ['Afficher l’activité', '', true], ['Approbations', '', ['Toujours demander', 'Actions sensibles'], 1], ['Lecture seule sans approbation', 'Si la politique de sécurité le permet.', true]]],
+    ['Voix', 'graphic_eq', 'Dictée, synthèse vocale et lecture.', [['Dictée', '', 'Whisper (local)'], ['Synthèse vocale', '', 'Voix Cortana'], ['Lecture automatique des réponses', '', false], ['Réveil et session vocale', 'Gérés par le module Voix.', 'Ouvrir']]],
+    ['Fichiers', 'folder', 'Import, analyse et indexation.', [['Analyse automatique', '', true], ['Indexation pour la recherche', '', true], ['Compression des images', '', true], ['Alerte de taille d’envoi', '', '25 Mo']]],
+    ['Mémoire', 'layers', 'Ce que Cortana peut retenir durablement.', [['Mémoire active', '', true], ['Suggestions de mémoire', '', true], ['Chat temporaire par défaut', 'Aucune écriture en mémoire durable.', false]]],
+    ['Développeur', 'code', 'Informations techniques pour déboguer.', [['Mode développeur', 'Affiche les outils avancés dans la barre latérale.', true], ['Fournisseur et modèle', '', true], ['Estimation des tokens', '', true], ['Inspecteur de requêtes', '', false], ['Schémas d’outils', '', false], ['Route et latence', '', true], ['Journal d’événements', '', true]]],
+    ['Confidentialité', 'lock', 'Où vont vos données, et ce qui reste local.', [['Local uniquement', 'Désactive tous les fournisseurs cloud.', false], ['Fournisseurs cloud autorisés', '', 'OpenAI, Anthropic, Google'], ['Synchronisation', '', 'Désactivée'], ['Masquer les données des diagnostics', '', true]]]
+  ];
+  todo = { 4: 'Il regroupera les rappels ponctuels et les routines planifiées.', 5: 'Il gérera les fournisseurs de modèles, les clés d’accès et le routage.', 6: 'Il réunira les projets, dépôts, builds et artefacts de développement.', 7: 'Il présentera les appareils appairés, leur connexion, les logs et les annulations.', 8: 'Il listera les serveurs MCP disponibles et actifs, leurs permissions et leur santé.', 9: 'Il suivra l’état des services de Cortana : latence, erreurs et quotas.' };
+  codeSrc = [
+    '@Database(entities = [Note::class], version = 1)',
+    'abstract class NoteDatabase : RoomDatabase() {',
+    '    abstract fun noteDao(): NoteDao',
+    '    companion object {',
+    '        @Volatile',
+    '        private var INSTANCE: NoteDatabase? = null',
+    '        fun getDatabase(context: Context): NoteDatabase {',
+    '            return INSTANCE ?: synchronized(this) {',
+    '                INSTANCE ?: Room.databaseBuilder(',
+    '                    context.applicationContext,',
+    '                    NoteDatabase::class.java,',
+    '                    "notes_db"',
+    '                ).build().also { INSTANCE = it }',
+    '            }',
+    '        }',
+    '    }',
+    '}'
+  ];
+  initLogs = [
+    ['14:25:12', 'run', 'Task :app:compileDebugKotlin ...'], ['14:25:13', 'run', 'Task :app:mergeDebugResources'],
+    ['14:25:14', 'run', 'Task :app:processDebugResources'], ['14:25:16', 'run', 'Task :app:generateDebugBuildConfig'],
+    ['14:25:17', 'run', 'Task :app:assembleDebug'], ['14:25:18', 'ok', 'APK généré avec succès'],
+    ['14:25:19', 'dir', 'Installation sur l’appareil…'], ['14:25:21', 'ok', 'Application installée'],
+    ['14:25:22', 'run', 'Lancement des tests d’interface…'], ['14:25:24', 'ok', 'Tests OK']
+  ];
+  script = [
+    { log: ['run', 'Task :app:kaptDebugKotlin'], p: 57 },
+    { log: ['run', 'Room · génération de NoteDao_Impl'], p: 60 },
+    { log: ['ok', 'Schéma Room exporté (version 1)'], p: 63 },
+    { log: ['run', 'Task :app:compileDebugKotlin'], p: 66 },
+    { log: ['ok', 'NoteDao et NoteRepository compilés'], p: 69 },
+    { step: 3, p: 71, say: 'Stockage local prêt. Je compile l’application (APK)…' },
+    { log: ['run', 'Task :app:mergeDebugResources'], p: 74 },
+    { log: ['run', 'Task :app:assembleDebug'], p: 77 },
+    { log: ['ok', 'APK généré · app-debug.apk (6,4 Mo)'], p: 80 },
+    { step: 4, p: 82, say: 'APK généré. Je lance les tests sur le Pixel 8…' },
+    { log: ['run', 'connectedDebugAndroidTest · Pixel 8'], p: 85 },
+    { log: ['run', 'NoteListScreenTest · NoteDaoTest'], p: 88 },
+    { log: ['ok', 'Tests OK · 14/14 réussis'], p: 91 },
+    { step: 5, p: 92, ask: 1, log: ['wait', 'Approbation requise · adb install'], say: 'En attente de votre accord pour installer l’application.' },
+    { log: ['dir', 'Installation sur l’appareil…'], p: 95 },
+    { log: ['ok', 'Application installée'], p: 97 },
+    { log: ['run', 'Lancement de com.cortana.notes'], p: 98 },
+    { log: ['ok', 'Vérification OK · démarrage en 412 ms'], p: 99 },
+    { done: 1, say: 'C’est prêt : l’application Notes est installée et fonctionne sur votre Pixel 8.' }
+  ];
+
+  sim() {
+    return { run: 'running', step: 2, ev: 0, pct: 54, secs: 24, approval: null, queue: [],
+      logs: this.initLogs.map(([t, k, x]) => ({ t, k, x })),
+      say: 'La base de données est en place. Je continue avec le DAO et le repository…' };
+  }
+  state = { scale: 1, nav: 0, dev: true, search: true, voice: false, sidebar: true, modelOpen: false, model: 0,
+    tools: [false, true, false, false, false, false], tab: 0, draft: '', copied: false, planFlash: false, codeOpen: false,
+    histQ: '', histF: 'all', histSel: 1, taskF: 0, sched: [true, true, false], memCat: -1, memQ: '', memOn: {}, memGone: {}, memAdded: false, memSuggest: true, tempChat: false,
+    setSec: 0, setVals: {}, portrait: false, drawer: false, panel: false, ...this.sim() };
+
+  componentDidMount() {
+    this.fit = () => {
+      const b = this.props.cadreTablette ?? true, pad = b ? 40 : 0, P = this.state.portrait;
+      const s = Math.min((window.innerWidth - 24) / ((P ? 1086 : 1448) + pad), (window.innerHeight - 24 - 56) / ((P ? 1448 : 1086) + pad));
+      this.setState({ scale: Math.max(0.2, Math.min(s, 1)) });
+    };
+    this.setState({ portrait: this.props.orientation === 'Portrait' }, this.fit);
+    window.addEventListener('resize', this.fit);
+    requestAnimationFrame(() => { const el = this.tl.current; if (el) el.scrollTop = el.scrollHeight; });
+    this.schedule();
+  }
+  componentDidUpdate(pp) {
+    if (pp.cadreTablette !== this.props.cadreTablette) this.fit();
+    if (pp.orientation !== this.props.orientation) this.setOrient(this.props.orientation === 'Portrait');
+    if (pp.simulation !== this.props.simulation || pp.vitesse !== this.props.vitesse) this.schedule();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.fit); clearTimeout(this.timer); clearTimeout(this.ct); clearTimeout(this.ft); }
+
+  ts(secs) { const m = 25 + Math.floor(secs / 60), s = secs % 60; return `14:${m}:${String(s).padStart(2, '0')}`; }
+  addLog(s, k, x, gap = 2) { const secs = s.secs + gap; return { secs, logs: [...s.logs, { t: this.ts(secs), k, x }] }; }
+  schedule() {
+    clearTimeout(this.timer);
+    if (!(this.props.simulation ?? true) || this.state.run !== 'running') return;
+    this.timer = setTimeout(() => this.tick(), 1500 / (this.props.vitesse ?? 1));
+  }
+  tick() {
+    const e = this.script[this.state.ev];
+    if (!e || this.state.run !== 'running') return;
+    this.setState(s => {
+      let n = { ev: s.ev + 1 };
+      if (e.log) n = { ...n, ...this.addLog(s, e.log[0], e.log[1], 1 + ((s.ev * 5) % 3)) };
+      if (e.step != null) n.step = e.step;
+      if (e.say) n.say = e.say;
+      if (e.p) n.pct = e.p;
+      if (e.ask) { n.run = 'approval'; n.approval = 'pending'; }
+      if (e.done) { n.run = 'done'; n.step = 6; n.pct = 100; }
+      return n;
+    }, () => { this.scrollLogs(); if (e.ask || e.done || e.say) this.scrollChat(); this.schedule(); });
+  }
+  scrollLogs() { const el = this.lg.current; if (el) el.scrollTop = el.scrollHeight; }
+  scrollChat() { const el = this.tl.current; if (el) setTimeout(() => el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }), 30); }
+
+  stop = () => {
+    if (this.state.run !== 'running' && this.state.run !== 'approval') return;
+    clearTimeout(this.timer);
+    this.setState(s => ({ run: 'paused', ...this.addLog(s, 'stop', 'Arrêt demandé · tâche suspendue', 1) }), () => this.scrollLogs());
+  };
+  resume = () => {
+    this.setState(s => {
+      const ask = s.approval === 'pending' || s.approval === 'no';
+      return { run: ask ? 'approval' : 'running', approval: ask ? 'pending' : s.approval, ...this.addLog(s, 'play', 'Reprise de la tâche', 3) };
+    }, () => { this.scrollLogs(); this.scrollChat(); this.schedule(); });
+  };
+  approve = () => {
+    this.setState(s => ({ approval: 'ok', run: 'running', say: 'Merci. J’installe l’application et je vérifie son bon fonctionnement…', ...this.addLog(s, 'ok', 'Installation autorisée (une fois)', 2) }),
+      () => { this.scrollLogs(); this.schedule(); });
+  };
+  refuse = () => {
+    clearTimeout(this.timer);
+    this.setState(s => ({ approval: 'no', run: 'paused', ...this.addLog(s, 'stop', 'Installation refusée par l’utilisateur', 2) }), () => this.scrollLogs());
+  };
+  reset = () => {
+    clearTimeout(this.timer);
+    this.setState({ ...this.sim(), tab: 0 }, () => { const el = this.tl.current; if (el) el.scrollTo({ top: 0, behavior: 'smooth' }); this.scrollLogs(); this.schedule(); });
+  };
+  send = () => {
+    const t = this.state.draft.trim();
+    if (!t) return;
+    this.setState(s => ({ queue: [...s.queue, { id: Date.now(), text: t }], draft: '' }), () => this.scrollChat());
+  };
+  showPlan = () => {
+    const el = this.tl.current, p = this.pl.current;
+    if (el && p) el.scrollTo({ top: Math.max(0, p.offsetTop - el.offsetTop - 16), behavior: 'smooth' });
+    clearTimeout(this.ft);
+    this.setState({ planFlash: false }, () => { this.setState({ planFlash: true }); this.ft = setTimeout(() => this.setState({ planFlash: false }), 1500); });
+  };
+  copy = () => {
+    try { navigator.clipboard && navigator.clipboard.writeText(this.codeSrc.join('\n')); } catch (e) {}
+    clearTimeout(this.ct);
+    this.setState({ copied: true });
+    this.ct = setTimeout(() => this.setState({ copied: false }), 1600);
+  };
+  goNav = (i) => this.setState({ nav: i, drawer: false, panel: false }, () => {
+    if (i === 0) requestAnimationFrame(() => { const el = this.tl.current; if (el) el.scrollTop = el.scrollHeight; this.scrollLogs(); });
+  });
+  setOrient = (P) => this.setState({ portrait: P, drawer: false, panel: false }, () => {
+    this.fit(); requestAnimationFrame(() => { const el = this.tl.current; if (el) el.scrollTop = el.scrollHeight; });
+  });
+
+  hl(ln) {
+    const out = [], re = /(@\w+)|("[^"]*")|\b(abstract|class|fun|companion|object|private|var|val|return|synchronized)\b|\b(null|this|it|\d+)\b|\b([A-Z][a-z]\w*)\b/g;
+    let last = 0, m;
+    while ((m = re.exec(ln))) {
+      if (m.index > last) out.push({ t: ln.slice(last, m.index), c: '#d3dbe7' });
+      out.push({ t: m[0], c: m[1] ? '#e8a95b' : m[2] ? '#b9e08c' : m[3] ? '#c792ea' : m[4] ? '#f78c6c' : '#6cb6ff' });
+      last = re.lastIndex;
+    }
+    if (last < ln.length) out.push({ t: ln.slice(last), c: '#d3dbe7' });
+    return out.length ? out : [{ t: ' ', c: '#d3dbe7' }];
+  }
+
+  renderVals() {
+    const s = this.state, p = this.props;
+    const isRun = s.run === 'running' || s.run === 'approval', isPaused = s.run === 'paused', isDone = s.run === 'done';
+    const nav = (it, i) => {
+      const on = s.nav === i;
+      return { ...it, on, go: () => this.goNav(i), ic: on ? '#5aa7ff' : '#b7c3d3', fg: on ? '#ffffff' : '#d3dce8', fw: on ? 600 : 500,
+        badge: it.b === 'tasks' ? (isDone ? '2' : '3') : it.b };
+    };
+    const all = this.navDef.map(nav);
+    const K = { run: ['chevron_right', '#7d8aa0', '#cdd6e2', 0], ok: ['check', '#4ade80', '#5ee08f', 0], dir: ['folder', '#f5b544', '#cdd6e2', 1],
+      stop: ['stop', '#f87171', '#fca5a5', 1], play: ['play_arrow', '#6cb6ff', '#a9cfff', 1], wait: ['front_hand', '#fbbf24', '#fcd34d', 0] };
+    const m = this.models[s.model];
+    const eta = isDone ? '4 min 38 s' : this.eta[s.step];
+    const one = s.step >= 4;
+    if (!this._code) this._code = this.codeSrc.map((ln, i) => ({ n: i + 1, toks: this.hl(ln) }));
+    const say = isPaused ? (s.approval === 'no' ? 'Installation annulée. L’APK reste disponible dans les artefacts.' : 'Tâche suspendue à votre demande. Reprenez quand vous voulez.') : s.say;
+    const toggle = (on) => ({ track: on ? '#2f8bff' : '#253044', knob: on ? '18px' : '0px' });
+    const dv = toggle(s.dev), sr = toggle(s.search);
+    const P = s.portrait, norm = v => v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const chip = on => ({ bg: on ? 'rgba(47,139,255,.16)' : '#0e1522', bd: on ? 'rgba(90,167,255,.5)' : '#1e293a', fg: on ? '#ffffff' : '#cfd8e4', ic: on ? '#8cc2ff' : '#a7b3c3' });
+    const hit = (c, k) => k === 'all' || (k === 'pin' && !!c.pin) || (k === 'file' && !!c.file) || (k === 'art' && c.arts.length > 0) || (k === 'agent' && !!c.agent);
+    const hq = norm(s.histQ.trim());
+    const hlist = this.convs.filter(c => hit(c, s.histF) && (!hq || norm(c.t + ' ' + c.pv).includes(hq)));
+    const liveLabel = { running: 'En cours', approval: 'Approbation', paused: 'En pause', done: '' }[s.run];
+    const conv = c => { const kd = this.kinds[c.k], on = c.id === s.histSel;
+      return { t: c.t, pv: c.pv, when: c.when, mode: c.mode, pin: !!c.pin, icon: kd[0], tint: kd[1], tbg: kd[2], live: c.id === 1 && !isDone, liveLabel,
+        brc: c.br.length > 1 ? String(c.br.length) : '', bg: on ? 'rgba(47,139,255,.1)' : '#0d1522', bd: on ? 'rgba(90,167,255,.45)' : '#1b2536',
+        pick: () => this.setState({ histSel: c.id }) }; };
+    const hc = this.convs.find(c => c.id === s.histSel) || this.convs[0], hk = this.kinds[hc.k];
+    const au = [['14:22:10', 'ok', 'Projet Android créé', 'Gradle · Kotlin DSL', '18 s'], ['14:23:02', 'ok', 'Interface Compose générée', '6 fichiers', '51 s'],
+      ['14:24:40', 'ok', 'Build et installation v0', 'app-debug.apk', '42 s'], ['14:25:24', 'ok', 'Tests d’interface', '8/8 réussis', '9 s']];
+    [[2, '14:26:02', 'Stockage local (Room)', 'NoteDao · NoteRepository', '38 s'], [3, '14:26:31', 'Build de l’APK', 'app-debug.apk · 6,4 Mo', '17 s'], [4, '14:27:05', 'Tests sur le Pixel 8', '14/14 réussis', '21 s']]
+      .forEach(([k, t, x, d, dur]) => { if (isDone || s.step > k) au.push([t, 'ok', x, d, dur]); else if (s.step === k) au.push(['en cours', s.run === 'running' ? 'run' : 'wait', x, isPaused ? 'En pause' : 'En cours…', '']); });
+    if (s.approval) au.push(['14:27:08', { ok: 'ok', no: 'stop', pending: 'wait' }[s.approval], { ok: 'Installation autorisée', no: 'Installation refusée', pending: 'Approbation demandée' }[s.approval], s.approval === 'pending' ? 'adb install · Pixel 8' : 'Par vous · une fois', '']);
+    if (isPaused && s.approval !== 'no') au.push(['maintenant', 'stop', 'Tâche suspendue', 'Par vous', '']);
+    if (isDone) au.push(['14:27:40', 'ok', 'Installation vérifiée', 'Démarrage en 412 ms', '9 s']);
+    const AK = { ok: ['check_circle', '#4ade80', 1], run: ['progress_activity', '#5aa7ff', 0], wait: ['front_hand', '#fbbf24', 0], stop: ['stop_circle', '#f87171', 1] };
+    const tArts = [['data_object', 'NoteDatabase.kt', 'Kotlin · 17 lignes', '#b69cff']];
+    if (isDone || s.step > 3) tArts.push(['android', 'app-debug.apk', '6,4 Mo · build debug', '#4ade80']);
+    if (isDone || s.step > 4) tArts.push(['fact_check', 'Rapport de tests', '14/14 réussis', '#6cb6ff']);
+    const memAll = (s.memAdded ? [{ id: 'new', c: 1, x: 'Kotlin + Jetpack Compose pour tes applications Android.', src: 'Application Android - Notes · aujourd’hui', si: 'forum', st: 'ok' }] : [])
+      .concat(this.memDef.map((m, i) => ({ ...m, id: i }))).filter(m => !s.memGone[m.id]);
+    const mq = norm(s.memQ.trim()), mOn = m => s.memOn[m.id] ?? true;
+    const memVis = memAll.filter(m => (s.memCat < 0 || m.c === s.memCat) && (!mq || norm(m.x).includes(mq)));
+    const sec = this.setDef[s.setSec];
+    const sTog = on => ({ track: on ? '#2f8bff' : '#253044', knob: on ? '18px' : '0px' });
+    return {
+      sw: P ? 1086 : 1448, sh: P ? 1448 : 1086, portrait: P, dev: s.dev, camT: P ? '50%' : '-9.5px', camL: P ? '-9.5px' : '50%',
+      sbPos: P ? 'absolute' : 'relative', sbZ: P ? 80 : 'auto', sbX: P && !s.drawer ? '-300px' : '0px', sbShadow: P && s.drawer ? '30px 0 60px rgba(0,0,0,.55)' : 'none',
+      rpW: P ? '424px' : '400px', rpPad: P ? '44px 12px 28px 12px' : '44px 12px 28px 0', rpPos: P ? 'absolute' : 'relative', rpZ: P ? 80 : 'auto',
+      rpX: P && !s.panel ? '440px' : '0px', rpBg: P ? '#0a0f19' : 'transparent', rpBd: P ? '#1b2536' : 'transparent', rpShadow: P && s.panel ? '-30px 0 60px rgba(0,0,0,.55)' : 'none',
+      rpIcon: P ? 'close' : 'open_in_full', rpTitle: P ? 'Fermer' : 'Ouvrir dans Tâches', rpAction: () => (P ? this.setState({ panel: false }) : this.goNav(2)),
+      openPanel: () => this.setState({ panel: true }), portraitChat: P && s.nav === 0, kebabTop: P ? '168px' : '100px',
+      scrim: P && (s.drawer || s.panel), closeOverlays: () => this.setState({ drawer: false, panel: false }),
+      setLand: () => this.setOrient(false), setPort: () => this.setOrient(true),
+      landBg: P ? 'transparent' : '#1f3050', landFg: P ? '#9aa8bc' : '#ffffff', portBg: P ? '#1f3050' : 'transparent', portFg: P ? '#ffffff' : '#9aa8bc',
+      scrChat: s.nav === 0, scrHist: s.nav === 1, scrTasks: s.nav === 2, scrMem: s.nav === 3, scrSet: s.nav === 10, scrTodo: s.nav >= 4 && s.nav <= 9,
+      goChat: () => this.goNav(0), goMem: () => this.goNav(3),
+      todoTitle: this.navDef[s.nav].l, todoIcon: this.navDef[s.nav].i, todoHint: this.todo[s.nav] || '',
+      stepNo: String(isDone ? 6 : s.step + 1), stepName: isDone ? 'Tâche terminée' : this.stepsDef[s.step],
+      stepIcon: { running: 'progress_activity', approval: 'front_hand', paused: 'pause_circle', done: 'check_circle' }[s.run],
+      stepColor: { running: '#5aa7ff', approval: '#fbbf24', paused: '#f5a524', done: '#4ade80' }[s.run], stepAnim: s.run === 'running' ? 'spin 1.1s linear infinite' : 'none',
+      histQ: s.histQ, onHistQ: e => this.setState({ histQ: e.target.value }), histEmpty: !hlist.length,
+      histFilters: this.histFiltDef.map(([k, i, l]) => ({ i, l, n: String(this.convs.filter(c => hit(c, k)).length), go: () => this.setState({ histF: k }), ...chip(s.histF === k) })),
+      histGroups: this.groups.map((label, gi) => ({ label, items: hlist.filter(c => c.grp === gi).map(conv) })).filter(g => g.items.length),
+      hs: { t: hc.t, icon: hk[0], tint: hk[1], tbg: hk[2], meta: hc.mode + ' · ' + hc.model + ' · ' + hc.proj, msgs: String(hc.msgs), brN: String(hc.br.length), artN: String(hc.arts.length),
+        branches: hc.br.map(([l, m, sub, cur]) => ({ l, m, sub: !!sub, pad: sub ? 5 : 0, c: cur ? '#3d8fff' : '#56647c', fill: cur ? '#3d8fff' : 'transparent', fg: cur ? '#ffffff' : '#c3cedc' })),
+        arts: hc.arts.map(([i, n, m]) => ({ i, n, m })), noArts: !hc.arts.length },
+      taskFilters: ['Toutes', 'En cours', 'Planifiées', 'Terminées'].map((l, i) => ({ l, go: () => this.setState({ taskF: i }), bg: s.taskF === i ? '#1f3050' : 'transparent', fg: s.taskF === i ? '#ffffff' : '#aab6c6' })),
+      showRun: s.taskF <= 1, showSched: s.taskF === 0 || s.taskF === 2, showDone: s.taskF === 0 || s.taskF === 3,
+      hasQueue: s.queue.length > 0, queueLabel: s.queue.length + (s.queue.length > 1 ? ' messages en file' : ' message en file'),
+      schedTasks: this.schedDef.map(([i, t, d, w, wi], k) => ({ i, t, d, w, wi, op: s.sched[k] ? 1 : 0.5, ...sTog(s.sched[k]),
+        tog: () => this.setState(st => { const a = [...st.sched]; a[k] = !a[k]; return { sched: a }; }) })),
+      doneTasks: this.doneDef.map(([i, t, d, k]) => ({ i, t, d, s: k === 'ok' ? 'Réussie' : 'Partielle', si: k === 'ok' ? 'check_circle' : 'warning',
+        sc: k === 'ok' ? '#4ade80' : '#fbbf24', sbg: k === 'ok' ? 'rgba(34,197,94,.1)' : 'rgba(245,165,36,.1)' })),
+      audit: au.map(([t, k, x, d, dur], i) => ({ t, x, d, dur, i: AK[k][0], c: AK[k][1], f: AK[k][2], anim: k === 'run' ? 'spin 1.1s linear infinite' : 'none', line: i < au.length - 1 })),
+      taskArts: tArts.map(([i, n, m, c]) => ({ i, n, m, c })), taskArtN: String(tArts.length),
+      mems: memVis.map(m => { const on = mOn(m), ct = this.cats[m.c], sug = m.st === 'sug';
+        return { x: m.x, src: m.src, si: m.si, cat: ct[0], cc: ct[1], cbg: ct[2], st: sug ? 'Suggéré' : 'Confirmé', sti: sug ? 'help' : 'check_circle', stc: sug ? '#fbbf24' : '#4ade80',
+          lock: !!m.lock, free: !m.lock, op: on ? 1 : 0.55, track: on ? '#2f8bff' : '#253044', knob: on ? '16px' : '0px',
+          actLabel: on ? 'Actif dans cette conversation' : 'Ignoré dans cette conversation',
+          tog: () => this.setState(st => ({ memOn: { ...st.memOn, [m.id]: !on } })), del: () => this.setState(st => ({ memGone: { ...st.memGone, [m.id]: true } })) }; }),
+      memCats: [['Tout', -1]].concat(this.cats.map((c, i) => [c[0], i])).map(([l, k]) => ({ l, n: String(k < 0 ? memAll.length : memAll.filter(m => m.c === k).length),
+        go: () => this.setState({ memCat: k }), ...chip(s.memCat === k) })),
+      memEmpty: !memVis.length, memQ: s.memQ, onMemQ: e => this.setState({ memQ: e.target.value }),
+      memCount: String(memAll.filter(mOn).length), memSuggest: s.memSuggest && !s.tempChat,
+      keepMem: () => this.setState({ memAdded: true, memSuggest: false }), skipMem: () => this.setState({ memSuggest: false }),
+      tempChat: s.tempChat, toggleTemp: () => this.setState(st => ({ tempChat: !st.tempChat })),
+      tempTrack: s.tempChat ? '#8b5cf6' : '#253044', tempKnob: s.tempChat ? '14px' : '0px',
+      tempBg: s.tempChat ? 'rgba(139,92,246,.14)' : '#0e1522', tempBd: s.tempChat ? 'rgba(167,139,250,.55)' : '#1f2a3c',
+      setSecs: this.setDef.map(([l, i], k) => ({ l, i, on: s.setSec === k, go: () => this.setState({ setSec: k }), ic: s.setSec === k ? '#5aa7ff' : '#a7b3c3', fg: s.setSec === k ? '#ffffff' : '#cfd8e4', fw: s.setSec === k ? 600 : 500 })),
+      setTitle: sec[0], setIcon: sec[1], setDesc: sec[2],
+      setRows: sec[3].map((r, ri) => {
+        const [l, d, v] = r, key = s.setSec + '.' + ri, isDev = s.setSec === 9 && ri === 0;
+        const cur = isDev ? s.dev : (key in s.setVals ? s.setVals[key] : (Array.isArray(v) ? r[3] : v));
+        const put = val => (isDev ? this.setState({ dev: val }) : this.setState(st => ({ setVals: { ...st.setVals, [key]: val } })));
+        const base = { l, d, hasD: !!d, bt: ri ? '#172131' : 'transparent', tog: false, seg: false, val: false };
+        if (typeof v === 'boolean') return { ...base, tog: true, ...sTog(cur), flip: () => put(!cur) };
+        if (Array.isArray(v)) return { ...base, seg: true, opts: v.map((o, oi) => ({ o, go: () => put(oi), bg: cur === oi ? '#1f3050' : 'transparent', fg: cur === oi ? '#ffffff' : '#a7b3c3', bd: cur === oi ? 'rgba(90,167,255,.45)' : 'transparent' })) };
+        return { ...base, val: true, v };
+      }),
+      scale: s.scale, bezel: p.cadreTablette ?? true,
+      sbMargin: !P && !s.sidebar ? '-289px' : '0px', sbIcon: P ? 'menu' : (s.sidebar ? 'left_panel_close' : 'left_panel_open'),
+      toggleSidebar: () => this.setState(st => (st.portrait ? { drawer: !st.drawer } : { sidebar: !st.sidebar })),
+      navA: all.slice(0, 5), navB: all.slice(5).filter(n => s.dev || !n.dev),
+      devSub: s.dev ? 'Outils avancés activés' : 'Outils avancés masqués', devTrack: dv.track, devKnob: dv.knob,
+      toggleDev: () => this.setState(st => ({ dev: !st.dev })),
+      isRun, isPaused, isDone, stop: this.stop, resume: this.resume, reset: this.reset,
+      modelName: m.n, modelProv: m.p, modelKey: m.k, modelColor: m.c, modelTile: m.c + '22', modelOpen: s.modelOpen,
+      toggleModel: () => this.setState(st => ({ modelOpen: !st.modelOpen })), closeModel: () => this.setState({ modelOpen: false }),
+      models: this.models.map((mo, i) => ({ ...mo, sub: `${mo.p} · ${mo.d}`, sel: i === s.model, bg: i === s.model ? 'rgba(47,139,255,.1)' : 'transparent', tbg: mo.c + '22', pick: () => this.setState({ model: i, modelOpen: false }) })),
+      searchTrack: sr.track, searchKnob: s.search ? '14px' : '0px', searchKnobBg: s.search ? '#ffffff' : '#8d9bb0',
+      toggleSearch: () => this.setState(st => ({ search: !st.search })),
+      voice: s.voice, voiceBg: s.voice ? 'rgba(47,139,255,.16)' : '#0e1522', voiceBd: s.voice ? 'rgba(90,167,255,.55)' : '#1f2a3c',
+      micColor: s.voice ? '#4d9fff' : '#b3bfcf', toggleVoice: () => this.setState(st => ({ voice: !st.voice })),
+      avatarAnim: s.run === 'running' ? 'glow 2.4s ease-in-out infinite' : 'none',
+      steps: this.stepsDef.map((t, i) => {
+        const done = isDone || i < s.step, active = !isDone && i === s.step;
+        return { t: `${i + 1}. ${t}`, done, spin: active && s.run === 'running', wait: active && s.run !== 'running', pending: !done && !active, fg: active ? '#ffffff' : '#d3dbe6' };
+      }),
+      planLabel: { running: 'En cours…', approval: 'En attente', paused: 'En pause', done: 'Terminé' }[s.run], eta,
+      planFlash: s.planFlash, showPlan: this.showPlan,
+      code: this._code, codeH: s.codeOpen ? 360 : 232, codeIcon: s.codeOpen ? 'close_fullscreen' : 'open_in_full',
+      toggleCode: () => this.setState(st => ({ codeOpen: !st.codeOpen })),
+      copy: this.copy, copyIcon: s.copied ? 'check' : 'content_copy', copyColor: s.copied ? '#4ade80' : '#b3bfcf',
+      say, dots: s.run === 'running',
+      apPending: s.approval === 'pending', apOk: s.approval === 'ok', apNo: s.approval === 'no', secOk: s.approval !== 'pending',
+      approve: this.approve, refuse: this.refuse,
+      queue: s.queue.map(q => ({ text: q.text, icon: isDone ? 'done_all' : 'schedule', ic: isDone ? '#5aa7ff' : '#8391a6',
+        label: isDone ? 'Transmis à Cortana' : 'En file · envoyé après la tâche en cours', canRemove: !isDone,
+        remove: () => this.setState(st => ({ queue: st.queue.filter(x => x.id !== q.id) })) })),
+      tools: this.toolsDef.map((t, i) => {
+        const on = s.tools[i];
+        return { ...t, tog: () => this.setState(st => { const a = [...st.tools]; a[i] = !a[i]; return { tools: a }; }),
+          bg: on ? 'rgba(34,197,94,.13)' : '#0e1522', bd: on ? 'rgba(52,211,120,.55)' : '#1e293a', fg: on ? '#e9f8ef' : '#cfd8e4', ic: on ? '#34d27a' : '#a7b3c3', f: on ? 1 : 0 };
+      }),
+      draft: s.draft, onDraft: e => this.setState({ draft: e.target.value }),
+      onKey: e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(); } else if (e.key === 'Escape') this.stop(); },
+      send: this.send, placeholder: s.voice ? 'Je vous écoute… parlez naturellement' : 'Posez votre question ou donnez une instruction…',
+      tabs: this.tabsDef.map((t, i) => {
+        const on = s.tab === i;
+        return { ...t, go: () => this.setState({ tab: i }, () => i === 0 && this.scrollLogs()),
+          bg: on ? 'linear-gradient(180deg,rgba(47,139,255,.22),rgba(47,139,255,.1))' : '#0f1726', bd: on ? 'rgba(90,167,255,.5)' : '#1d2839', fg: on ? '#ffffff' : '#bcc7d6', ic: on ? '#8cc2ff' : '#9aa7b9' };
+      }),
+      tab0: s.tab === 0, tab1: s.tab === 1, tab2: s.tab === 2,
+      logs: s.logs.map(l => ({ t: l.t, x: l.x, i: K[l.k][0], ic: K[l.k][1], fg: K[l.k][2], f: K[l.k][3] })),
+      pct: s.pct, progress: isDone ? '6/6' : `${s.step + 1}/6`,
+      remain: isDone ? 'Terminée en 4 min 38 s' : s.run === 'approval' ? 'En attente de votre accord' : isPaused ? `En pause · ${eta} restante${one ? '' : 's'}` : `${eta} restante${one ? '' : 's'}`,
+      stRun: s.run === 'running', stAsk: s.run === 'approval', stPause: isPaused, stDone: isDone,
+      workerSub: isDone ? 'Notes installée' : '1 app en cours',
+      timelineRef: this.tl, logRef: this.lg, planRef: this.pl
+    };
+  }
+}
+</script>
+</body>
+</html>

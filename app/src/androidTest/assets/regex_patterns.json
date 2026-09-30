@@ -1,0 +1,2180 @@
+[
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)(gpt-4|gpt-5|gpt-4o|o3|o4)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)(hermes|nous)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)(kimi|glm|gpt-oss)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)(llama-?3\\.[1-9]|llama-?4|llama3\\.[1-9])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)(mistral|mixtral|ministral|codestral)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)claude",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)deepseek",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)gemini",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)qwen-?(2\\.5|3)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/a2a/A2a.kt",
+  "pattern": "[^\\w.\\- ]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/backup/Backup.kt",
+  "pattern": "[0-9a-fA-F-]{8,64}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/backup/Backup.kt",
+  "pattern": "manifest\\.json|secrets\\.json|data/[a-z_0-9]+\\.jsonl|artifacts/[0-9a-fA-F-]{8,64}/[^/\\\\]{1,120}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/backup/Backup.kt",
+  "pattern": "secret:[0-9a-fA-F-]{36}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/backup/Doctor.kt",
+  "pattern": "(?i)fts[345]? table|inverted index",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/backup/Doctor.kt",
+  "pattern": "[\\p{L}\\p{N}]{5,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "(?i)(e-?mail|courriel|phone|t[ée]l[ée]?phone|tel|mobile|adresse|address|street|rue|zip|postal|nom|name|pr[ée]nom|birth|naissance)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "(?i)(pass(word)?|mot.?de.?passe|pwd|pin|otp|cvv|cvc|csc|card|carte|cb_|iban|bic|secu|ssn)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "(?i)(payer|paiement|payment|checkout|commander|acheter|purchase)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "(?i)\\.(apk|aab|xapk|exe|msi|bat|cmd|com|scr|ps1|vbs|js|jar|sh|bin|run|dmg|pkg|deb|rpm|appimage|lnk)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "[^\\w.\\- ]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "^e\\d+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "charset=([\\w-]+)",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "filename\\*?=(?:UTF-8'')?\"?([^\";]+)\"?",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Browser.kt",
+  "pattern": "font-size:0(px|em|rem|%)?(;|$)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?<=[.!?\\n])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(call|use|invoke|appelle|utilise|exécute)\\b.{0,20}\\b(the |l'|la |le )?(tool|outil|function|fonction|commande)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(dear|cher|chère)?\\s*(ai|ia|assistant|llm|chatbot|cortana|claude|gpt)\\b\\s*[,:]\\s*(please|merci de|veuillez|tu dois|you must)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(ignore|disregard|forget|override)\\b.{0,40}\\b(previous|prior|above|all|your|the)\\b.{0,20}\\b(instructions?|rules|prompt|guidelines)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(ignore|oublie|oubliez|ignorez)\\b.{0,30}\\b(tes|vos|les|toutes les|des)\\b.{0,20}\\b(instructions?|consignes|règles)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(send|envoie|envoyez|transmets|forward|exfiltr\\w*|post)\\b.{0,40}\\b(password|mot de passe|api key|clé|token|secret|cookies?|contacts|conversation|données)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(system prompt|invite système|prompt système|developer message|message développeur)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "(?i)\\b(you are now|from now on you|act as|tu es (maintenant|désormais)|vous êtes (maintenant|désormais)|nouveau rôle)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "[ \\t]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "\\b(sms_send|exec_run|repo_push|code_delete|file_delete|android_ui_click|notifications_reply|phone_call_start|memory_save|browser_upload)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/InjectionGuard.kt",
+  "pattern": "^\\s*(\\d+)\\| ",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "(?<=[.!?])\\s+|\\n+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "(?i)\\.(pdf|docx?|xlsx?|pptx?|zip)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "(^|\\.)(gouv\\.fr|gov|gov\\.uk|europa\\.eu|int|edu|ac\\.uk|service-public\\.fr|legifrance\\.gouv\\.fr|insee\\.fr|who\\.int|ameli\\.fr|data\\.gouv\\.fr)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "(^|\\.)(pinterest\\.[a-z.]+|facebook\\.com|instagram\\.com|tiktok\\.com|x\\.com|twitter\\.com|quora\\.com|reddit\\.com|linkedin\\.com|youtube\\.com)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "(^|\\.)(wikipedia\\.org|britannica\\.com|larousse\\.fr|cnrs\\.fr|inserm\\.fr|pasteur\\.fr|nature\\.com|science\\.org|arxiv\\.org)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "\\[(\\d+)]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/browser/Research.kt",
+  "pattern": "\\d+(?:[.,]\\d+)?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatService.kt",
+  "pattern": "\"sessionId\":\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatTimeline.kt",
+  "pattern": "<donnees_non_fiables[^>]*>\\n?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatTimeline.kt",
+  "pattern": "\\n?</donnees_non_fiables>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatTimeline.kt",
+  "pattern": "^\\s*([0-9]{1,3})\\. (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "[^a-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^ {0,3}(#{1,6})(?:[ \\t]+(.*?))?[ \\t]*#*[ \\t]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^ {0,3}(`{3,}|~{3,})\\s*([^`\\s]*)[^`]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^ {0,3}-+[ \\t]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^ {0,3}=+[ \\t]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^( {0,3})([-*+])[ \\t]+(.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^( {0,3})([0-9]{1,9})([.)])[ \\t]+(.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/Markdown.kt",
+  "pattern": "^\\[([ xX])\\][ \\t]+(.*)$",
+  "flags": 32,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/comms/Comms.kt",
+  "pattern": "\\d",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/comms/Comms.kt",
+  "pattern": "^([+-]?\\d{0,2}(MO|TU|WE|TH|FR|SA|SU))(,[+-]?\\d{0,2}(MO|TU|WE|TH|FR|SA|SU))*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/comms/Comms.kt",
+  "pattern": "^[+0-9 ().-]+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/comms/Comms.kt",
+  "pattern": "^\\d{8}(T\\d{6}Z?)?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Adapters.kt",
+  "pattern": "[a-z0-9_]{1,64}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Connections.kt",
+  "pattern": "[a-z0-9][a-z0-9_-]{1,40}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Connections.kt",
+  "pattern": "^[a-z0-9.+-]+://",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "\r?\n",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "(\\?=)\\s+(=\\?)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": ";(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "<([^>]+)>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "=\\?([^?]+)\\?([bBqQ])\\?([^?]*)\\?=",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "FLAGS \\(([^)]*)\\)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "RFC822\\.SIZE (\\d+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "UID (\\d+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "[\"\\\\\r\n]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "[^A-Za-z0-9+/=]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "[^\\s@<>\"(),;:]+@[^\\s@<>\"(),;:]+\\.[^\\s@<>\"(),;:]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "\\*\\d+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "\\{(\\d+)\\}$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
+  "pattern": "^\\s*\"?([^\"<]*?)\"?\\s*<([^>]+)>\\s*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/OAuth.kt",
+  "pattern": "[0-9.]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/context/ContextEngine.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/context/ContextEngine.kt",
+  "pattern": "prompt-version:\\s*([\\w.]+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/ContributionParser.kt",
+  "pattern": "[\\s-]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/ContributionParser.kt",
+  "pattern": "[^\\p{L}\\p{N}.]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/ContributionParser.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(architecture|conception|refactor[\\p{L}\\p{N}_]*|migrer|choix technique|base de données|api|déboguer|debug[\\p{L}\\p{N}_]*|pourquoi .* (plante|échoue|crash))(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(business|marché|clients?|prix|tarif[\\p{L}\\p{N}_]*|chiffre d'affaires|rentab[\\p{L}\\p{N}_]*|concurren[\\p{L}\\p{N}_]*|stratégie commerciale|devis|marge|recrut[\\p{L}\\p{N}_]*|embauch[\\p{L}\\p{N}_]*|salarié[\\p{L}\\p{N}_]*|apprenti[\\p{L}\\p{N}_]*|fournisseurs?)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(compare[rz]?|comparaison|avantages et inconvénients|pour et contre|lequel|laquelle|vaut-il mieux|choisir entre|versus|vs\\.?|revue|relis|vérifie|contre-vérif[\\p{L}\\p{N}_]*|critique)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(convertis|conversion|combien font|combien fait|en (euros|dollars|km|miles|celsius|fahrenheit))(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(dois-je|devrais-je|faut-il|vaut-il mieux|choisir entre|quelle (option|solution)|recommand[\\p{L}\\p{N}_]*|décide[\\p{L}\\p{N}_]*|plan (d'action|de)|stratégie)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(en profondeur|approfondi[es]?|réfléchis bien|analyse complète|conseil de réflexion|tous les angles|très attentivement)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(ma tablette|mon téléphone|batterie|stockage|lent(e)?|rame|mémoire pleine|applications? inutiles?|optimise[\\p{L}\\p{N}_]*)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(mais|sans|avec|doit|ne doit pas|contrainte|budget|délai)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(minuteur|chronomètre|réveil|alarme|rappelle[- ]moi|rappel|timer)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(pourquoi|diagnosti[\\p{L}\\p{N}_]*|analyse[\\p{L}\\p{N}_]*|que faire|d'où vient)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(slogan|logo|nom pour|idées? de|concept|scénario|histoire|créati[\\p{L}\\p{N}_]*|campagne|affiche)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(sources?|études?|recherche sur|état de l'art|que dit|que disent|preuves|contradictoires?|actualité sur)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)(?<![\\p{L}\\p{N}_])(sécurité|securite|vulnérab[\\p{L}\\p{N}_]*|mot de passe|chiffrement|données personnelles|juridique|contrat|médical|santé|finances?|investi[\\p{L}\\p{N}_]*|licenci[\\p{L}\\p{N}_]*|production|irréversible|supprim[\\p{L}\\p{N}_]* définitivement|force[rz]? le push|push forcé|migration de données)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)^\\s*(bonjour|bonsoir|salut|coucou|hello|hi|merci|ok|d'accord|super|parfait|bonne nuit)(?![\\p{L}\\p{N}_])[\\s!.,?]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilPolicySelector.kt",
+  "pattern": "(?i)^\\s*(ouvre|lance|ferme|mets|monte|baisse|active|désactive|allume|éteins|appelle|règle|affiche|va sur|retour)(?![\\p{L}\\p{N}_])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/council/CouncilProfiles.kt",
+  "pattern": "[a-z][a-z0-9_]{1,40}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ArtifactService.kt",
+  "pattern": "[\\\\/:*?\"<>|]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "(?m)^(?:--- FAIL: (\\S+)|FAIL: (\\S+) \\((\\S+)\\)|test (\\S+) \\.\\.\\. FAILED)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "(?m)^--- PASS: (\\S+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "(?m)^ok\\s",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "Ran (\\d+) tests?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "[@:]?[\\^~*]|latest|\\+$|>=",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/BuildService.kt",
+  "pattern": "test result: \\w+\\. (\\d+) passed; (\\d+) failed; (\\d+) ignored",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "(?:require\\(\\s*['\"]([^'\"]+)['\"]\\s*\\)|^\\s*import\\s+(?:[^'\"]*\\s+from\\s+)?['\"]([^'\"]+)['\"]|^\\s*export\\s+[^'\"]*\\s+from\\s+['\"]([^'\"]+)['\"])",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "(?<![\\w$])x(?![\\w$])",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "(^|/)(test|tests|__tests__|spec|src/test|src/androidTest)/|(Test|Tests|Spec)\\.(kt|java)$|^test_|/test_[^/]+\\.py$|_test\\.(py|go)$|\\.(test|spec)\\.(js|ts|jsx|tsx|mjs)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "[A-Za-z_$][\\w$]*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^[A-Za-z_][\\w\\s*]*?\\s\\**([A-Za-z_]\\w*)\\s*\\([^;]*\\)\\s*\\{?\\s*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*#include\\s+\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:(?:public|private|internal|protected|abstract|open|sealed|data|enum|inner|value|annotation)\\s+)*(?:class|interface|object)\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:(?:public|private|internal|protected|override|const|lateinit)\\s+)*(?:val|var)\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:(?:public|private|internal|protected|override|suspend|inline|operator|infix|tailrec|abstract|open)\\s+)*fun\\s+(?:<[^>]+>\\s*)?(?:[\\w.]+\\.)?([A-Za-z_]\\w*)\\s*\\(",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:(?:public|private|protected|static|final|abstract|sealed)\\s+)*(?:class|interface|enum|record)\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:(?:public|private|protected|static|final|synchronized|abstract|default)\\s+)+[\\w<>\\[\\],.? ]+\\s+([a-zA-Z_]\\w*)\\s*\\([^;]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:async\\s+)?def\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:export\\s+)?(?:const|let|var)\\s+([A-Za-z_$][\\w$]*)\\s*=",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:export\\s+)?(?:default\\s+)?(?:async\\s+)?function\\s*\\*?\\s*([A-Za-z_$][\\w$]*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:export\\s+)?(?:default\\s+)?class\\s+([A-Za-z_$][\\w$]*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:from\\s+([\\w.]+)\\s+import|import\\s+([\\w.]+))",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:import\\s+)?\"([\\w./-]+)\"$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:pub(?:\\([^)]*\\))?\\s+)?(?:async\\s+)?(?:unsafe\\s+)?fn\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:pub(?:\\([^)]*\\))?\\s+)?(?:struct|enum|trait|type|union)\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:typedef\\s+)?(?:struct|enum|class|union)\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*(?:use\\s+(crate::[\\w:]+)|mod\\s+(\\w+)\\s*;)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*([A-Za-z_$][\\w$]*)\\s*:\\s*(?:async\\s*)?(?:\\([^)]*\\)|[A-Za-z_$][\\w$]*)\\s*=>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*class\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*import\\s+(?:static\\s+)?([\\w.]+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*import\\s+([\\w.]+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*package\\s+([\\w.]+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s*typealias\\s+([A-Za-z_]\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^\\s+(?:async\\s+)?(?:static\\s+)?([A-Za-z_$][\\w$]*)\\s*\\([^)]*\\)\\s*\\{",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^func\\s+(?:\\([^)]*\\)\\s*)?([A-Za-z_]\\w*)\\s*[\\[(]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/CodeIntelligence.kt",
+  "pattern": "^type\\s+([A-Za-z_]\\w*)\\s+(?:struct|interface|func|\\w)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": ".*\\.(js|jsx|ts|tsx)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "\\(?(/?[\\w./-]+\\.(?:kt|java|js|ts|py)):(\\d+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^((?:file://)?/?[^\\s:]+\\.(?:js|mjs|cjs|ts)):(\\d+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^(/?[^\\s:]+\\.(?:c|h|cc|cpp|hpp|m|go|js|jsx|ts|tsx|py|rs|swift)):(\\d+):(\\d+): (?:(error|warning|note|fatal error): )?(.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^(/?[^\\s:]+\\.java):(\\d+): (error|warning): (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^([^\\s(]+\\.(?:ts|tsx|js|jsx))\\((\\d+),(\\d+)\\): (error|warning) (TS\\d+): (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^([ew]): (?:file://)?(/?[^\\s:]+\\.kts?):(\\d+):(\\d+) (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^(\\w*(?:Error|Exception)): (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^(error|warning)(?:\\[(E\\d+)])?: (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^FAILED ([^\\s:]+\\.py)::(\\S+)(?: - (.+))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^\\[(ERROR|WARNING)] (/?[^\\s:]+\\.(?:java|kt)):\\[(\\d+),(\\d+)] (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^\\s*--> ([^\\s:]+):(\\d+):(\\d+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^\\s*File \"([^\"]+\\.py)\", line (\\d+), in (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^\\s*at ([\\w$.<>]+)\\(([\\w$]+\\.(?:kt|java|scala|groovy)):(\\d+)\\)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diagnostics.kt",
+  "pattern": "^\\s*at .*\\(((?:/|file://)[^():]+\\.(?:js|mjs|cjs|ts)):(\\d+):(\\d+)\\)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/Diff.kt",
+  "pattern": "^@@ -(\\d+)(?:,(\\d+))? \\+(\\d+)(?:,(\\d+))? @@",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/GitService.kt",
+  "pattern": "//[^/@]+@",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\"(?:dependencies|devDependencies)\"\\s*:\\s*\\{([^\\}]*)\\}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\"([^\"]+)\"\\s*:\\s*\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\"workspaces\"\\s*:\\s*\\[([^\\]]*)]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(?:implementation|api|testImplementation|kapt|ksp|compileOnly|runtimeOnly)\\s*\\(?\\s*[\"']([^\"']+)[\"']",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(?i)\\b(?:password|passwd|pwd|secret|api[_-]?key)\\s*[:=]\\s*[\"'][^\"'\\s]{8,}[\"']",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(?m)^\\[dependencies]([^\\[]*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(?m)^\\s*([\\w./-]+\\.[\\w./-]+)\\s+v[\\w.-]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(Test|Tests|Spec)\\.(kt|java|scala)$|^test_.*\\.py$|_test\\.(py|go)$|\\.(test|spec)\\.(js|ts|jsx|tsx)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "(^|/)(src/test|src/androidTest|tests?|__tests__|spec)/",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "<artifactId>([^<]+)</artifactId>\\s*<version>([^<]+)</version>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "<module>([^<]+)</module>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "[\"']([^\"']+)[\"']",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\\b(?:sk-[A-Za-z0-9_\\-]{20,}|AIza[0-9A-Za-z_\\-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,})",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\\b(TODO|FIXME|HACK|XXX)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\\b(fun|class|interface|object|def|function|fn|func|struct|enum|type|val|var|const|let)\\s+x\\b",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\\bAKIA[0-9A-Z]{16}\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "\\bgh[pousr]_[A-Za-z0-9]{30,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "dependencies\\s*=\\s*\\[([^\\]]*)]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "include\\s*\\(?([^)\\n]+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "members\\s*=\\s*\\[([^\\]]*)]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/RepositoryIntelligence.kt",
+  "pattern": "module\\s*=\\s*\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "(?i)(^|/)(migrations?|db/migrate|alembic)/|Migration[s]?\\.(kt|java|py|ts|js)$|schemas/.+\\.json$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "(?i)\\bALTER\\s+TABLE\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "(?i)\\bCREATE\\s+TABLE\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "(?i)\\bDROP\\s+(TABLE|COLUMN)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "(?m)^model \\w+ \\{",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "@Entity\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "@Ignore\\b|@Disabled\\b|\\.skip\\(|\\bxit\\(|\\bxdescribe\\(|pytest\\.mark\\.skip|unittest\\.skip|#\\[ignore]|\\bt\\.Skip\\(|\\btest\\.todo\\(",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "\\bMigration\\(|\\bAutoMigration\\b|\\bmigrations\\.\\w+\\(|op\\.(add|drop|alter)_",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "\\bassert|\\bexpect\\(|\\bshould\\b|\\brequire\\.\\w+\\(|\\bt\\.(Error|Fatal)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "\\bconsole\\.log\\(|\\bdebugger;|\\bSystem\\.out\\.println\\(|\\bprintStackTrace\\(\\)|\\bdbg!\\(|\\bpdb\\.set_trace\\(\\)|\\bbreakpoint\\(\\)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "\\bfallbackTo\\w*Destructive\\w*Migration",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "\\bmodels\\.Model\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "^(<{7}|>{7})( .*)?$|^={7}$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/ReviewService.kt",
+  "pattern": "^\\.github/workflows/|^\\.gitlab-ci\\.yml$|^\\.circleci/|^Jenkinsfile$|^azure-pipelines\\.yml$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/SoftwareFactory.kt",
+  "pattern": "(?i)\\b(termine|finis|conclus)\\s+sans\\s+v[ée]rification\\b|\\baccepte\\s+(le travail\\s+)?en\\s+l['’]?[ée]tat\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/dev/WorkspaceManager.kt",
+  "pattern": "[\\\\/:*?\"<>|]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Charts.kt",
+  "pattern": "[A-Z]{1,3}[0-9]{1,7}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Charts.kt",
+  "pattern": "\\$?[A-Za-z]{1,3}\\$?[0-9]{1,7}:\\$?[A-Za-z]{1,3}\\$?[0-9]{1,7}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "-?\\d+([.,]\\d+)?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": ":?-{2,}:?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "\\*\\*(.+?)\\*\\*|\\*(?!\\s)(.+?)(?<!\\s)\\*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "^(#{1,3})\\s+(.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "^(.+?)\\s*(==|!=|>=|<=|>|<|=|contient|contains|commence par|startswith)\\s*(.+)$",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "^(\\s*)[-*•]\\s+(.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "^(\\s*)\\d+[.)]\\s+(.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocModel.kt",
+  "pattern": "^\\d+ path=(.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocumentService.kt",
+  "pattern": "(?i)\\.(apk|aab|dex|jar|exe|msi|bat|cmd|com|scr|ps1|sh|bash|elf|so|dll|dylib|app|deb|rpm|js|vbs|wsf|hta|lnk)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocumentService.kt",
+  "pattern": "<p:sldId [^>]*r:id=\"([^\"]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocumentService.kt",
+  "pattern": "\\n\\s*\\n",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/DocumentService.kt",
+  "pattern": "\\s*\\n\\s*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "\"[^\"]*\"|\\[[^\\]]*\\]|\\\\.",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "-?\\d+([.,]\\d+)?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<(\\w+):wsDr",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<(\\w+:)?cellXfs([^>]*)>(.*?)</(\\w+:)?cellXfs>",
+  "flags": 32,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<(\\w+:)?sheets[ >]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<Override PartName=\"/x\"[^>]*/>",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<Override[^>]*PartName=\"/xl/calcChain.xml\"[^>]*/>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<Relationship [^>]*Id=\"x\"[^>]*/>",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<Relationship[^>]*Target=\"(/xl/)?calcChain.xml\"[^>]*/>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<Relationships([^>]*)/>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<\\w*:?cNvPr[^>]* id=\"(\\d+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<calcPr([^>]*?)/>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<p:sldId [^>]*/>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<p:sldId [^>]*id=\"(\\d+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<p:sldId [^>]*r:id=\"x\"[^>]*/>",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<p:sldIdLst>.*?</p:sldIdLst>",
+  "flags": 32,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "<xxf[ >/]",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "Extension=\"x\"",
+  "flags": 66,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "Id=\"rId(\\d+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "[\\[\\]:*?/\\\\]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "[dDyY]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "[hH]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "\\d{2}/\\d{2}/\\d{4}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "\\d{4}-\\d{2}-\\d{2}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}(:\\d{2})?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "^heading (\\d)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "count=\"\\d+\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "date1904=\"(1|true)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "ppt/slideLayouts/slideLayout\\d+\\.xml",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "ppt/slides/slide(\\d+)\\.xml",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "sheetId=\"(\\d+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "slide(\\d+)\\.xml$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "word/(document|header\\d*|footer\\d*)\\.xml",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Ooxml.kt",
+  "pattern": "xmlns:(\\w+)=\"x\"",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Pdf.kt",
+  "pattern": "(?<=\\s)|(?=\\s)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/documents/Pdf.kt",
+  "pattern": "(\\d+)\\s*-\\s*(\\d+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/exec/Execution.kt",
+  "pattern": "[A-Z_][A-Z0-9_]*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/improvement/Analyzers.kt",
+  "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/improvement/Analyzers.kt",
+  "pattern": "« [^»]*»|\"[^\"]*\"|[0-9a-f]{8,}|\\d+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/mcp/McpManager.kt",
+  "pattern": "[^A-Za-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/mcp/McpManager.kt",
+  "pattern": "[^a-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/mcp/McpManager.kt",
+  "pattern": "^[!#$%&'*+\\-.^_`|~0-9A-Za-z]+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/media/MediaService.kt",
+  "pattern": "(?i)gpt-image|dall-?e|imagen|flux|stable-?diffusion|sd-?xl|sd3|playground|recraft|ideogram|kandinsky|seedream|qwen-image|hidream|image-gen",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/media/MediaService.kt",
+  "pattern": "(?i)sora|veo|video|kling|runway|wan2|ltx|pika|luma|mochi",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/media/MediaService.kt",
+  "pattern": "(?i)tts|text-to-speech|kokoro|piper|xtts|bark",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/media/MediaService.kt",
+  "pattern": "(?i)whisper|transcri|speech-to-text|\\bstt\\b|parakeet|canary|voxtral",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/media/MediaService.kt",
+  "pattern": "\\d{2,4}x\\d{2,4}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/memory/ConversationRepository.kt",
+  "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/memory/Embeddings.kt",
+  "pattern": "[^a-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/memory/Embeddings.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/memory/MemoryIndexer.kt",
+  "pattern": "(?<=[\\p{L}\\p{N},;:] )\\p{Lu}[\\p{L}'-]{2,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/memory/MemoryIndexer.kt",
+  "pattern": "\\b\\d{4,}\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/model/ModelGateway.kt",
+  "pattern": "[0-9.]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/observability/Observability.kt",
+  "pattern": "[0-9.]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/observability/Observability.kt",
+  "pattern": "[A-Za-z0-9-]{1,64}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/observability/Tracer.kt",
+  "pattern": "(^|[._])(prompt|prompts|completion|content|messages?|input|output|arguments|args|body|text|objective|query|reply)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)\\b(et|puis|ensuite|avant|après|si)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^(l'|le |la |les |l’)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:ouvre|lance|démarre|open)\\s+(?:l'application\\s+|l'appli\\s+|l’application\\s+)?(.{2,40}?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:lance\\s+|mets\\s+|démarre\\s+)?(?:un\\s+)?minuteur\\s+(?:de\\s+)?(\\d{1,4})\\s*(secondes?|s|minutes?|min|mn|heures?|h)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:mets|règle|regle|passe)\\s+la\\s+luminosité\\s+(?:au\\s+(maximum|max|minimum|min)|(?:à|a)\\s*(\\d{1,3})\\s*%?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:mets|règle|regle|passe)\\s+le\\s+volume\\s*(?:de\\s+la\\s+|du\\s+|des\\s+)?(média|musique|sonnerie|alarme|notifications?)?\\s*(?:à|a)\\s*(\\d{1,3})\\s*(?:%|pour ?cent)?\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)\\b(retiens|souviens[- ]toi|m[ée]morise|n'oublie pas|garde en m[ée]moire|note que|remember)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:peux-tu\\s+|pourrais-tu\\s+)?(?:me\\s+rappeler|rappelle[- ]moi|rappelle-moi|fais[- ]moi penser)\\s+(?:dans|d'ici)\\s+(\\d+|un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|quinze|vingt|trente|quarante(?:-cinq)?|cinquante|soixante)\\s*(secondes?|sec|minutes?|mins?|mn|heures?|h|jours?)(?:\\s+et\\s+(demie|quart))?\\s*(?:,\\s*)?(?:de\\s+|d'|que\\s+|qu'|pour\\s+)?(.+?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:peux-tu\\s+|pourrais-tu\\s+)?(?:me\\s+rappeler|rappelle[- ]moi|rappelle-moi|fais[- ]moi penser)\\s+(?:de\\s+|d'|que\\s+|qu')?(.+?)\\s+(?:dans|d'ici)\\s+(\\d+|un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|quinze|vingt|trente|quarante(?:-cinq)?|cinquante|soixante)\\s*(secondes?|sec|minutes?|mins?|mn|heures?|h|jours?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:peux-tu\\s+|pourrais-tu\\s+)?(?:me\\s+rappeler|rappelle[- ]moi|rappelle-moi|fais[- ]moi penser)\\s+(demain\\s+)?(?:à|a|vers)\\s+(\\d{1,2})\\s*(?:h|:|heures?)\\s*(\\d{2})?\\s*(demain)?\\s*(?:,\\s*)?(?:de\\s+|d'|que\\s+|qu')?(.+?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:peux-tu\\s+|pourrais-tu\\s+)?(?:me\\s+rappeler|rappelle[- ]moi|rappelle-moi|fais[- ]moi penser)\\s+dans\\s+(une\\s+demi[- ]heure|un\\s+quart\\s+d'heure|trois\\s+quarts\\s+d'heure)\\s*(?:,\\s*)?(?:de\\s+|d'|que\\s+|qu')?(.+?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:retiens|souviens[- ]toi|m[ée]morise|n'oublie pas|note|garde en m[ée]moire|remember)\\b\\s*(?:bien\\s+)?(?:que|qu'|de|d'|ceci\\s*:|:)?\\s*(.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "^(\\d{1,2})\\s*[h:]\\s*(\\d{2})?$",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "https?://[^\\s)>\"']+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "je m'appelle|mon nom|mon pr[ée]nom|j'habite|je vis|mon anniversaire|je suis n[ée]|mon m[ée]tier|je travaille|ma femme|mon mari|mes enfants|mon fils|ma fille|mon adresse",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPaths.kt",
+  "pattern": "pr[ée]f[èe]r|pr[ée]f[ée]rence|j'aime|je n'aime|je d[ée]teste|r[ée]ponds|r[ée]ponses|parle[- ]moi|tutoie|vouvoie|appelle[- ]moi|ton|style",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/ScheduledRuns.kt",
+  "pattern": "^fp=([0-9a-f]{16})",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(bugs?|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(cherche|recherche|trouve|web|internet|site|page|article|actualit|news|http)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(fichier|dossier|document|pdf|docx|xlsx|csv|tableur|présentation|pptx)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(ouvre|lance|clique|touche|appuie|tape|écris dans|fais défiler|application|appli|écran|paramètres|réglages|luminosit|volume|youtube|whatsapp)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(puis|ensuite|après ça|après cela|et enfin|enfin|then|after that|finally)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(rappel|rappelle|planifie|chaque (jour|semaine|lundi)|tous les|minuteur|alarme|réveil)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?i)\\b(retiens|souviens|mémoire|oublie)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
+  "pattern": "(?m)^\\s*(\\d+[.)]|[-*•])\\s+\\S",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/policy/UiRiskClassifier.kt",
+  "pattern": "(^|[^\\p{L}\\p{N}])x($|[^\\p{L}\\p{N}])",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/policy/UiRiskClassifier.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/scheduler/CronExpression.kt",
+  "pattern": "-?\\d+(?:[.,]\\d+)?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/scheduler/CronExpression.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/skills/SkillLearner.kt",
+  "pattern": "Application : (\\S+)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/skills/SkillLearner.kt",
+  "pattern": "[^a-zA-Z0-9_]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/skills/SkillLearner.kt",
+  "pattern": "^\\[(\\d+)] (\\S+)(?: \\[mot de passe])?(?: \"((?:[^\"\\\\]|\\\\.)*)\")?(?: desc=\"((?:[^\"\\\\]|\\\\.)*)\")?(?: id=(\\S+))?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/skills/SkillService.kt",
+  "pattern": "\\{\\{([a-zA-Z0-9_]+)\\}\\}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/tools/ToolDiscovery.kt",
+  "pattern": "[^a-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/tools/ToolDiscovery.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/update/UpdateService.kt",
+  "pattern": "[0-9a-f]{64}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "(?<![\\d\\[])\\b\\d{4,8}\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "(?i)\\b(code|otp|verification|vérification|pin|cvv|cvc)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "(^| )x( |$)",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "\\b(?:\\d[ -]?){13,19}\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "\\b[A-Z]{2}\\d{2}(?: ?[A-Z0-9]{4}){3,7}(?: ?[A-Z0-9]{1,4})?\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "\\b\\d{4,8}\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/vision/Vision.kt",
+  "pattern": "^\\s*\\d{4,8}\\s*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/voice/Voice.kt",
+  "pattern": "(?i)^\\W*(arr[êe]te(?:r)? (?:d'|de |l')?[ée]cout\\w*|fin (?:de l'|du mode )?(?:[ée]coute|mains libres)|d[ée]sactive (?:le mode )?mains libres|stop (?:cortana|[ée]coute))\\W*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/voice/Voice.kt",
+  "pattern": "[*_`#>|]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/voice/Voice.kt",
+  "pattern": "\\[([^]]+)]\\([^)]*\\)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/voice/Voice.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/voice/Voice.kt",
+  "pattern": "```[\\s\\S]*?```",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/browser/BrowserTools.kt",
+  "pattern": "(?:\\+\\d|\\b0\\d)(?:[ .-]?\\d){7,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/browser/BrowserTools.kt",
+  "pattern": "[\\w.+-]+@[\\w-]+\\.[\\w.-]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/browser/BrowserTools.kt",
+  "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/browser/BrowserTools.kt",
+  "pattern": "^e\\d+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/comms/AndroidComms.kt",
+  "pattern": "P(?:(\\d+)W)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?)?",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/CodeTools.kt",
+  "pattern": "(?<![\\w$])x(?![\\w$])",
+  "flags": 0,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "(?:^|[;&|(`$\\s])git\\s+(?:-[Cc]\\s+\\S+\\s+|--\\S+\\s+)*([a-z-]+)((?:\\s+[^;&|]*)?)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "(^|\\s)(--\\s|\\.|--staged|--worktree|-f\\b)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "(^|\\s)(-D|--delete\\s+--force|-d\\s+-f)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "(^|\\s)-\\w*f",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "(^|\\s)-d\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "--hard|--merge|--keep",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/dev/ExecTools.kt",
+  "pattern": "\\b(drop|clear)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/documents/DocumentTools.kt",
+  "pattern": "(?i)</body>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/documents/DocumentTools.kt",
+  "pattern": "^x$",
+  "flags": 66,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/files/FileTools.kt",
+  "pattern": "^x$",
+  "flags": 66,
+  "kind": "dynamic"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/internal/ServiceTools.kt",
+  "pattern": "^fp=[0-9a-f]{16} · ",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/media/MediaTools.kt",
+  "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "&#(\\d+);",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "&#x([0-9a-fA-F]+);",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?i)<(br|/p|/div|/li|/h[1-6]|/tr|/section|/article|/header|/footer|/blockquote|/pre)\\b[^>]*>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<(script|style|noscript|svg|template|iframe)[^>]*>.*?</\\1>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<a[^>]*class=\"result__a\"[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<a[^>]*class=\"result__snippet\"[^>]*>(.*?)</a>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<a\\s[^>]*href\\s*=\\s*[\"']([^\"'#]+)[\"'][^>]*>(.*?)</a>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<head[^>]*>.*?</head>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?is)<title[^>]*>(.*?)</title>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?s)<!--.*?-->",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "(?s)<[^>]+>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "<[^>]+>",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "[ \\t\\u00A0]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "^[0-9.]+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/ui/components/Thread.kt",
+  "pattern": "(@\\w+)|(\"[^\"]*\")|\\b(abstract|class|fun|companion|object|private|var|val|return|synchronized)\\b|\\b(null|this|it|\\d+)\\b|\\b([A-Z][a-z]\\w*)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/ui/cortana/HistoryDesign.kt",
+  "pattern": "\\p{Mn}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/ui/schedules/SchedulesScreen.kt",
+  "pattern": "^fp=[0-9a-f]{16} · ",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/ui/workspace/Composer.kt",
+  "pattern": "(?:^|\\s)@([\\p{L}\\p{N}_.-]{0,40})$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "(?i)bearer\\s+[A-Za-z0-9._\\-]{16,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "\\bAIza[0-9A-Za-z_\\-]{30,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "\\bghp_[A-Za-z0-9]{30,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "\\bgsk_[A-Za-z0-9]{20,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "\\bsk-[A-Za-z0-9_\\-]{16,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Redactor.kt",
+  "pattern": "\\bsk-or-v1-[A-Za-z0-9]{20,}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/util/Speaker.kt",
+  "pattern": "[*_`#>]",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "contracts/src/main/kotlin/io/github/artisanguillonrenov/cortana/contracts/Plugins.kt",
+  "pattern": "(?i)\\.(dex|jar|apk|aab|so|class|exe|dll|dylib|sh|bat|cmd|ps1|js|mjs|py|rb|pl|bin)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "contracts/src/main/kotlin/io/github/artisanguillonrenov/cortana/contracts/Plugins.kt",
+  "pattern": "^[a-z0-9]+([._-][a-z0-9]+)*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "contracts/src/main/kotlin/io/github/artisanguillonrenov/cortana/contracts/Plugins.kt",
+  "pattern": "^\\d+\\.\\d+\\.\\d+([-+][0-9A-Za-z.-]+)?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "contracts/src/main/kotlin/io/github/artisanguillonrenov/cortana/contracts/Workspaces.kt",
+  "pattern": "[0-9a-f]{64}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "contracts/src/main/kotlin/io/github/artisanguillonrenov/cortana/contracts/Workspaces.kt",
+  "pattern": "^cortana-worker://([^/?#]+)\\?(.+)$",
+  "flags": 0,
+  "kind": "static"
+ }
+]

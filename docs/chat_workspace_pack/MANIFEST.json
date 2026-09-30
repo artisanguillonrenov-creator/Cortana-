@@ -1,0 +1,74 @@
+{
+  "00_READ_ME_FIRST.md": {
+    "sha256": "bee34310d7e24888828071d627366c646342822b102b24a9a5e7b0ca7de549c3",
+    "bytes": 2557
+  },
+  "01_PRODUCT_VISION_AND_LAYOUT.md": {
+    "sha256": "ee5bb919ccb5fe69981a955fce8d65513122a0c9343fa3c986a141ff1a353a19",
+    "bytes": 3540
+  },
+  "02_COMPOSER_AND_INPUT.md": {
+    "sha256": "d18983fbb27c1f57e8eab226a1548b50be8153d562400c7b84518c029609951e",
+    "bytes": 2011
+  },
+  "03_MESSAGE_TIMELINE_AND_ACTIONS.md": {
+    "sha256": "201be3f7c58faf272863fe0bc7c998bcf9bd2076635fae5bc1960788a7d8b60d",
+    "bytes": 2228
+  },
+  "04_BRANCHING_VERSIONING_SEARCH.md": {
+    "sha256": "17bee55843b2d8f600d7bb5e4e4be4bdb745dc8311993efde6d57215a70735f9",
+    "bytes": 1224
+  },
+  "05_STREAMING_RESUME_OFFLINE.md": {
+    "sha256": "95f09e044e4d2373fdc441080fac32b62c3d54c9d6ec4a3b8651f3e93f6a32cd",
+    "bytes": 1506
+  },
+  "06_CONTEXT_MEMORY_AND_COMPACTION.md": {
+    "sha256": "5cc1461c24ad5d1cf7fe73438765bcbfcdf244897193c3921d152927be70cd77",
+    "bytes": 1689
+  },
+  "07_ARTIFACTS_FILES_AND_GENERATIVE_UI.md": {
+    "sha256": "4806d36144fca14fb07f388e61d1b2929d7a79a690de0f60513ecf74ee3f1794",
+    "bytes": 1478
+  },
+  "08_MULTI_MODEL_COMPARE_AND_COUNCIL.md": {
+    "sha256": "bdf4fe3eedc3bac9f9b7859a27bfbbe338a49706f5049cded2e0e064d9531f45",
+    "bytes": 1438
+  },
+  "09_AGENT_ACTIVITY_TOOLS_APPROVALS.md": {
+    "sha256": "9da3a57f0afc76b887a062489a47ca6ab88a7ce4c9700d215a7cdb6015d25b71",
+    "bytes": 1316
+  },
+  "10_VOICE_MEDIA_ACCESSIBILITY.md": {
+    "sha256": "f695d761a10365ed028428edf1fbaa7891b22fbee329f61cc1a1da9823845c20",
+    "bytes": 923
+  },
+  "11_ARCHITECTURE_AND_DATA_MODEL.md": {
+    "sha256": "548428443a6ae47fa29d56a0b2c8aafccd65ec64f252d755647b681ca0ba790d",
+    "bytes": 1955
+  },
+  "12_SETTINGS_AND_PERSONALIZATION.md": {
+    "sha256": "a57ae6a64abdf79861a692f57f50898218def1b22eb2a8ca19d48ca376b22680",
+    "bytes": 1147
+  },
+  "13_ROADMAP_CHAT_C1_C12.md": {
+    "sha256": "5a496406608f3c7e6f6b7dd743fa94919a184cdbb0263287d1074677941e087c",
+    "bytes": 1552
+  },
+  "14_ACCEPTANCE_TEST_MATRIX.md": {
+    "sha256": "0ef62d76bbd06b0e21e54d01b38081aba7494ff5a462e24d0ac1e65eb85ad6f6",
+    "bytes": 1513
+  },
+  "15_MASTER_EXECUTION_PROMPT_FOR_CLAUDE.md": {
+    "sha256": "e008cc1a5d33f2c9ae7e2006e0e371edb275b2fe2ec7978e23dd55aac41ce533",
+    "bytes": 1835
+  },
+  "16_DESIGN_SYSTEM_SPEC.md": {
+    "sha256": "4c1cf412a5ec9e46880ecbb8792fcc6f928e8c3ceb24149827747654c88633fd",
+    "bytes": 1395
+  },
+  "MASTER_INDEX.md": {
+    "sha256": "84564025e6fcedb81d5e9b4500bfcabf50ed1c32a7231ad132a5e78ce78e9b8c",
+    "bytes": 736
+  }
+}

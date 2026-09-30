@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "verifiedAt": "2026-09-27",
+  "presets": [
+    { "id": "infermatic", "displayName": "Infermatic", "baseUrl": "https://api.totalgpt.ai/v1", "needsKey": true,
+      "notes": "Fournisseur actuel du propriétaire. Embeddings disponibles.", "keyUrl": "https://infermatic.ai", "quirks": {} },
+    { "id": "openrouter", "displayName": "OpenRouter", "baseUrl": "https://openrouter.ai/api/v1", "needsKey": true,
+      "notes": "Une seule clé pour Claude, Gemini, Llama, Mistral et bien d'autres.", "keyUrl": "https://openrouter.ai/keys",
+      "quirks": { "extraHeaders": { "X-Title": "Cortana", "HTTP-Referer": "https://cortana.local" }, "usageInclude": true } },
+    { "id": "groq", "displayName": "Groq", "baseUrl": "https://api.groq.com/openai/v1", "needsKey": true,
+      "notes": "Très rapide. n=1, température 0 traitée comme ~1e-8, pas de logprobs/logit_bias.", "keyUrl": "https://console.groq.com/keys",
+      "quirks": { "minTemperature": 1e-8, "forceN1": true, "noLogprobs": true } },
+    { "id": "deepinfra", "displayName": "DeepInfra", "baseUrl": "https://api.deepinfra.com/v1/openai", "needsKey": true,
+      "notes": "", "keyUrl": "https://deepinfra.com/dash/api_keys", "quirks": {} },
+    { "id": "together", "displayName": "Together", "baseUrl": "https://api.together.xyz/v1", "needsKey": true,
+      "notes": "", "keyUrl": "https://api.together.xyz/settings/api-keys", "quirks": {} },
+    { "id": "local", "displayName": "Serveur local", "baseUrl": "http://192.168.1.10:11434/v1", "needsKey": false,
+      "notes": "Ollama, LM Studio, llama.cpp, vLLM… sur votre réseau. Modifiez l'adresse.", "keyUrl": null,
+      "quirks": { "noStreamUsage": true, "allowPrivateNetwork": true } },
+    { "id": "custom", "displayName": "Personnalisé", "baseUrl": "https://", "needsKey": true,
+      "notes": "Tout autre point d'accès compatible OpenAI.", "keyUrl": null, "quirks": {} }
+  ]
+}

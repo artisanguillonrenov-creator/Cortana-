@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cortana</string>
+    <string name="accessibility_service_label">Cortana — contrôle de l\'écran</string>
+    <string name="accessibility_service_description">Permet à Cortana de lire l\'écran et d\'agir (toucher, écrire, faire défiler) uniquement quand vous lui confiez une tâche. Un indicateur « Cortana contrôle l\'écran » avec un bouton STOP est affiché pendant toute l\'automatisation. Les actions sensibles (paiement, suppression, sécurité) demandent toujours votre empreinte.</string>
+    <string name="tile_label">Stop Cortana</string>
+</resources>

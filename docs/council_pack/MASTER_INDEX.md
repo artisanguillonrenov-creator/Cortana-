@@ -1,0 +1,28 @@
+# MASTER INDEX
+
+1. `00_READ_ME_FIRST.md`
+2. `01_PRODUCT_AND_RUNTIME_SPEC.md`
+3. `02_ARCHITECTURE_INTEGRATION.md`
+4. `03_AGENT_ROLES_AND_DISCUSSION.md`
+5. `04_DECISION_RETENTION_ENGINE.md`
+6. `05_MODEL_CONTEXT_TOOL_BUDGET.md`
+7. `06_DATA_SECURITY_OBSERVABILITY.md`
+8. `07_UI_UX_AND_SETTINGS.md`
+9. `08_FAILURE_RECOVERY_AND_EDGE_CASES.md`
+10. `09_TYPES_AND_INTERFACES.md`
+11. `10_IMPLEMENTATION_ROADMAP.md`
+12. `11_ACCEPTANCE_AND_BENCHMARKS.md`
+13. `12_MASTER_EXECUTION_PROMPT_FOR_CLAUDE.md`
+14. `13_ENGINEERING_DEEP_DIVE.md`
+15. `council_engine_config.schema.json`
+
+Ce dossier est une spécification autonome Cortana.
+Claude Code doit d’abord mapper les concepts sur les classes réellement existantes
+avant de modifier le dépôt.
+
+## Annexes techniques supplémentaires
+- `14_PROMPT_AND_OUTPUT_CONTRACTS.md`
+- `15_ALGORITHMS_PSEUDOCODE.md`
+- `16_DEFAULT_PRESETS.md`
+- `17_THREAT_MODEL_AND_SAFETY_TESTS.md`
+- `18_MIGRATION_BACKCOMPAT_AND_RELEASE.md`

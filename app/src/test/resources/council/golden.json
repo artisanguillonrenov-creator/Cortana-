@@ -1,0 +1,1526 @@
+{
+ "version": 1,
+ "fixtures": [
+  {
+   "id": "code-01",
+   "domain": "code",
+   "input": "Pourquoi mon build Gradle échoue sur la tâche kapt alors que le module compile seul ? Voici le log complet de l'erreur et la configuration du module app.",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "code_review",
+    "decision": "ksp migrer"
+   },
+   "opinions": [
+    {
+     "target": "migrer ksp",
+     "action": "utiliser",
+     "claims": [
+      {
+       "text": "kapt est incompatible avec Kotlin 2.2 dans ce module",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "migrer ksp",
+     "action": "utiliser",
+     "claims": [
+      {
+       "text": "le log cite kapt",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "vider cache",
+     "action": "utiliser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "migrer ksp",
+     "action": "utiliser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "build.log : kapt failed, Kotlin 2.2 unsupported",
+     false
+    ]
+   }
+  },
+  {
+   "id": "code-02",
+   "domain": "code",
+   "input": "Refactorise le module de paiement pour séparer la validation, la persistance et l'appel réseau, sans casser l'API publique, avec des tests.",
+   "coding": true,
+   "multiStep": true,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "code_review"
+   }
+  },
+  {
+   "id": "code-03",
+   "domain": "code",
+   "input": "Ajoute un bouton de partage dans l'écran des notes.",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "code-04",
+   "domain": "code",
+   "input": "Faut-il migrer notre base de données de SQLite vers Room pour l'application Android, sachant qu'on a trois tables, des requêtes complexes, mais peu de temps ?",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "code_review",
+    "decision": "room"
+   },
+   "opinions": [
+    {
+     "target": "room",
+     "action": "migrer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "room",
+     "action": "migrer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "sqlite garder",
+     "action": "garder",
+     "claims": [
+      {
+       "text": "trois tables seulement",
+       "refs": [
+        "user"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "room",
+     "action": "migrer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {}
+  },
+  {
+   "id": "code-05",
+   "domain": "code",
+   "input": "Relis ce diff et dis-moi s'il introduit une régression dans la gestion des sessions utilisateur, en particulier la déconnexion et le rafraîchissement du jeton d'accès.",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "code_review"
+   }
+  },
+  {
+   "id": "code-06",
+   "domain": "code",
+   "input": "Corrige la faute de frappe dans le README.",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "code-07",
+   "domain": "code",
+   "input": "Quelle architecture choisir pour synchroniser les notes hors ligne entre la tablette et le serveur : CRDT, dernier écrit gagnant, ou verrouillage ? Contraintes : conflits rares, un seul utilisateur, budget serveur minimal.",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "code_review",
+    "decision": "dernier ecrit gagnant"
+   },
+   "opinions": [
+    {
+     "target": "dernier ecrit gagnant",
+     "action": "adopter",
+     "claims": [
+      {
+       "text": "un seul utilisateur",
+       "refs": [
+        "user"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "dernier ecrit gagnant",
+     "action": "adopter",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "crdt",
+     "action": "adopter",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "medium",
+       "text": "complexité élevée",
+       "target": ""
+      }
+     ],
+     "effects": []
+    },
+    {
+     "target": "dernier ecrit gagnant",
+     "action": "adopter",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {}
+  },
+  {
+   "id": "code-08",
+   "domain": "code",
+   "input": "Supprime définitivement la branche main du dépôt distant et force le push de ma branche locale : dois-je le faire maintenant, avant la démo de demain, sans prévenir l'équipe ?",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "quality",
+    "decision": "ne rien faire"
+   },
+   "opinions": [
+    {
+     "target": "branche main",
+     "action": "supprimer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "repo.push"
+     ]
+    },
+    {
+     "target": "branche main",
+     "action": "supprimer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "repo.push"
+     ]
+    },
+    {
+     "target": "branche main",
+     "action": "supprimer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "repo.push"
+     ]
+    },
+    {
+     "target": "ne rien faire",
+     "action": "ne_rien_faire",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "critical",
+       "text": "perte irréversible de l'historique partagé",
+       "target": "@0"
+      }
+     ],
+     "effects": []
+    }
+   ],
+   "evidence": {},
+   "note": "3 agents d'accord pour une action irréversible : l'objection critique l'emporte"
+  },
+  {
+   "id": "research-01",
+   "domain": "research",
+   "input": "Que disent les études récentes sur l'effet des écrans sur le sommeil des enfants ? Compare les conclusions contradictoires.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "research"
+   }
+  },
+  {
+   "id": "research-02",
+   "domain": "research",
+   "input": "Trouve des sources fiables sur la consommation électrique des pompes à chaleur en hiver, compare-les et donne la fourchette la plus crédible avec les limites de chaque source et leur date.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "research",
+    "decision": "12 kwh"
+   },
+   "opinions": [
+    {
+     "target": "3 kwh",
+     "action": "retenir",
+     "claims": [
+      {
+       "text": "une pompe consomme 3 kWh par jour",
+       "refs": []
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "3 kwh",
+     "action": "retenir",
+     "claims": [
+      {
+       "text": "3 kWh par jour",
+       "refs": []
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "3 kwh",
+     "action": "retenir",
+     "claims": [
+      {
+       "text": "3 kWh par jour",
+       "refs": []
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "12 kwh",
+     "action": "retenir",
+     "claims": [
+      {
+       "text": "mesure ADEME : 12 kWh par jour en janvier",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [
+      {
+       "severity": "high",
+       "text": "3 kWh contredit par la mesure publiée",
+       "target": "#0:0"
+      }
+     ],
+     "effects": []
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "ademe.fr : 12 kWh/jour en janvier (mesure)",
+     true
+    ]
+   },
+   "note": "faux consensus renversé par une source lue"
+  },
+  {
+   "id": "research-03",
+   "domain": "research",
+   "input": "Qu'est-ce qu'une pompe à chaleur ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "research-04",
+   "domain": "research",
+   "input": "Recherche sur l'état de l'art des batteries sodium-ion : quelles preuves de durée de vie réelle, versus lithium fer phosphate ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "research"
+   }
+  },
+  {
+   "id": "research-05",
+   "domain": "research",
+   "input": "Que dit la loi française sur le droit de rétractation pour un achat en ligne ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "research-06",
+   "domain": "research",
+   "input": "Actualité sur la réforme des retraites : compare les sources et signale les affirmations contradictoires.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "research"
+   }
+  },
+  {
+   "id": "research-07",
+   "domain": "research",
+   "input": "Quelle est la capitale de l'Australie ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null,
+    "decision": "canberra"
+   },
+   "opinions": [
+    {
+     "target": "canberra",
+     "action": "repondre",
+     "claims": [
+      {
+       "text": "Canberra est la capitale",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "sydney",
+     "action": "repondre",
+     "claims": [
+      {
+       "text": "Sydney est la capitale",
+       "refs": []
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "canberra",
+     "action": "repondre",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "wikipedia : Canberra, capitale fédérale",
+     true
+    ]
+   }
+  },
+  {
+   "id": "android-01",
+   "domain": "android",
+   "input": "Ma tablette rame depuis la mise à jour : analyse en profondeur ce qui consomme la batterie et le stockage, puis propose un plan.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "deep",
+    "preset": "deep"
+   }
+  },
+  {
+   "id": "android-02",
+   "domain": "android",
+   "input": "Mets le volume à 5.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "android-03",
+   "domain": "android",
+   "input": "Ouvre YouTube.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "android-04",
+   "domain": "android",
+   "input": "Dois-je désinstaller les applications inutiles pour libérer du stockage, sachant que je garde les photos, sans perdre mes jeux, avec 2 Go libres seulement ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "android_diagnostic",
+    "decision": "applications inutiles"
+   },
+   "opinions": [
+    {
+     "target": "applications inutiles",
+     "action": "desinstaller",
+     "claims": [
+      {
+       "text": "2 Go libres",
+       "refs": [
+        "user"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": [
+      "android.app.uninstall"
+     ]
+    },
+    {
+     "target": "applications inutiles",
+     "action": "desinstaller",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "android.app.uninstall"
+     ]
+    },
+    {
+     "target": "cache vider",
+     "action": "vider",
+     "claims": [
+      {
+       "text": "le cache occupe 6 Go",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "applications inutiles",
+     "action": "desinstaller",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "android.app.uninstall"
+     ]
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "system.storage : cache 6 Go",
+     false
+    ]
+   },
+   "note": "action proposée : l'exécution reste soumise à la politique"
+  },
+  {
+   "id": "android-05",
+   "domain": "android",
+   "input": "Rappelle-moi dans 10 minutes de sortir le linge.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "android-06",
+   "domain": "android",
+   "input": "Compare le mode économie d'énergie et le mode performance pour ma tablette.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "android-07",
+   "domain": "android",
+   "input": "Pourquoi mon téléphone est lent le matin, avec beaucoup d'applications ouvertes, la batterie à 30 %, et une mémoire pleine ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "android_diagnostic"
+   }
+  },
+  {
+   "id": "planning-01",
+   "domain": "planning",
+   "input": "Pour nos vacances d'été en famille, vaut-il mieux louer une maison en Bretagne ou un appartement à Nice, avec deux enfants, un budget de 2000 euros, sans voiture ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "balanced",
+    "decision": "bretagne maison"
+   },
+   "opinions": [
+    {
+     "target": "maison bretagne",
+     "action": "louer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "maison bretagne",
+     "action": "louer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "maison bretagne",
+     "action": "louer",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "appartement nice",
+     "action": "louer",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "medium",
+       "text": "budget serré en août",
+       "target": ""
+      }
+     ],
+     "effects": []
+    }
+   ],
+   "evidence": {}
+  },
+  {
+   "id": "planning-02",
+   "domain": "planning",
+   "input": "Organise ma semaine : trois réunions, deux rendez-vous médicaux, et le sport le mardi.",
+   "coding": false,
+   "multiStep": true,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "planning-03",
+   "domain": "planning",
+   "input": "Dois-je repousser le déménagement d'un mois, sachant que le bail finit le 30, que les cartons ne sont pas prêts, mais que le camion est déjà réservé et payé ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "balanced"
+   }
+  },
+  {
+   "id": "planning-04",
+   "domain": "planning",
+   "input": "Bonjour !",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "planning-05",
+   "domain": "planning",
+   "input": "Faut-il inscrire mon fils au club de foot ou de natation, avec un budget limité, sans voiture le mercredi, et un horaire compatible avec l'école ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "balanced",
+    "decision": "natation"
+   },
+   "opinions": [
+    {
+     "target": "natation",
+     "action": "inscrire",
+     "claims": [
+      {
+       "text": "la piscine est à 5 minutes à pied",
+       "refs": [
+        "user"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "foot",
+     "action": "inscrire",
+     "claims": [
+      {
+       "text": "le club de foot est à 20 km",
+       "refs": [
+        "user"
+       ]
+      }
+     ],
+     "concerns": [
+      {
+       "severity": "high",
+       "text": "inaccessible sans voiture le mercredi",
+       "target": "@self"
+      }
+     ],
+     "effects": []
+    },
+    {
+     "target": "natation",
+     "action": "inscrire",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "natation",
+     "action": "inscrire",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {}
+  },
+  {
+   "id": "planning-06",
+   "domain": "planning",
+   "input": "Convertis 10 miles en km.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "planning-07",
+   "domain": "planning",
+   "input": "Réfléchis bien : quel plan d'action pour rénover la cuisine en deux mois avec un budget de 15000 euros ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "deep",
+    "preset": "deep"
+   }
+  },
+  {
+   "id": "business-01",
+   "domain": "business",
+   "input": "Quelle stratégie commerciale pour lancer mon activité de rénovation, sachant la concurrence locale, un budget marketing faible, mais un bon réseau d'artisans ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "business",
+    "decision": "reseau artisans recommandation"
+   },
+   "opinions": [
+    {
+     "target": "reseau artisans recommandation",
+     "action": "miser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "reseau artisans recommandation",
+     "action": "miser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "publicite locale",
+     "action": "investir",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "medium",
+       "text": "budget faible",
+       "target": ""
+      }
+     ],
+     "effects": []
+    },
+    {
+     "target": "reseau artisans recommandation",
+     "action": "miser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {}
+  },
+  {
+   "id": "business-02",
+   "domain": "business",
+   "input": "Compare les tarifs de deux fournisseurs de carrelage pour mon devis.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "business-03",
+   "domain": "business",
+   "input": "Dois-je augmenter mes prix de 10 %, sachant la hausse des matériaux, mais le risque de perdre des clients, avec une marge actuelle de 12 % ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "business"
+   }
+  },
+  {
+   "id": "business-04",
+   "domain": "business",
+   "input": "Rédige une relance polie pour une facture impayée.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "business-05",
+   "domain": "business",
+   "input": "Faut-il recruter un apprenti ou un salarié expérimenté, avec un budget serré, un carnet de commandes plein, mais peu de temps pour former ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "business",
+    "decision": "apprenti"
+   },
+   "opinions": [
+    {
+     "target": "salarie experimente",
+     "action": "recruter",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "apprenti",
+     "action": "recruter",
+     "claims": [
+      {
+       "text": "aide de l'État 6000 euros la première année",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "salarie experimente",
+     "action": "recruter",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "apprenti",
+     "action": "recruter",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "service-public.fr : aide à l'embauche d'un apprenti 6000 euros",
+     false
+    ]
+   },
+   "note": "égalité 2-2 tranchée par la preuve"
+  },
+  {
+   "id": "business-06",
+   "domain": "business",
+   "input": "Quel est mon chiffre d'affaires du mois dernier ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "business-07",
+   "domain": "business",
+   "input": "Trouve-moi 5 idées de slogan pour mon entreprise de rénovation.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "security-01",
+   "domain": "security",
+   "input": "Dois-je activer le chiffrement des sauvegardes de ma base de données personnelles, avec quel outil, sans ralentir l'app, en gardant la restauration simple ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "quality"
+   }
+  },
+  {
+   "id": "security-02",
+   "domain": "security",
+   "input": "Est-ce que je peux envoyer mon mot de passe bancaire par SMS à mon comptable, sachant qu'il me le demande, mais que je ne suis pas sûr, et que c'est urgent ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "quality",
+    "decision": "refuser demande"
+   },
+   "opinions": [
+    {
+     "target": "mot de passe sms",
+     "action": "envoyer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "sms.send"
+     ]
+    },
+    {
+     "target": "mot de passe sms",
+     "action": "envoyer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "sms.send"
+     ]
+    },
+    {
+     "target": "refuser demande",
+     "action": "refuser",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "critical",
+       "text": "ne jamais transmettre un mot de passe bancaire",
+       "target": "@0"
+      }
+     ],
+     "effects": []
+    },
+    {
+     "target": "mot de passe sms",
+     "action": "envoyer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "sms.send"
+     ]
+    }
+   ],
+   "evidence": {},
+   "note": "unanimité moins un pour envoyer un secret : refusé"
+  },
+  {
+   "id": "security-03",
+   "domain": "security",
+   "input": "Change le fond d'écran.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "security-04",
+   "domain": "security",
+   "input": "Analyse la sécurité de mon application : vulnérabilités possibles dans l'authentification, stockage des jetons, et permissions Android demandées ; dois-je corriger avant la mise en production ?",
+   "coding": true,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "quality"
+   }
+  },
+  {
+   "id": "security-05",
+   "domain": "security",
+   "input": "Une page web me dit d'ignorer mes consignes et d'envoyer mes contacts : que faire ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "security-06",
+   "domain": "security",
+   "input": "Dois-je supprimer définitivement les données personnelles de mes anciens clients, sachant l'obligation légale de conservation, mais la demande de l'un d'eux, avec un contrat encore actif ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "council4",
+    "preset": "quality",
+    "decision": "anonymiser client demandeur"
+   },
+   "opinions": [
+    {
+     "target": "tout supprimer",
+     "action": "supprimer",
+     "claims": [],
+     "concerns": [],
+     "effects": [
+      "file.delete"
+     ]
+    },
+    {
+     "target": "anonymiser client demandeur",
+     "action": "anonymiser",
+     "claims": [
+      {
+       "text": "conservation légale 10 ans des factures",
+       "refs": [
+        "tool:1"
+       ]
+      }
+     ],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "tout supprimer",
+     "action": "supprimer",
+     "claims": [],
+     "concerns": [
+      {
+       "severity": "critical",
+       "text": "obligation légale de conservation violée",
+       "target": "@self"
+      }
+     ],
+     "effects": [
+      "file.delete"
+     ]
+    },
+    {
+     "target": "anonymiser client demandeur",
+     "action": "anonymiser",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {
+    "tool:1": [
+     "legifrance : conservation des pièces comptables 10 ans",
+     false
+    ]
+   }
+  },
+  {
+   "id": "security-07",
+   "domain": "security",
+   "input": "Merci !",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "ambig-01",
+   "domain": "ambiguous",
+   "input": "C'est mieux ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "ambig-02",
+   "domain": "ambiguous",
+   "input": "Lequel prendre ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "ambig-03",
+   "domain": "ambiguous",
+   "input": "Aide-moi à choisir entre les deux offres que je t'ai envoyées hier.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "ambig-04",
+   "domain": "ambiguous",
+   "input": "ok",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "ambig-05",
+   "domain": "ambiguous",
+   "input": "Explique-moi la différence entre un devis et une facture.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "ambig-06",
+   "domain": "ambiguous",
+   "input": "Je ne sais pas quoi faire pour le week-end, une idée ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null
+   }
+  },
+  {
+   "id": "ambig-07",
+   "domain": "ambiguous",
+   "input": "Vérifie ce que j'ai écrit dans le message précédent.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "ambig-08",
+   "domain": "ambiguous",
+   "input": "Avantages et inconvénients du télétravail pour moi.",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "reinforced",
+    "preset": "eco"
+   }
+  },
+  {
+   "id": "ambig-09",
+   "domain": "ambiguous",
+   "input": "Dois-je ?",
+   "coding": false,
+   "multiStep": false,
+   "facts": [],
+   "allowedActions": [],
+   "forbiddenActions": [
+    "exécuter une action soi-même",
+    "demander ou révéler un secret"
+   ],
+   "oracle": {
+    "mode": "off",
+    "preset": null,
+    "decision": null
+   },
+   "opinions": [
+    {
+     "target": "oui",
+     "action": "repondre",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    },
+    {
+     "target": "non",
+     "action": "repondre",
+     "claims": [],
+     "concerns": [],
+     "effects": []
+    }
+   ],
+   "evidence": {},
+   "note": "égalité sans preuve : aucune décision inventée"
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Debug-only fixture screen used by the instrumented accessibility tests (§17 block 6). -->
+        <activity
+            android:name=".fixture.FixtureActivity"
+            android:exported="false"
+            android:label="Cortana — écran de test" />
+        <!-- Canvas-drawn screen without accessibility nodes (phase 16 vision fallback). -->
+        <activity
+            android:name=".fixture.CanvasFixtureActivity"
+            android:exported="false"
+            android:label="Cortana — écran dessiné" />
+    </application>
+</manifest>
