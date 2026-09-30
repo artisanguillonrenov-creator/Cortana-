@@ -512,6 +512,39 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Tests instrumentés et matrice physique `RC_CHECKLIST.md` : non exécutés.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 14. Rapport de la version candidate 2.0.0-rc7 (30/09/2026)
+
+**Contenu** : résultats web enrichis dans la conversation (images, vidéos, cartes de pages), par l'outil `web.search` existant (paramètre `mode`), enregistrés avec la discussion (`MessageMeta.webResults`, sans changement de schéma). Voir `CHANGELOG.md`.
+- Toutes les actions passent toujours par `ToolDispatcher` et `PolicyEngine`. Nouvelle dépendance : Media3 1.8.0 (et Guava 33.3.1-android), empreintes contrôlées contre Google Maven et Maven Central, licences Apache 2.0 (`docs/LICENSES.md`).
+- Schéma **inchangé (v4)**. Même clé, même paquet.
+
+### 14.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc7-arm64-v8a.apk` (Galaxy Tab A11) | 59 748 747 o | `e7a5062b4b38c837780fd1daaf02332e1bc0f39a3515f9a7bfca2b69e922d927` |
+| `cortana-2.0.0-rc7-universal.apk` (secours) | 81 184 054 o | `b83dc60b27abbcd2d09d8cd7a78b6d792036bf450766e51a0bca423bd56259d1` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `4f3120cedd3aca7db93f8b52733105a1cd9ecb207785a4e9f05dbad3be49aa8a` |
+
+### 14.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **8**, versionName **2.0.0-rc7**, non débogable.
+- `apksigner` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc6).
+- S'installe par-dessus la 1.2.0 et les rc1 à rc6. Entrée rc7 de `release/released.json` : schéma 4, `9abbf3f6…`, inchangé.
+
+### 14.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète | voir le rapport de livraison (tests contrats, worker, app ; `ReleaseTest` avec le manifeste rc7) |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 398 expressions compilées, 0 refusée |
+| Construction sur cache vide (GitHub Actions) | verte sur le commit des résultats web enrichis |
+
+### 14.4 Non exécuté, gates
+
+- Recherche réelle contre DuckDuckGo, Brave et SearXNG (tests sur un SearXNG simulé) ; lecture Media3 et rendu sur l'appareil : non exécutés.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -522,6 +555,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc4 | — | `RC_CHECKLIST.md` (dont §14 et §15) | **Non exécuté à ce jour.** |
 | 2.0.0-rc5 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc6 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc7 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).

@@ -1,5 +1,20 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc7 (versionCode 8) — Résultats web enrichis dans la conversation
+
+S'installe par-dessus la **2.0.0-rc6** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Images, vidéos et cartes de pages directement dans la réponse** quand Cortana cherche sur le web. La recherche a un mode : pages (défaut), images, vidéos ou mixte ; Cortana choisit images ou vidéos quand un visuel aide vraiment.
+  - Images : une grande image, ou une galerie à faire défiler ; un appui l'agrandit (zoom) et donne accès à la source.
+  - Vidéos : miniature, durée, titre et source. Les vidéos directes (mp4, webm, HLS) se lisent dans la conversation ; YouTube et les autres plateformes s'ouvrent dans leur application ou leur site.
+  - Pages : carte avec titre, site, extrait et image.
+- Ces résultats restent dans la discussion et réapparaissent quand vous la rouvrez.
+
+### Sécurité
+- Contenu externe signalé comme tel et jamais exécuté : pas de page web intégrée, adresses vérifiées (https pour les images et vidéos, jamais d'adresse locale), images seulement (jamais SVG), taille limitée. Les images passent par le même client protégé que les outils web.
+- La lecture vidéo intégrée utilise Media3 (Apache 2.0).
+
 ## 2.0.0-rc6 (versionCode 7) — Exécution directe des commandes de développement
 
 S'installe par-dessus la **2.0.0-rc5** et toutes les versions précédentes (1.2.0, rc1 à rc4), sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
