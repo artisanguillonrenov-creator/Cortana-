@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc7 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc7
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc7"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc7 on main (b7ce2f2)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc7 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target b7ce2f2e9d0e81a1aa0e96e8f953942866ed6dbb \
+            --title "Cortana 2.0.0-rc7" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc7-arm64-v8a.apk cortana-2.0.0-rc7-universal.apk cortana-update.json
