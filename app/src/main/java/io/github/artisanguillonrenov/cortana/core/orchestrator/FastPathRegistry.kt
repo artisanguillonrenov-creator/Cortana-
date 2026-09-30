@@ -8,8 +8,17 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.time.ZoneId
 
-/** Context a fast path can use to decide (never to bypass policy). */
-data class FastPathContext(val nowMs: Long, val zone: ZoneId, val incognito: Boolean, val availableCapabilities: Set<String>)
+/**
+ * Context a fast path can use to decide (never to bypass policy). [workspaces]: existing project names.
+ * [ownerText]: the text is the owner's own words (chat or voice) in a task no external content influenced.
+ */
+data class FastPathContext(
+    val nowMs: Long, val zone: ZoneId, val incognito: Boolean, val availableCapabilities: Set<String>,
+    val workspaces: List<String> = emptyList(), val ownerText: Boolean = true,
+)
+
+/** One further dispatcher call of a fixed fast-path sequence. */
+data class FastPathCall(val capability: String, val args: JsonObject)
 
 /**
  * A deterministic, versioned shortcut (doc 04 §19): matcher + parameter extraction → one canonical
@@ -29,6 +38,12 @@ data class FastPathMatch(
     val passive: Boolean = false,
     /** Ignore the session toolset (reminders and explicit memory always worked in 1.2.0). */
     val ignoresToolset: Boolean = false,
+    /** Fixed follow-up calls, each through the dispatcher, run only while every previous call succeeded. */
+    val then: List<FastPathCall> = emptyList(),
+    /** A failed or refused call ends the task with its reason instead of handing over to the model (no loop). */
+    val stopOnFailure: Boolean = false,
+    /** Only for the owner's own words in an untainted task (never from a notification, webhook, attachment…). */
+    val ownerTextOnly: Boolean = false,
 )
 
 interface FastPath {
@@ -42,12 +57,19 @@ class FastPathRegistry(private val paths: List<FastPath> = defaults()) {
 
     fun match(text: String, ctx: FastPathContext, threshold: Double = 0.8): FastPathMatch? =
         paths.mapNotNull { runCatching { it.match(text, ctx) }.getOrNull() }
-            .filter { it.confidence >= threshold && (it.ignoresToolset || it.capability in ctx.availableCapabilities) }
+            .filter { m ->
+                m.confidence >= threshold && (!m.ownerTextOnly || ctx.ownerText) &&
+                    (m.ignoresToolset || (m.capability in ctx.availableCapabilities && m.then.all { it.capability in ctx.availableCapabilities }))
+            }
             .maxByOrNull { it.confidence }
 
     companion object {
         private val articles = Regex("(?i)^(l'|le |la |les |l’)")
         private val compound = Regex("(?i)\\b(et|puis|ensuite|avant|après|si)\\b")
+        /** "lance les tests", "lance le build"… are development requests, never an app to open. */
+        private val devTarget = Regex("(?i)^(tests?|build|compilation|projet\\b.*|dépôt\\b.*)$")
+
+        private fun json(args: Map<String, String>): JsonObject = buildJsonObject { args.forEach { (k, v) -> put(k, v) } }
 
         fun defaults(): List<FastPath> = listOf(
             object : FastPath {
@@ -88,7 +110,7 @@ class FastPathRegistry(private val paths: List<FastPath> = defaults()) {
                 override fun match(text: String, ctx: FastPathContext): FastPathMatch? {
                     val m = re.find(text) ?: return null
                     val name = m.groupValues[1].replace(articles, "").trim()
-                    if (compound.containsMatchIn(name) || name.split(Regex("\\s+")).size > 4) return null
+                    if (compound.containsMatchIn(name) || name.split(Regex("\\s+")).size > 4 || devTarget.matches(name)) return null
                     return FastPathMatch(id, "android.app.open", buildJsonObject { put("name", name) }, 0.85,
                         render = { res -> if (res.ok) "✓ ${res.text.substringBefore(". Observe")}" else null })
                 }
@@ -128,6 +150,21 @@ class FastPathRegistry(private val paths: List<FastPath> = defaults()) {
                     if (seconds !in 1..86400) return null
                     return FastPathMatch(id, "android.timer.create", buildJsonObject { put("seconds", seconds) }, 0.9,
                         render = { res -> if (res.ok) "✓ ${res.text}" else null })
+                }
+            },
+            object : FastPath {
+                // Explicit development commands (DevCommands): same dispatcher, policy, approvals, ledger and audit.
+                override val id = "dev.command"
+                override val version = 1
+                override fun match(text: String, ctx: FastPathContext): FastPathMatch? {
+                    val cmd = DevCommands.parse(text, ctx.workspaces) ?: return null
+                    val first = cmd.calls.first()
+                    return FastPathMatch(
+                        cmd.id, first.capability, json(first.args), confidence = 0.92,
+                        then = cmd.calls.drop(1).map { FastPathCall(it.capability, json(it.args)) },
+                        stopOnFailure = true, ownerTextOnly = true,
+                        render = { res -> if (res.ok) "✓ ${res.text}" else null },
+                    )
                 }
             },
         )

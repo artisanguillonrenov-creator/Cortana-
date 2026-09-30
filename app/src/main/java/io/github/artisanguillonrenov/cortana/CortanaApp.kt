@@ -418,6 +418,7 @@ class AppContainer(val context: Context) {
         hub = chatHub,
         attachmentResolver = { refs -> chat.resolve(refs) },
         compareRunner = io.github.artisanguillonrenov.cortana.core.orchestrator.CompareRunner(gateway, contextEngine, conversations, chatHub, tracer),
+        workspaceNames = { workspaces.list().map { it.name } },
         extensions = listOf(softwareFactory, object : io.github.artisanguillonrenov.cortana.core.orchestrator.TaskExtension {
             override suspend fun onTaskEnd(taskId: String) = browserSessions.end(taskId)
         }),

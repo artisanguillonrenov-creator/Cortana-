@@ -36,6 +36,7 @@ import io.github.artisanguillonrenov.cortana.core.verifier.StepRun
 import io.github.artisanguillonrenov.cortana.core.verifier.ToolOutcomeSummary
 import io.github.artisanguillonrenov.cortana.util.AppJson
 import io.github.artisanguillonrenov.cortana.util.Redactor
+import io.github.artisanguillonrenov.cortana.util.canonicalJson
 import io.github.artisanguillonrenov.cortana.util.truncateBytes
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
@@ -80,6 +81,8 @@ class TaskRun(
     var answerMeta: String? = null,
     /** Files the owner attached to this turn, as context data (untrusted content stays enveloped). */
     val attachments: MutableList<io.github.artisanguillonrenov.cortana.core.context.ContextAttachment> = mutableListOf(),
+    /** Anti-repetition state per plan step (kept across that step's retries, shared with its specialist runs). */
+    val callGuards: MutableMap<String, RepeatedCallGuard> = java.util.concurrent.ConcurrentHashMap(),
 )
 
 /** Orchestrator-side callbacks (state changes stay in the orchestrator — LAW-002). */
@@ -142,6 +145,7 @@ class StepRunner(
         val notes = tr.notes.toMutableList()
         if (plan.strategy == PlanStrategy.DAG) notes += if (tr.isolatedSince != null) specialistNote(plan, step) else dagNote(plan, step)
         var repairs = 0
+        val guard = tr.callGuards.getOrPut(step.stepId) { RepeatedCallGuard() }
         // A request refused as too large (HTTP 413) is rebuilt once with half the window — never re-sent unchanged.
         var windowShare = 1.0
 
@@ -235,6 +239,22 @@ class StepRunner(
                     recordToolMessage(tr, call, ToolResult.error("Non exécuté : une question est en attente du propriétaire."), null)
                     continue
                 }
+                // An identical call that already failed, with nothing relevant changed since, is not dispatched again.
+                val guardDef = offered.values.firstOrNull { it.functionName == call.name || it.capability == call.name } ?: inPool(call.name)
+                val guardCap = guardDef?.capability ?: call.name
+                val signature = callSignature(guardCap, call.arguments)
+                val guarded = guard.check(guardCap, signature)
+                if (guarded.verdict != RepeatedCallGuard.Verdict.RUN) {
+                    val why = guarded.reason.orEmpty()
+                    outcomes += ToolOutcomeSummary(guardCap, false, why.take(600), false)
+                    recordToolMessage(tr, call, ToolResult.error(why), guardDef)
+                    if (guarded.verdict == RepeatedCallGuard.Verdict.BLOCK_STOP) {
+                        val err = StructuredError("step.repeated_call", ErrorCategory.CONFLICT, false,
+                            "Étape arrêtée : l'agent répétait une action déjà en échec ou refusée sans changement d'état (${guardDef?.label ?: guardCap}).")
+                        return StepOutcome.Failed(err, stepRun(error = err))
+                    }
+                    continue
+                }
                 if (tr.counters.toolCalls >= tr.maxToolCalls) return StepOutcome.BudgetExhausted("Limite d'appels d'outils atteinte (${tr.maxToolCalls})", stepRun())
                 tr.counters = tr.counters.copy(toolCalls = tr.counters.toolCalls + 1)
                 listener.countersChanged(tr.counters)
@@ -292,9 +312,14 @@ class StepRunner(
                     listener.toolsDiscovered(tr.discovered)
                 }
                 markTaint(tr, outcome.result, listener)
+                val changedState = outcome.result.ok && outcome.def != null && !outcome.duplicate &&
+                    (outcome.def.sideEffect != io.github.artisanguillonrenov.cortana.core.policy.SideEffect.NONE || outcome.def.capability in RepeatedCallGuard.STATE_REFRESH)
                 if (outcome.result.ok && outcome.def != null && !outcome.duplicate &&
                     outcome.def.sideEffect != io.github.artisanguillonrenov.cortana.core.policy.SideEffect.NONE
                 ) tr.sideEffects++
+                // An approval the owner just granted is a new explicit authorisation (a relevant state change).
+                if (outcome.approved) guard.stateChanged()
+                guard.record(guardCap, signature, outcome.result.ok, changedState, outcome.refused, outcome.result.text)
                 outcomes += ToolOutcomeSummary(outcome.def?.capability ?: call.name, outcome.result.ok, outcome.result.text.take(600), outcome.duplicate)
                 recordToolMessage(tr, call, outcome.result, outcome.def)
                 listener.toolEvent(outcome.def?.capability ?: call.name, outcome.def?.label ?: call.name, done = true, ok = outcome.result.ok,
@@ -308,6 +333,12 @@ class StepRunner(
             }
             if (question != null) return StepOutcome.AskedUser(question, stepRun())
         }
+    }
+
+    /** Capability + canonical arguments: two calls with the same signature would do exactly the same thing. */
+    private fun callSignature(capability: String, arguments: String): String {
+        val canonical = runCatching { canonicalJson(AppJson.parseToJsonElement(arguments.ifBlank { "{}" })) }.getOrElse { arguments.trim() }
+        return "$capability|$canonical"
     }
 
     /** What the owner sees about an answer: its model and why it ended, plus the task's own tags (never reasoning). */

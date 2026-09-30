@@ -66,6 +66,10 @@ data class DispatchOutcome(
     /** The side effect may or may not have happened (crash between run and commit) → ask the owner. */
     val uncertain: Boolean = false,
     val idempotencyKey: String? = null,
+    /** The owner explicitly refused this action (informational: callers never ask again in the same step). */
+    val refused: Boolean = false,
+    /** The owner explicitly approved this action before it ran (informational). */
+    val approved: Boolean = false,
 )
 
 /** Orchestrator callbacks: state transitions stay the orchestrator's job (LAW-002). */
@@ -139,6 +143,7 @@ class ToolDispatcher(
                 sessionId = req.sessionId, scheduleId = req.scheduleId, maxToolCalls = req.maxToolCalls,
             )
             val decision = policy.evaluate(def, args, pctx)
+            var ownerApproved = false
             span.attr("risk", decision.effectiveRisk.name)
             if (decision.requirement == Requirement.DENY) {
                 audit.record("cortana", def.capability, decision.targetDescription ?: decision.destination, "denied", decisionMeta(decision))
@@ -199,8 +204,9 @@ class ToolDispatcher(
                 }
                 if (!d.approved) {
                     return@span finish(req, stepId, def, args, decision, "refused",
-                        ToolResult.error("Le propriétaire a refusé cette action${d.reason?.let { " ($it)" } ?: ""}. Ne réessaie pas sans lui demander."))
+                        ToolResult.error("Le propriétaire a refusé cette action${d.reason?.let { " ($it)" } ?: ""}. Ne réessaie pas sans lui demander.")).copy(refused = true)
                 }
+                ownerApproved = true
                 if (d.rememberGrant && approvalReq.allowGrant) grants.create(def.capability, scope = decision.destination)
                 val dest = decision.destination
                 if (d.rememberDestination && dest != null) {
@@ -264,7 +270,7 @@ class ToolDispatcher(
             }
             if (result.ok && (def.sideEffect == SideEffect.EXTERNAL || def.sideEffect == SideEffect.IRREVERSIBLE)) hooks.checkpoint("after_effect:${def.capability}")
             if (!result.ok) span.error("executor")
-            finish(req, stepId, def, args, decision, if (result.ok) "ok" else "error", result, idemKey = idemKey)
+            finish(req, stepId, def, args, decision, if (result.ok) "ok" else "error", result, idemKey = idemKey).copy(approved = ownerApproved)
         }
     }
 

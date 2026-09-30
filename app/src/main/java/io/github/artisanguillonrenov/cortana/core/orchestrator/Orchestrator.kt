@@ -51,6 +51,7 @@ import io.github.artisanguillonrenov.cortana.core.tools.ToolContext
 import io.github.artisanguillonrenov.cortana.core.tools.ToolDefinition
 import io.github.artisanguillonrenov.cortana.core.tools.ToolDispatcher
 import io.github.artisanguillonrenov.cortana.core.tools.ToolRegistry
+import io.github.artisanguillonrenov.cortana.core.tools.ToolResult
 import io.github.artisanguillonrenov.cortana.core.tools.Toolsets
 import io.github.artisanguillonrenov.cortana.core.verifier.StepRun
 import io.github.artisanguillonrenov.cortana.core.verifier.Verifier
@@ -157,6 +158,8 @@ class Orchestrator(
     private val attachmentResolver: (suspend (List<io.github.artisanguillonrenov.cortana.core.chat.AttachmentRef>) -> AttachmentContext)? = null,
     /** Chat Workspace comparison (doc 08 §8.2): a delegated sub-operation, never a second loop. */
     private val compareRunner: CompareRunner? = null,
+    /** Existing project names, so a development fast path knows whether its project is unambiguous. */
+    private val workspaceNames: (suspend () -> List<String>)? = null,
 ) {
     private val _active = MutableStateFlow<ActiveTaskState?>(null)
     val active: StateFlow<ActiveTaskState?> = _active
@@ -339,9 +342,16 @@ class Orchestrator(
         val available = availableTools(session)
         // A regenerated or continued answer never re-runs a deterministic shortcut (it could repeat an effect).
         val workspaceKind = request.contextHints[ChatHints.KIND]
+        // Owner's own words: typed or spoken, with no external content or attachment riding along.
+        val ownerText = (request.source == TaskSource.CHAT || request.source == TaskSource.VOICE) &&
+            request.contextHints["untrusted_content"] == null && request.contextHints[ChatHints.ATTACHMENTS] == null
         val fp = if (schedule == null && workspaceKind != "regenerate" && workspaceKind != "continue") fastPaths.match(
             request.objective,
-            FastPathContext(System.currentTimeMillis(), ZoneId.systemDefault(), session.incognito, available.map { it.capability }.toSet()),
+            FastPathContext(
+                System.currentTimeMillis(), ZoneId.systemDefault(), session.incognito, available.map { it.capability }.toSet(),
+                workspaces = workspaceNames?.let { names -> runCatching { names() }.onFailure { CLog.w("workspace names unavailable", it) }.getOrNull() }.orEmpty(),
+                ownerText = ownerText,
+            ),
         ) else null
         // Fast paths that need no model run before budget/provider checks (1.2.0: reminders work without a provider).
         val task = stateMachine.create(request, session.id, mode = if (fp != null && !fp.continueToModel) "fast_path" else if (available.isEmpty()) "direct" else "interactive")
@@ -535,7 +545,7 @@ class Orchestrator(
         val child = TaskRun(tr.taskId, tr.session, tr.objective, tr.route, start, tr.tainted, tr.taintSources.toMutableList(),
             notes = mutableListOf(spec.instructions + " Résultat attendu : ${profile.outputSchemaHint}."),
             maxToolCalls = start.toolCalls + minOf(profile.maxToolCalls, remainingTools), maxModelCalls = start.modelCalls + minOf(profile.maxModelCalls, remainingModel),
-            scheduleId = tr.scheduleId, requestId = tr.requestId, isolatedSince = System.currentTimeMillis())
+            scheduleId = tr.scheduleId, requestId = tr.requestId, isolatedSince = System.currentTimeMillis(), callGuards = tr.callGuards)
         val task = io.github.artisanguillonrenov.cortana.contracts.SpecialistTask(specialistTaskId = io.github.artisanguillonrenov.cortana.util.Ids.new(), parentTaskId = tr.taskId,
             profileId = profile.profileId, objective = running.objective, context = "étape ${running.stepId} ; dépend de ${running.dependencies.joinToString().ifEmpty { "rien" }}",
             allowedCapabilities = pool.map { it.capability }, createdAt = System.currentTimeMillis())
@@ -716,35 +726,63 @@ class Orchestrator(
 
     // ------------------------------------------------------------------ fast paths
 
-    /** Returns true when the turn is fully handled without the model. */
+    /**
+     * Returns true when the turn is fully handled without the model. Every call (the match's and its
+     * fixed follow-ups) goes through the dispatcher: schema, policy, owner approval, ledger, audit.
+     * A [FastPathMatch.stopOnFailure] path ends the task on a failure or refusal instead of looping.
+     */
     private suspend fun runFastPath(tr: TaskRun, fp: FastPathMatch): Boolean {
+        // Owner-only shortcuts never run in a task influenced by external content: the Planner decides.
+        if (fp.ownerTextOnly && tr.tainted) return false
         transition(tr, TaskState.PLANNING, "raccourci ${fp.pathId}")
+        val calls = listOf(FastPathCall(fp.capability, fp.args)) + fp.then
         val plan = planner.fastPath(tr.taskId, tr.objective, fp.capability)
         plans.save(plan)
         stateMachine.update(tr.taskId) { it.copy(planId = plan.planId) }
         transition(tr, TaskState.RUNNING, "raccourci ${fp.pathId}")
-        val def = registry.byCapability(fp.capability)
-        val call = ToolCall("fp_${Ids.new().take(8)}", def?.functionName ?: fp.capability, fp.args.toString())
-        tr.counters = tr.counters.copy(toolCalls = tr.counters.toolCalls + 1)
-        val outcome = dispatcher.dispatch(
-            DispatchRequest(
-                taskId = tr.taskId, sessionId = tr.session.id, call = call, allowed = setOf(fp.capability), callIndex = tr.counters.toolCalls,
-                tainted = false, taintSources = emptyList(), maxToolCalls = tr.maxToolCalls, ctxFactory = { r -> ctx(tr, r) },
-                planStepId = "s1", ownerDirect = true, scheduleId = tr.scheduleId,
-            ),
-            listener(tr),
-        )
-        fp.noteForModel?.let { tr.notes += it(outcome.result) }
-        val rendered = fp.render(outcome.result)
+        val done = mutableListOf<Pair<String, ToolResult>>()
+        var outcome: io.github.artisanguillonrenov.cortana.core.tools.DispatchOutcome? = null
+        for (c in calls) {
+            val def = registry.byCapability(c.capability)
+            val call = ToolCall("fp_${Ids.new().take(8)}", def?.functionName ?: c.capability, c.args.toString())
+            tr.counters = tr.counters.copy(toolCalls = tr.counters.toolCalls + 1)
+            val o = dispatcher.dispatch(
+                DispatchRequest(
+                    taskId = tr.taskId, sessionId = tr.session.id, call = call, allowed = setOf(c.capability), callIndex = tr.counters.toolCalls,
+                    tainted = tr.tainted, taintSources = tr.taintSources.toList(), maxToolCalls = tr.maxToolCalls, ctxFactory = { r -> ctx(tr, r) },
+                    planStepId = "s1", ownerDirect = true, scheduleId = tr.scheduleId,
+                ),
+                listener(tr),
+            )
+            outcome = o
+            done += (def?.label ?: c.capability) to o.result
+            if (!o.result.ok || o.uncertain || o.cancelTask) break
+        }
+        val last = outcome!!
+        fp.noteForModel?.let { tr.notes += it(last.result) }
+        val allOk = done.size == calls.size && done.all { it.second.ok } && !last.uncertain
+        val rendered = if (allOk) done.map { fp.render(it.second) }.takeIf { r -> r.all { it != null } }?.joinToString("\n") else null
         if (rendered != null && !fp.continueToModel) {
             reply(tr, rendered)
             plans.save(plan.withStep(plan.steps.first().copy(status = StepStatus.SUCCEEDED, resultSummary = rendered)))
             return true
         }
-        if (!fp.continueToModel && !outcome.result.ok) tr.notes += "Une tentative directe (${fp.capability}) a échoué : ${outcome.result.text.take(300)}. Traite la demande autrement."
+        if (fp.stopOnFailure && !allOk) {
+            val (label, result) = done.last()
+            val before = done.dropLast(1).joinToString("") { "✓ ${it.first} : ${it.second.text.take(200)}\n" }
+            val why = when {
+                last.refused -> "Action non effectuée : vous avez refusé « $label »."
+                last.uncertain -> "« $label » a peut-être déjà été exécuté : vérifiez avant de relancer. ${result.text.take(300)}"
+                else -> "Échec de « $label » : ${result.text.take(600)}"
+            }
+            plans.save(plan.withStep(plan.steps.first().copy(status = StepStatus.FAILED, resultSummary = (before + why).take(1500))))
+            if (last.cancelTask) throw Terminal(TaskState.CANCELLED, "takeover", before + why)
+            throw Terminal(TaskState.FAILED, if (last.refused) "fast_path.refused" else "fast_path.tool_failed", before + why)
+        }
+        if (!fp.continueToModel && !last.result.ok) tr.notes += "Une tentative directe (${fp.capability}) a échoué : ${last.result.text.take(300)}. Traite la demande autrement."
         // Hand over to the model: the fast-path plan is superseded (explicit replan event).
         transition(tr, TaskState.REPLANNING, "raccourci ${fp.pathId} → modèle")
-        plans.save(plan.withStep(plan.steps.first().copy(status = if (outcome.result.ok) StepStatus.SUCCEEDED else StepStatus.FAILED)))
+        plans.save(plan.withStep(plan.steps.first().copy(status = if (last.result.ok) StepStatus.SUCCEEDED else StepStatus.FAILED)))
         return false
     }
 

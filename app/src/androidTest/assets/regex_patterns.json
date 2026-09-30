@@ -1578,6 +1578,72 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?i)(?:\\bforce\\b|--force|(?:^|\\s)-f(?:\\s|$)|\\bforcé)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:(?:crée|cree|créer|creer|create)\\s+(?:une\\s+|la\\s+|a\\s+)?(?:nouvelle\\s+|new\\s+)?(?:branche|branch)\\s+|git\\s+(?:checkout\\s+-b|switch\\s+-c)\\s+)([A-Za-z0-9][A-Za-z0-9._/-]{0,99})(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:(?:lance|exécute|execute|run)\\s+(?:le\\s+|un\\s+|the\\s+)?build|build|compile)(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:crée|cree|créer|creer|create)\\s+(?:une\\s+|la\\s+|a\\s+)?(?:nouvelle\\s+|new\\s+)?(?:branche|branch)\\s+([A-Za-z0-9][A-Za-z0-9._/-]{0,99})(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?\\s*,?\\s+(?:et|puis|and|then)\\s+(?:ensuite\\s+)?(?:pousse|push)(?:-la|\\s+la|\\s+it)?(?:\\s+sur\\s+origin|\\s+to\\s+origin)?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:git\\s+fetch|fais\\s+un\\s+(?:git\\s+)?fetch)(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:git\\s+pull|fais\\s+un\\s+(?:git\\s+)?pull)(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:git\\s+push|pousse|push)(?:\\s+(?:la\\s+|the\\s+)?(?:branche|branch)\\s+([A-Za-z0-9][A-Za-z0-9._/-]{0,99}))?(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:git\\s+status|(?:(?:donne|montre)(?:-moi)?\\s+|affiche\\s+)?(?:l['’])?(?:état|etat|statut|status)\\s+git)(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:inspecte|inspect)\\s+(?:le\\s+|the\\s+)?(?:projet|dépôt|depot|repo|workspace)(?:\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:lance|relance|exécute|execute|run)\\s+(?:les\\s+|the\\s+)?tests?(?:\\s+(?:du|dans\\s+le|sur\\s+le|pour\\s+le|le|of|in|on)\\s+(?:projet|dépôt|depot|repo|workspace)\\s+([\\w.-]{1,60}))?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/DevCommands.kt",
+  "pattern": "(?iu)^(?:cortana[ ,]+)?(?:liste|list|affiche|montre(?:-moi)?)\\s+(?:les\\s+|mes\\s+|my\\s+)?(?:projets|workspaces)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
   "pattern": "(?i)\\b(et|puis|ensuite|avant|après|si)\\b",
   "flags": 0,
@@ -1586,6 +1652,12 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
   "pattern": "(?i)^(l'|le |la |les |l’)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^(tests?|build|compilation|projet\\b.*|dépôt\\b.*)$",
   "flags": 0,
   "kind": "static"
  },
