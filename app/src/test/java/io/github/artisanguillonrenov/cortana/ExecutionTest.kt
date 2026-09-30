@@ -38,7 +38,8 @@ class ExecutionTest : CortanaTestBase() {
 
     @Test fun commandRunsConfinedWithScrubbedEnvironmentAndLogs() = runBlocking {
         val w = project()
-        val lines = mutableListOf<String>()
+        // stdout and stderr are drained concurrently and both call onLog: the collector must be thread-safe.
+        val lines = java.util.Collections.synchronizedList(mutableListOf<String>())
         val r = c.localBackend.run(w, ProcessSpec("echo bonjour; pwd; echo \"home=\$HOME\"; echo \"leak=\${JAVA_TOOL_OPTIONS:-none}\"; echo oops >&2; exit 3")) { lines += it }
         assertEquals("failed", r.status)
         assertEquals(3, r.exitCode)
