@@ -32,7 +32,7 @@ jobs:
         run: ls /usr/lib/x86_64-linux-gnu/libicui18n.so.* || (sudo apt-get update && sudo apt-get install -y libicu-dev)
 
       - name: Assemble debug APK
-        run: ./gradlew --no-daemon --stacktrace assembleDebug
+        run: ./gradlew --no-daemon --stacktrace --continue assembleDebug
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
