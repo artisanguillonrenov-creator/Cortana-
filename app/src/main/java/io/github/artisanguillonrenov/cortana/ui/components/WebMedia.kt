@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -141,7 +142,7 @@ private fun ImageGallery(images: List<WebResultItem>, onOpen: (String) -> Unit) 
 @Composable
 private fun ImageViewer(i: WebResultItem, onOpen: (String) -> Unit, onClose: () -> Unit) {
     Dialog(onDismissRequest = onClose) {
-        var scale by remember { mutableStateOf(1f) }
+        var scale by remember { mutableFloatStateOf(1f) }
         var offset by remember { mutableStateOf(Offset.Zero) }
         Surface(shape = RoundedCornerShape(16.dp)) {
             Column(Modifier.padding(8.dp)) {

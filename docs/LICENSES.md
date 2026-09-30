@@ -65,6 +65,7 @@ Généré par `./gradlew cortanaSbom` à partir des POM Maven (application : cla
 | androidx.documentfile:documentfile | 1.1.0 | The Apache Software License, Version 2.0 |
 | androidx.drawerlayout:drawerlayout | 1.0.0 | The Apache Software License, Version 2.0 |
 | androidx.emoji2:emoji2 | 1.4.0 | The Apache Software License, Version 2.0 |
+| androidx.exifinterface:exifinterface | 1.3.6 | The Apache Software License, Version 2.0 |
 | androidx.fragment:fragment-ktx | 1.8.9 | The Apache Software License, Version 2.0 |
 | androidx.fragment:fragment | 1.8.9 | The Apache Software License, Version 2.0 |
 | androidx.graphics:graphics-path | 1.0.1 | The Apache Software License, Version 2.0 |
@@ -91,6 +92,16 @@ Généré par `./gradlew cortanaSbom` à partir des POM Maven (application : cla
 | androidx.lifecycle:lifecycle-viewmodel-savedstate | 2.9.4 | The Apache Software License, Version 2.0 |
 | androidx.lifecycle:lifecycle-viewmodel | 2.9.4 | The Apache Software License, Version 2.0 |
 | androidx.loader:loader | 1.0.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-common | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-container | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-database | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-datasource-okhttp | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-datasource | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-decoder | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-exoplayer-hls | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-exoplayer | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-extractor | 1.8.0 | The Apache Software License, Version 2.0 |
+| androidx.media3:media3-ui | 1.8.0 | The Apache Software License, Version 2.0 |
 | androidx.navigation:navigation-common-android | 2.9.5 | The Apache Software License, Version 2.0 |
 | androidx.navigation:navigation-common | 2.9.5 | The Apache Software License, Version 2.0 |
 | androidx.navigation:navigation-compose-android | 2.9.5 | The Apache Software License, Version 2.0 |
@@ -98,6 +109,7 @@ Généré par `./gradlew cortanaSbom` à partir des POM Maven (application : cla
 | androidx.navigation:navigation-runtime-android | 2.9.5 | The Apache Software License, Version 2.0 |
 | androidx.navigation:navigation-runtime | 2.9.5 | The Apache Software License, Version 2.0 |
 | androidx.profileinstaller:profileinstaller | 1.4.0 | The Apache Software License, Version 2.0 |
+| androidx.recyclerview:recyclerview | 1.3.0 | The Apache Software License, Version 2.0 |
 | androidx.room:room-common-jvm | 2.8.3 | The Apache Software License, Version 2.0 |
 | androidx.room:room-common | 2.8.3 | The Apache Software License, Version 2.0 |
 | androidx.room:room-ktx | 2.8.3 | The Apache Software License, Version 2.0 |
@@ -122,13 +134,16 @@ Généré par `./gradlew cortanaSbom` à partir des POM Maven (application : cla
 | androidx.work:work-runtime-ktx | 2.10.5 | The Apache Software License, Version 2.0 |
 | androidx.work:work-runtime | 2.10.5 | The Apache Software License, Version 2.0 |
 | com.github.adaptech-cz.Tesseract4Android:tesseract4android | 4.9.0 | Apache-2.0 (licence du dépôt amont ; POM JitPack sans licence, D-20260927-036) |
-| com.google.guava:listenablefuture | 1.0 | The Apache Software License, Version 2.0 |
+| com.google.guava:failureaccess | 1.0.2 | The Apache Software License, Version 2.0 |
+| com.google.guava:guava | 33.3.1-android | Apache License, Version 2.0 |
+| com.google.guava:listenablefuture | 9999.0-empty-to-avoid-conflict-with-guava | The Apache Software License, Version 2.0 |
 | com.googlecode.javaewah:JavaEWAH | 1.1.13 | Apache 2 |
 | com.squareup.okhttp3:okhttp | 4.12.0 | The Apache Software License, Version 2.0 |
 | com.squareup.okio:okio-jvm | 3.6.0 | The Apache Software License, Version 2.0 |
 | com.squareup.okio:okio | 3.6.0 | The Apache Software License, Version 2.0 |
 | com.tom-roush:pdfbox-android | 2.0.27.0 | The Apache Software License, Version 2.0 |
 | org.eclipse.jgit:org.eclipse.jgit | 5.13.3.202401111512-r | Eclipse Distribution License (New BSD License) |
+| org.jetbrains.kotlin:kotlin-bom | 1.8.0 | The Apache Software License, Version 2.0 |
 | org.jetbrains.kotlin:kotlin-stdlib-common | 2.2.21 | Apache-2.0 |
 | org.jetbrains.kotlin:kotlin-stdlib-jdk7 | 1.9.10 | The Apache License, Version 2.0 |
 | org.jetbrains.kotlin:kotlin-stdlib-jdk8 | 1.9.10 | The Apache License, Version 2.0 |
@@ -148,7 +163,7 @@ Généré par `./gradlew cortanaSbom` à partir des POM Maven (application : cla
 | org.jspecify:jspecify | 1.0.0 | The Apache License, Version 2.0 |
 | org.slf4j:slf4j-api | 1.7.30 | MIT License |
 
-143 composants ; sans licence déclarée : 0.
+158 composants ; sans licence déclarée : 0.
 
 ## Ressources embarquées hors Maven (design « Cortana Workspace »)
 
