@@ -161,6 +161,8 @@ class AppContainer(val context: Context) {
         privacyLocalOnly = { settings.current.privacyMode == io.github.artisanguillonrenov.cortana.core.model.ModelGateway.PRIVACY_LOCAL_ONLY },
     )
     val web = WebExecutor(http, settings) { secrets.get(it) }
+    /** Pictures of web results in the conversation (guarded web client, https, bounded disk cache). */
+    val remoteImages = io.github.artisanguillonrenov.cortana.core.media.RemoteImages(web.client, java.io.File(context.cacheDir, "web-media"))
     val files = FileExecutor(context, settings)
     val system = SystemExecutor(context, settings, uiClassifier)
 

@@ -1,5 +1,7 @@
 package io.github.artisanguillonrenov.cortana.executors.web
 
+import io.github.artisanguillonrenov.cortana.core.chat.WebResultItem
+import io.github.artisanguillonrenov.cortana.core.chat.WebResults
 import io.github.artisanguillonrenov.cortana.core.memory.SettingsRepository
 import io.github.artisanguillonrenov.cortana.core.model.await
 import io.github.artisanguillonrenov.cortana.core.policy.DataEgress
@@ -13,7 +15,10 @@ import io.github.artisanguillonrenov.cortana.core.tools.ToolResult
 import io.github.artisanguillonrenov.cortana.util.AppJson
 import io.github.artisanguillonrenov.cortana.util.int
 import io.github.artisanguillonrenov.cortana.util.str
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -157,12 +162,36 @@ object HtmlText {
         }.distinctBy { it.second }.take(max).toList()
 }
 
-data class SearchHit(val title: String, val url: String, val snippet: String)
+data class SearchHit(val title: String, val url: String, val snippet: String, val thumbnailUrl: String? = null, val source: String? = null)
 
 interface SearchProvider {
     val name: String
     suspend fun search(query: String, count: Int): List<SearchHit>
+    /** Images (mode "images"); a provider without an image search says so. */
+    suspend fun images(query: String, count: Int): List<WebResultItem> = throw UnsupportedOperationException("$name ne fournit pas de recherche d'images")
+    /** Videos (mode "videos"). */
+    suspend fun videos(query: String, count: Int): List<WebResultItem> = throw UnsupportedOperationException("$name ne fournit pas de recherche de vidéos")
+
+    /** One search in [mode] (web | images | videos | mixed), as unvalidated rich results. */
+    suspend fun rich(query: String, mode: String, count: Int): List<WebResultItem> = when (mode) {
+        "images" -> images(query, count)
+        "videos" -> videos(query, count)
+        "mixed" -> {
+            // The page results come first; a media search that fails only leaves its part out.
+            val web = search(query, count).map { it.toItem(name) }
+            web + runCatching { images(query, minOf(count, 8)) }.getOrDefault(emptyList()) + runCatching { videos(query, minOf(count, 4)) }.getOrDefault(emptyList())
+        }
+        else -> search(query, count).map { it.toItem(name) }
+    }
 }
+
+fun SearchHit.toItem(provider: String) = WebResultItem(WebResults.WEB, title, url, source, thumbnailUrl, null, snippet, provider = provider)
+
+/** Small JSON helpers for search API responses (missing or mistyped fields are null). */
+private fun JsonObject.s(k: String): String? = (this[k] as? JsonPrimitive)?.contentOrNull?.takeIf { it.isNotBlank() }
+private fun JsonObject.o(k: String): JsonObject? = this[k] as? JsonObject
+private fun JsonObject.i(k: String): Int? = (this[k] as? JsonPrimitive)?.contentOrNull?.toDoubleOrNull()?.toInt()
+private fun JsonObject.a(k: String): List<JsonObject> = (this[k] as? JsonArray)?.mapNotNull { it as? JsonObject }.orEmpty()
 
 class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsRepository, private val secret: (String?) -> String?) {
     private val ua = "Mozilla/5.0 (Linux; Android 15; SM-X130) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Mobile Safari/537.36 Cortana/1.2"
@@ -250,6 +279,31 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
                 SearchHit(HtmlText.decodeEntities(m.groupValues[2].replace(Regex("<[^>]+>"), "")).trim(), href, snippets.getOrElse(i) { "" })
             }.filter { !it.url.contains("duckduckgo.com/y.js") }.take(count).toList()
         }
+
+        private suspend fun vqd(query: String): String {
+            val url = "https://duckduckgo.com/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).build()
+            val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { it.body?.string().orEmpty() }
+            return Regex("vqd=[\"']?([0-9-]+)").find(html)?.groupValues?.get(1) ?: throw IllegalStateException("jeton DuckDuckGo introuvable")
+        }
+
+        private suspend fun json(path: String, query: String): List<JsonObject> {
+            val url = "https://duckduckgo.com/$path".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("l", "fr-fr").addQueryParameter("o", "json")
+                .addQueryParameter("q", query).addQueryParameter("vqd", vqd(query)).addQueryParameter("p", "1").build()
+            val body = client.newCall(Request.Builder().url(url).header("User-Agent", ua).header("Referer", "https://duckduckgo.com/").get().build()).await()
+                .use { if (!it.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${it.code}"); it.body?.string().orEmpty() }
+            return AppJson.parseToJsonElement(body).jsonObject.a("results")
+        }
+
+        override suspend fun images(query: String, count: Int): List<WebResultItem> = json("i.js", query).mapNotNull { o ->
+            WebResultItem(WebResults.IMAGE, o.s("title").orEmpty(), o.s("url") ?: return@mapNotNull null, o.s("source"), o.s("thumbnail"), o.s("image"),
+                null, o.i("width"), o.i("height"), provider = name)
+        }.take(count)
+
+        override suspend fun videos(query: String, count: Int): List<WebResultItem> = json("v.js", query).mapNotNull { o ->
+            val img = o.o("images")
+            WebResultItem(WebResults.VIDEO, o.s("title").orEmpty(), o.s("content") ?: return@mapNotNull null, o.s("publisher") ?: o.s("provider"),
+                img?.s("medium") ?: img?.s("large") ?: img?.s("small"), null, o.s("description"), durationSeconds = WebResults.parseDuration(o.s("duration")), provider = name)
+        }.take(count)
     }
 
     private class BraveSearch(private val client: OkHttpClient, private val key: String?) : SearchProvider {
@@ -267,9 +321,31 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
                     HtmlText.decodeEntities((o["title"] as? JsonPrimitive)?.contentOrNull.orEmpty()),
                     (o["url"] as? JsonPrimitive)?.contentOrNull ?: return@mapNotNull null,
                     HtmlText.decodeEntities((o["description"] as? JsonPrimitive)?.contentOrNull.orEmpty().replace(Regex("<[^>]+>"), "")),
+                    o.o("thumbnail")?.s("src"), o.o("profile")?.s("name") ?: o.o("meta_url")?.s("hostname"),
                 )
             }.take(count)
         }
+
+        private suspend fun api(kind: String, query: String, count: Int): List<JsonObject> {
+            if (key.isNullOrBlank()) throw IllegalStateException("Clé Brave Search manquante (Réglages → Recherche web)")
+            val url = "https://api.search.brave.com/res/v1/$kind/search".toHttpUrlOrNull()!!.newBuilder()
+                .addQueryParameter("q", query).addQueryParameter("count", count.toString()).addQueryParameter("search_lang", "fr").build()
+            val body = client.newCall(Request.Builder().url(url).header("Accept", "application/json").header("X-Subscription-Token", key).get().build())
+                .await().use { if (!it.isSuccessful) throw IllegalStateException("Brave HTTP ${it.code}"); it.body?.string().orEmpty() }
+            return AppJson.parseToJsonElement(body).jsonObject.a("results")
+        }
+
+        override suspend fun images(query: String, count: Int): List<WebResultItem> = api("images", query, count).mapNotNull { o ->
+            val props = o.o("properties"); val thumb = o.o("thumbnail")
+            WebResultItem(WebResults.IMAGE, o.s("title").orEmpty(), o.s("url") ?: return@mapNotNull null, o.s("source"), thumb?.s("src"), props?.s("url"),
+                null, props?.i("width") ?: thumb?.i("width"), props?.i("height") ?: thumb?.i("height"), provider = name)
+        }.take(count)
+
+        override suspend fun videos(query: String, count: Int): List<WebResultItem> = api("videos", query, count).mapNotNull { o ->
+            val v = o.o("video")
+            WebResultItem(WebResults.VIDEO, o.s("title").orEmpty(), o.s("url") ?: return@mapNotNull null, v?.s("creator") ?: v?.s("publisher") ?: o.o("meta_url")?.s("hostname"),
+                o.o("thumbnail")?.s("src"), null, o.s("description"), durationSeconds = WebResults.parseDuration(v?.s("duration")), provider = name)
+        }.take(count)
     }
 
     private class SearxngSearch(private val client: OkHttpClient, private val base: String) : SearchProvider {
@@ -282,26 +358,53 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
             val results = AppJson.parseToJsonElement(body).jsonObject["results"] as? JsonArray ?: return emptyList()
             return results.mapNotNull { e ->
                 val o = e as? JsonObject ?: return@mapNotNull null
-                SearchHit((o["title"] as? JsonPrimitive)?.contentOrNull.orEmpty(), (o["url"] as? JsonPrimitive)?.contentOrNull ?: return@mapNotNull null, (o["content"] as? JsonPrimitive)?.contentOrNull.orEmpty())
+                SearchHit((o["title"] as? JsonPrimitive)?.contentOrNull.orEmpty(), (o["url"] as? JsonPrimitive)?.contentOrNull ?: return@mapNotNull null, (o["content"] as? JsonPrimitive)?.contentOrNull.orEmpty(),
+                    o.s("thumbnail") ?: o.s("img_src"), null)
             }.take(count)
         }
+
+        private suspend fun category(category: String, query: String): List<JsonObject> {
+            val url = ("${base.trimEnd('/')}/search").toHttpUrlOrNull()?.newBuilder()
+                ?.addQueryParameter("q", query)?.addQueryParameter("format", "json")?.addQueryParameter("language", "fr")?.addQueryParameter("categories", category)?.build()
+                ?: throw IllegalStateException("Adresse SearXNG invalide (Réglages → Recherche web)")
+            val body = client.newCall(Request.Builder().url(url).get().build()).await().use { it.body?.string().orEmpty() }
+            return AppJson.parseToJsonElement(body).jsonObject.a("results")
+        }
+
+        override suspend fun images(query: String, count: Int): List<WebResultItem> = category("images", query).mapNotNull { o ->
+            val res = o.s("resolution")?.split(Regex("\\s*[x×]\\s*"))?.mapNotNull { it.trim().toIntOrNull() }
+            WebResultItem(WebResults.IMAGE, o.s("title").orEmpty(), o.s("url") ?: return@mapNotNull null, o.s("source") ?: o.s("engine"),
+                o.s("thumbnail_src") ?: o.s("thumbnail"), o.s("img_src"), o.s("content"), res?.getOrNull(0), res?.getOrNull(1), provider = name)
+        }.take(count)
+
+        override suspend fun videos(query: String, count: Int): List<WebResultItem> = category("videos", query).mapNotNull { o ->
+            WebResultItem(WebResults.VIDEO, o.s("title").orEmpty(), o.s("url") ?: return@mapNotNull null, o.s("author") ?: o.s("engine"),
+                o.s("thumbnail"), o.s("video_src"), o.s("content"), durationSeconds = WebResults.parseDuration(o.s("length") ?: o.s("duration")), provider = name)
+        }.take(count)
     }
 
     fun tools(): List<ToolDefinition> = listOf(
         ToolDefinition(
             capability = "web.search",
-            description = "Recherche sur le web. Renvoie titres, URL et extraits (contenu non fiable).",
-            inputSchema = S.obj("query" to S.str("Requête de recherche"), "count" to S.int("Nombre de résultats (1-10)", 1, 10), required = listOf("query")),
+            description = "Recherche sur le web (contenu non fiable). mode=web (défaut) : pages avec titre, URL et extrait ; images : photos ; videos : vidéos ; " +
+                "mixed : pages, images et vidéos. Les images, vidéos et cartes trouvées s'affichent d'elles-mêmes dans ta réponse : choisis images, videos ou mixed " +
+                "seulement quand un visuel aide vraiment (voir un lieu, un objet, un geste, un tutoriel), sinon web.",
+            inputSchema = S.obj("query" to S.str("Requête de recherche"), "count" to S.int("Nombre de résultats (1-10)", 1, 10),
+                "mode" to S.str("Type de résultats", WebResults.MODES), required = listOf("query")),
             baseRisk = Risk.L1, sideEffect = SideEffect.NONE, idempotency = Idempotency.INTRINSIC, dataEgress = DataEgress.EXTERNAL,
             category = ToolCategory.WEB, label = "Recherche web",
             destinationOf = { "moteur de recherche" },
             tags = listOf("chercher", "internet", "google", "actualités", "météo", "informations", "trouver"),
         ) { args, _ ->
             val q = args.str("query").orEmpty()
+            val mode = args.str("mode")?.takeIf { it in WebResults.MODES } ?: "web"
             val p = searchProvider()
-            val hits = runCatching { p.search(q, args.int("count") ?: 6) }.getOrElse { return@ToolDefinition ToolResult.error("Recherche impossible (${p.name}) : ${it.message}") }
-            if (hits.isEmpty()) return@ToolDefinition ToolResult.ok("Aucun résultat pour « $q » (${p.name}).", "web.search")
-            ToolResult.ok(hits.mapIndexed { i, h -> "${i + 1}. ${h.title}\n   ${h.url}\n   ${h.snippet}" }.joinToString("\n"), "web.search:${p.name}")
+            val raw = runCatching { p.rich(q, mode, args.int("count") ?: 6) }.getOrElse { return@ToolDefinition ToolResult.error("Recherche impossible (${p.name}) : ${it.message}") }
+            // Validated here and again when stored: nothing unsafe reaches the conversation.
+            val items = WebResults.sanitize(raw)
+            if (items.isEmpty()) return@ToolDefinition ToolResult.ok("Aucun résultat pour « $q » (${p.name}).", "web.search")
+            ToolResult(true, WebResults.forModel(q, p.name, mode, items), "web.search:${p.name}",
+                data = buildJsonObject { put(WebResults.DATA_KEY, AppJson.encodeToJsonElement(ListSerializer(WebResultItem.serializer()), items)) })
         },
         ToolDefinition(
             capability = "web.fetch",

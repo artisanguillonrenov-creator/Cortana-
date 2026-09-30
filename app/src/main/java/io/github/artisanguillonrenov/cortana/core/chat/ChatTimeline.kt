@@ -134,6 +134,7 @@ object ChatTimeline {
         val first = rows.first()
         val parts = mutableListOf<MessagePart>()
         val sources = mutableListOf<Source>()
+        val web = mutableListOf<WebResultItem>()
         val text = StringBuilder()
         var status = MessageStatus.COMPLETE
         var meta = MessageMeta()
@@ -159,6 +160,8 @@ object ChatTimeline {
                     val detail = Envelopes.unwrap(m.text)
                     parts += MessagePart.ToolResult(cap, label(cap), ok, summarize(cap, ok, detail), detail.take(20_000), kindOf(cap))
                     if (ok) sources += Sources.from(cap, call?.arguments, detail, sources.size)
+                    // Stored validated, validated again on display (a row written by an older version, or edited).
+                    if (ok && cap == "web.search") web += WebResults.sanitize(mm.webResults)
                 }
             }
         }
@@ -167,6 +170,8 @@ object ChatTimeline {
         val all = buildList {
             addAll(parts)
             if (text.isNotEmpty() || status == MessageStatus.STREAMING) add(body)
+            val rich = web.distinctBy { it.type + "|" + (it.mediaUrl ?: it.url) }.take(WebResults.MAX_ITEMS)
+            if (rich.isNotEmpty()) add(MessagePart.WebResults(rich))
             if (sources.isNotEmpty()) add(MessagePart.Citations(sources))
             when (status) {
                 MessageStatus.STOPPED -> add(MessagePart.SystemEvent("stopped", "Réponse arrêtée."))

@@ -327,6 +327,8 @@ fun PartView(p: MessagePart, prefs: ChatPrefs, actions: TimelineActions, color: 
         is MessagePart.ToolCall -> SystemLine("tool", "${p.label} : ${p.argsSummary}")
         is MessagePart.ToolResult -> ToolGroup(listOf(p))
         is MessagePart.Council -> CouncilPart(p)
+        // Images, videos and page cards: typed views, links opened through the sanitised link action.
+        is MessagePart.WebResults -> io.github.artisanguillonrenov.cortana.ui.components.WebResultsView(p.items, onOpen = actions.render.openLink)
     }
 }
 

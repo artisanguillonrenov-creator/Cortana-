@@ -485,7 +485,22 @@ class StepRunner(
             put("capability", def?.capability ?: call.name)
             put("ok", result.ok)
         }.toString()
-        conversations.addMessage(tr.session.id, Roles.TOOL, text, taskId = tr.taskId, toolCallsJson = meta)
+        conversations.addMessage(tr.session.id, Roles.TOOL, text, taskId = tr.taskId, toolCallsJson = meta, metaJson = webResultsMeta(result, def))
+    }
+
+    /**
+     * Rich results of a successful `web.search` (images, videos, page cards) are kept with its tool row, so the
+     * conversation shows them again after a restart. Only that capability may produce them, and they are
+     * validated again here: external, untrusted data, displayed by typed views only.
+     */
+    private fun webResultsMeta(result: ToolResult, def: ToolDefinition?): String? {
+        if (!result.ok || def?.capability != "web.search") return null
+        val raw = (result.data as? kotlinx.serialization.json.JsonObject)?.get(io.github.artisanguillonrenov.cortana.core.chat.WebResults.DATA_KEY) ?: return null
+        val items = runCatching {
+            AppJson.decodeFromJsonElement(ListSerializer(io.github.artisanguillonrenov.cortana.core.chat.WebResultItem.serializer()), raw)
+        }.getOrNull() ?: return null
+        val safe = io.github.artisanguillonrenov.cortana.core.chat.WebResults.sanitize(items).takeIf { it.isNotEmpty() } ?: return null
+        return AppJson.encodeToString(io.github.artisanguillonrenov.cortana.core.chat.MessageMeta.serializer(), io.github.artisanguillonrenov.cortana.core.chat.MessageMeta(webResults = safe))
     }
 }
 

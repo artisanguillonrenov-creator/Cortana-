@@ -31,7 +31,12 @@ class MainActivity : FragmentActivity() {
         setContent {
             val settings by container.settings.state.collectAsState()
             CortanaTheme(highContrast = settings.chat.theme == "contrast", reduceMotion = settings.chat.reduceMotion, devMode = settings.chat.developer) {
-                CompositionLocalProvider(LocalContainer provides container, LocalResumeAutonomy provides ::resumeAutonomy) {
+                CompositionLocalProvider(
+                    LocalContainer provides container, LocalResumeAutonomy provides ::resumeAutonomy,
+                    // Web results in the conversation: pictures and inline video through the guarded web client only.
+                    io.github.artisanguillonrenov.cortana.ui.components.LocalWebMedia provides
+                        io.github.artisanguillonrenov.cortana.ui.components.WebMediaAccess(container.remoteImages, container.web.client),
+                ) {
                     AppNav(startOnboarding, openSession.value, onSessionConsumed = { openSession.value = null })
                 }
             }

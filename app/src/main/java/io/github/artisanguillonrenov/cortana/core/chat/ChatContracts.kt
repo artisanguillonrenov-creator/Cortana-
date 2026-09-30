@@ -69,6 +69,8 @@ data class MessageMeta(
     val event: String? = null,
     /** Artifacts this message produced or references. */
     val artifactIds: List<String> = emptyList(),
+    /** Rich web results (images, videos, page cards) a `web.search` row returned — untrusted, validated data. */
+    val webResults: List<WebResultItem> = emptyList(),
 )
 
 /** Per-conversation choices (`sessions.settingsJson`). */
@@ -234,4 +236,6 @@ sealed interface MessagePart {
     data class Error(val message: String, val detail: String? = null, val kind: String = "error") : MessagePart
     data class SystemEvent(val kind: String, val text: String) : MessagePart
     data class Council(val runId: String, val summaryJson: String) : MessagePart
+    /** Images, videos and page cards from web searches of the turn (external content, typed views only). */
+    data class WebResults(val items: List<WebResultItem>) : MessagePart
 }
