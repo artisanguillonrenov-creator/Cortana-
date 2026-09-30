@@ -22,6 +22,28 @@ class RepeatedCallGuardTest {
         assertEquals(Verdict.BLOCK_STOP, g.check("repo.push", push).verdict)
     }
 
+    @Test fun blocksAreCountedPerCallNotAcrossDifferentCalls() {
+        val g = RepeatedCallGuard()
+        val fetch = "repo.fetch|{\"workspace\":\"calc\"}"
+        g.record("repo.push", push, ok = false, stateChanged = false, ownerRefused = false)
+        assertEquals(Verdict.BLOCK_INFORM, g.check("repo.push", push).verdict)
+        g.record("repo.fetch", fetch, ok = false, stateChanged = false, ownerRefused = false)
+        // B's first blocked repetition only informs, even though A was already blocked once.
+        assertEquals(Verdict.BLOCK_INFORM, g.check("repo.fetch", fetch).verdict)
+        // Each call stops on its own second blocked repetition.
+        assertEquals(Verdict.BLOCK_STOP, g.check("repo.fetch", fetch).verdict)
+        assertEquals(Verdict.BLOCK_STOP, g.check("repo.push", push).verdict)
+    }
+
+    @Test fun aRefusalAndAnUnrelatedFailureAreCountedSeparately() {
+        val g = RepeatedCallGuard()
+        g.record("repo.push", push, ok = false, stateChanged = false, ownerRefused = true)
+        assertEquals(Verdict.BLOCK_INFORM, g.check("repo.push", push).verdict)
+        g.record("test.run", tests, ok = false, stateChanged = false, ownerRefused = false)
+        assertEquals(Verdict.BLOCK_INFORM, g.check("test.run", tests).verdict)
+        assertEquals(Verdict.BLOCK_STOP, g.check("repo.push", "repo.push|{\"branch\":\"x\",\"workspace\":\"calc\"}").verdict)
+    }
+
     @Test fun differentArgumentsAreANewCall() {
         val g = RepeatedCallGuard()
         g.record("repo.push", push, ok = false, stateChanged = false, ownerRefused = false)
