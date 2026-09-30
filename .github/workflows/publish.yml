@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc6 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc6
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc6"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc6 on main (f603e0c)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc6 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target f603e0c7b30cf8c9a1ab33bcab4c778cd279cc78 \
+            --title "Cortana 2.0.0-rc6" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc6-arm64-v8a.apk cortana-2.0.0-rc6-universal.apk cortana-update.json
