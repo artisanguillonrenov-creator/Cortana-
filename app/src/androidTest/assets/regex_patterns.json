@@ -2191,6 +2191,12 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "\"vqd\"\\s*:\\s*\"([0-9]+-[0-9-]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
   "pattern": "&#(\\d+);",
   "flags": 0,
   "kind": "static"
@@ -2287,7 +2293,13 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
-  "pattern": "vqd=[\"']?([0-9-]+)",
+  "pattern": "vqd=[\"']?([0-9-]{6,})",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "vqd=[\"']?([0-9]+-[0-9-]+)",
   "flags": 0,
   "kind": "static"
  },
