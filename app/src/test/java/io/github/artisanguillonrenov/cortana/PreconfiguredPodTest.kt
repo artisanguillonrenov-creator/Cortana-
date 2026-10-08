@@ -99,4 +99,12 @@ class PreconfiguredPodTest : CortanaTestBase() {
         assertFalse(caps.nativeTools)
         assertEquals(24576, caps.contextWindow)
     }
+
+    @Test fun routesTheOwnerAlreadyChoseAreKept() = runBlocking {
+        val mine = c.providers.create(c.presets.byId("custom")!!, "Mon serveur de code", "https://code.example/v1", null)
+        c.settings.update { it.copy(preconfiguredPodVersion = 1, codingRoute = "${mine.id}/mon-codeur", visionRoute = "disparu/x") }
+        val r = PreconfiguredPod(c.providers, c.settings).apply()!!
+        assertEquals("${mine.id}/mon-codeur", c.settings.current.codingRoute)
+        assertEquals("a route towards a deleted provider is replaced", "${r.codeVisionProviderId}/qwen3.6-27b", c.settings.current.visionRoute)
+    }
 }

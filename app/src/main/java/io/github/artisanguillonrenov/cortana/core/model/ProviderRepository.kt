@@ -174,4 +174,12 @@ class ProviderRepository(
     }
 
     fun cachedModels(id: String): List<ModelDescriptor> = modelCache[id] ?: emptyList()
+
+    /** On-demand connection check with an actionable diagnosis (no generation, no pod start). */
+    suspend fun diagnose(id: String): ProviderHealthCheck.Diagnosis {
+        val e = dao.get(id) ?: return ProviderHealthCheck.Diagnosis(ProviderHealthCheck.Kind.ADDRESS, "Fournisseur introuvable.")
+        val d = ProviderHealthCheck.run(e, providerFor(e))
+        if (d.models.isNotEmpty()) { modelCache[id] = d.models; _models.value = _models.value + (id to d.models) }
+        return d
+    }
 }

@@ -17,7 +17,7 @@ import io.github.artisanguillonrenov.cortana.core.memory.SettingsRepository
  * (or reused when the same address already exists) and the routes of that step are set. Nothing
  * else changes: other providers, conversations locked to their model and every policy stay as they
  * were, and whatever the owner changes afterwards (deleting a provider, another route) is never
- * undone. Only configuration: no network call here.
+ * undone; a coding or vision route the owner had already chosen is kept. Only configuration: no network call here.
  */
 class PreconfiguredPod(private val providers: ProviderRepository, private val settings: SettingsRepository, private val onEmbeddingsChanged: () -> Unit = {}) {
     /** What this run configured; a provider id is null when its step was already applied. */
@@ -31,8 +31,10 @@ class PreconfiguredPod(private val providers: ProviderRepository, private val se
         val preset = providers.presets.byId("custom") ?: providers.presets.all.first()
         fun same(a: String, b: String) = a.trim().trimEnd('/').equals(b.trimEnd('/'), ignoreCase = true)
         suspend fun provider(name: String, baseUrl: String, model: String): ProviderEntity {
-            val p = all.firstOrNull { same(it.baseUrl, baseUrl) } ?: providers.create(preset, name, baseUrl, null)
-            providers.update(p.copy(enabled = true, defaultModelId = model), null)
+            val existing = all.firstOrNull { same(it.baseUrl, baseUrl) }
+            val p = existing ?: providers.create(preset, name, baseUrl, null)
+            // A provider the owner already had for this address keeps the model they chose.
+            providers.update(p.copy(enabled = true, defaultModelId = existing?.defaultModelId ?: model), null)
             return p
         }
         var chat: ProviderEntity? = null
@@ -48,7 +50,10 @@ class PreconfiguredPod(private val providers: ProviderRepository, private val se
                 s = s.copy(defaultProviderId = chat.id, imageRoute = "${media.id}/$IMAGE_MODEL", embeddingRoute = "${media.id}/$EMBEDDING_MODEL")
             }
             if (codeVision != null) {
-                s = s.copy(codingRoute = "${codeVision.id}/$CODE_VISION_MODEL", visionRoute = "${codeVision.id}/$CODE_VISION_MODEL")
+                // Routes the owner already chose (towards a provider that still exists) are kept.
+                fun custom(r: String?) = r != null && all.any { p -> p.id == r.substringBefore('/') }
+                val route = "${codeVision.id}/$CODE_VISION_MODEL"
+                s = s.copy(codingRoute = if (custom(s.codingRoute)) s.codingRoute else route, visionRoute = if (custom(s.visionRoute)) s.visionRoute else route)
             }
             s
         }

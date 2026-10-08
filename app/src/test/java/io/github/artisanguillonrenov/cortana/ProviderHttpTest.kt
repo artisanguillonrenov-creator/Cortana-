@@ -82,4 +82,38 @@ class ProviderHttpTest {
         val events = provider().chatStream(ModelRequest("m", listOf(ChatMessage("user", "x")))).toList()
         assertEquals("ok", events.filterIsInstance<ModelStreamEvent.TextDelta>().single().text)
     }
+
+    @Test fun theLoraModuleIsSentOnlyByTheElyndorCloudPreset() {
+        val presets = AppJson.parseToJsonElement(java.io.File("src/main/assets/configs/providers.json").readText()).jsonObject["presets"]!!.jsonArray.map { it.jsonObject }
+        val withExtra = presets.filter { (it["quirks"] as? kotlinx.serialization.json.JsonObject)?.containsKey("extraBody") == true }.map { it["id"]!!.jsonPrimitive.content }
+        assertEquals(listOf("elyndor-cloud"), withExtra)
+        // A provider at the same address but from another preset (the preconfigured pods use "custom") sends none.
+        val custom = presets.single { it["id"]!!.jsonPrimitive.content == "custom" }
+        val body = provider(ProviderQuirks.parse(custom["quirks"].toString())).buildBody(ModelRequest("cydonia-24b-elyndor", emptyList()))
+        assertTrue(body.toString(), !body.containsKey("lora"))
+    }
+
+    @Test fun theConnectionCheckTellsWhatToDo() = runBlocking {
+        fun entity(url: String, model: String? = "m1") = io.github.artisanguillonrenov.cortana.core.memory.ProviderEntity("p", "P", "custom", url, null, null, true, 0, true, model, createdAt = 0)
+        val check = io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck
+        suspend fun run(r: MockResponse, model: String? = "m1", pod: Boolean = false): io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Diagnosis {
+            server.enqueue(r)
+            // The pod address form is recognised from the configured base URL; requests still go to the local server.
+            return check.run(entity(if (pod) "https://abc123-8000.proxy.runpod.net/v1" else server.url("/v1").toString(), model), provider())
+        }
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.OK, run(MockResponse().setBody("""{"data":[{"id":"m1"}]}""")).kind)
+        val missing = run(MockResponse().setBody("""{"data":[{"id":"autre"}]}"""))
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.MODEL_MISSING, missing.kind); assertTrue(missing.message.contains("autre"))
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.AUTH, run(MockResponse().setResponseCode(401).setBody("""{"error":"bad key"}""")).kind)
+        val gone = run(MockResponse().setResponseCode(404).setBody("not found"), pod = true)
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.ADDRESS, gone.kind); assertTrue(gone.message.contains("nouvelle adresse"))
+        val stopped = run(MockResponse().setResponseCode(502).setBody("bad gateway"), pod = true)
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.POD_STOPPED, stopped.kind); assertTrue(stopped.message.contains("console RunPod"))
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.BUSY, run(MockResponse().setResponseCode(503).setBody("""{"error":{"message":"Loading model"}}""")).kind)
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.SERVER, run(MockResponse().setResponseCode(500).setBody("boom")).kind)
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.ADDRESS, check.classify(java.net.UnknownHostException("abc.proxy.runpod.net"), pod = true).kind)
+        assertEquals(io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.TIMEOUT, check.classify(java.net.SocketTimeoutException("read timed out"), pod = false).kind)
+        assertTrue(check.isRunPodProxy("https://dfq6g338899rau-8080.proxy.runpod.net/v1"))
+        assertTrue(!check.isRunPodProxy("https://api.openai.com/v1"))
+    }
 }

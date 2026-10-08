@@ -249,9 +249,13 @@ fun ProviderEditScreen(providerId: String?, presetId: String?, onBack: () -> Uni
                             testing = true; status = "Test en cours…"
                             val e = save()
                             if (e != null) {
-                                runCatching { c.providers.listModels(e.id, refresh = true) }
-                                    .onSuccess { models = it; status = "✓ Connexion réussie — ${it.size} modèles disponibles. Choisissez-en un ci-dessous." }
-                                    .onFailure { status = "✗ ${it.message}" }
+                                val d = c.providers.diagnose(e.id)
+                                if (d.models.isNotEmpty()) models = d.models
+                                status = when {
+                                    d.ok -> "✓ ${d.message} Choisissez-en un ci-dessous."
+                                    d.kind == io.github.artisanguillonrenov.cortana.core.model.ProviderHealthCheck.Kind.MODEL_MISSING -> "⚠ ${d.message}"
+                                    else -> "✗ ${d.message}"
+                                }
                             }
                             testing = false
                         }
@@ -259,7 +263,7 @@ fun ProviderEditScreen(providerId: String?, presetId: String?, onBack: () -> Uni
                     OutlinedButton(onClick = { scope.launch { if (save() != null) { status = "Enregistré"; onBack() } } }) { Text("Enregistrer") }
                     if (testing) CircularProgressIndicator()
                 }
-                status?.let { Text(it, color = if (it.startsWith("✗") || it.contains("invalide")) MaterialTheme.colorScheme.error else Cortana.colors.successText) }
+                status?.let { Text(it, color = if (it.startsWith("✗") || it.startsWith("⚠") || it.contains("invalide")) MaterialTheme.colorScheme.error else Cortana.colors.successText) }
 
                 entity?.let { e ->
                     SectionCard("Modèle par défaut de ce fournisseur") {

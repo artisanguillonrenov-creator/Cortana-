@@ -362,6 +362,8 @@ class OpenAiCompatibleProvider(
             401, 403 -> "Clé refusée par le fournisseur (HTTP $code) : $msg"
             404 -> "Point d'accès ou modèle introuvable (HTTP 404) : $msg"
             429 -> "Trop de requêtes ou quota atteint (HTTP 429) : $msg"
+            502, 504 -> "Serveur injoignable derrière la passerelle (HTTP $code) : serveur ou pod arrêté, ou en démarrage"
+            503 -> "Serveur momentanément indisponible (HTTP 503) : modèle en cours de chargement ou serveur occupé"
             else -> "Erreur du fournisseur (HTTP $code) : $msg"
         }
         // Retry-After in seconds (the HTTP-date form is rare for model APIs and is ignored).
