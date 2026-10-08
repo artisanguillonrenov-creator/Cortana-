@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc11 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc11
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc11"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc11 on release/rc11 (f71dcb9)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc11 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target f71dcb926995e1ffc2df422f0658de5afc1e1d1b \
+            --title "Cortana 2.0.0-rc11" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc11-arm64-v8a.apk cortana-2.0.0-rc11-universal.apk cortana-update.json SHA256SUMS
