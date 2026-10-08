@@ -638,6 +638,38 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Appels réels à api.github.com depuis la tablette, `lintDebug` : non exécutés.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 18. Rapport de la version candidate 2.0.0-rc11 (08/10/2026)
+
+**Contenu** : chantier de stabilisation (voir `docs/RAPPORT_CHANTIER_CORTANA.md`) : images web affichées dans la réponse (`ImageIntent`, raccourci `web.images`, mode `images` imposé pour une demande explicite, génération exclue), images produites typées (`MessageMeta.images`, `ProducedImages`), écran classique enrichi, DuckDuckGo fiabilisé, diagnostic des fournisseurs (`ProviderHealthCheck`), routes du propriétaire conservées, clé jamais envoyée en clair vers Internet, préréglage Elyndor Cloud repris de `main`, CI sur `main` et les PR avec lint.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 18.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc11-arm64-v8a.apk` (Galaxy Tab A11) | 59 864 613 o | `8c1ebb2222aa0142b1e6f956be5e49704871e06cfa6e5332f385caa479883437` |
+| `cortana-2.0.0-rc11-universal.apk` (secours) | 81 299 920 o | `29fe3015deac02d2ed4c4f9b2edb28933226ad9cd8667c159f12d9e141283b81` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `896dc00c173cbbd8a62f2cb6ac7ea412b5e6e8fc87797f05c2779594ecb28a85` |
+
+### 18.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **12**, versionName **2.0.0-rc11**, non débogable ; ABI `arm64-v8a` (APK tablette) et les quatre ABI (APK universel).
+- `apksigner verify --verbose --print-certs` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc10).
+
+### 18.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc11 (`:contracts:test :worker:test :app:testDebugUnitTest`) | **508 tests, 0 échec, 0 ignoré** (app 495, worker 8, contrats 5), dont 13 nouveaux (`ImageSearchTest` 8, `ProviderHttpTest` 4 dont 1 repris de `main`, `PreconfiguredPodTest` 1) ; `ReleaseTest` vert |
+| `./gradlew :app:lintDebug` | **0 erreur**, 93 avertissements, 8 suggestions |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 414 expressions compilées, 0 refusée |
+
+### 18.4 Non exécuté, gates
+
+- Aucun test sur la Galaxy Tab A11 (aucun appareil connecté) : affichage réel des images, installation par-dessus la rc10.
+- Recherches réelles DuckDuckGo/Brave (tests sur serveurs simulés).
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -652,6 +684,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc8 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc9 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc10 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc11 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).

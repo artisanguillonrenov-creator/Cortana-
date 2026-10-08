@@ -1,5 +1,25 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc11 (versionCode 12) — Images dans la conversation, fournisseurs fiables
+
+S'installe par-dessus la **2.0.0-rc10** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration, conversations, réglages, mémoire et fichiers conservés.
+
+### Corrigé
+- **« Trouve-moi une photo de… sur Internet »** affiche directement les images trouvées dans la réponse (galerie, agrandissement, source), sans passer par le modèle, et encore après réouverture de la discussion. Fonctionne aussi pour « montre-moi des images de… » et les vidéos.
+- Une recherche d'images n'est **jamais** remplacée par une image générée, et une demande de génération ne lance pas de recherche.
+- **Images générées, retouchées ou transformées** par Cortana : affichées comme des images dans la conversation (plus seulement « artefact <id> »). Les images que vous envoyez s'affichent en vignette.
+- **Écran classique** : il affiche maintenant les images et vidéos trouvées sur le web et les images produites, comme l'écran Workspace.
+- **DuckDuckGo** : nouvel essai automatique et messages clairs quand il limite les recherches ou change de format.
+- En mode « Discussion » (sans outils), une recherche d'images explique comment réactiver les outils au lieu de répondre à côté.
+
+### Nouveau
+- **« Tester la connexion »** d'un fournisseur distingue : adresse obsolète, pod RunPod arrêté, clé refusée, modèle absent, serveur occupé ou en chargement, erreur serveur, délai dépassé — avec la marche à suivre.
+- Préréglage **Elyndor Cloud (RTX 5090)** (module LoRA agent), repris de `main`. La LoRA n'est envoyée que par ce préréglage.
+
+### Sécurité
+- Une clé de fournisseur n'est **jamais envoyée en clair** (http://) vers Internet ; le réseau local reste possible en http.
+- La préconfiguration des pods ne remplace plus un modèle de code ou de vision que vous aviez déjà choisi.
+
 ## 2.0.0-rc10 (versionCode 11) — Outils GitHub en ligne et méthode de travail
 
 S'installe par-dessus la **2.0.0-rc9** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
