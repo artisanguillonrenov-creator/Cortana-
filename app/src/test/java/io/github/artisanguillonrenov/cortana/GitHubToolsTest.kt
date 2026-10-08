@@ -134,8 +134,14 @@ class GitHubToolsTest : CortanaTestBase() {
             .all { c.registry.byCapability(it) != null })
         val def = c.registry.byCapability("github.tree")!!
         assertEquals(ToolFamilies.GIT, ToolFamilies.of(def.capability, def.category))
+        val pool = c.registry.all()
+        fun offered(text: String) = io.github.artisanguillonrenov.cortana.core.tools.CapabilityMatcher(io.github.artisanguillonrenov.cortana.core.tools.ToolDiscovery())
+            .select(pool, text, setOf(io.github.artisanguillonrenov.cortana.core.tools.ToolCategory.WEB), emptyList(), emptySet(), io.github.artisanguillonrenov.cortana.contracts.PlanStrategy.INTERACTIVE, 24).offered.map { it.capability }
+        assertTrue(offered("Audite le dépôt https://github.com/o/r").containsAll(listOf("github.repo", "github.tree", "github.file")))
+        val general = offered("Le train de nuit Paris-Nice, sans voiture sur place ?")
+        assertTrue(general.toString(), "web.fetch" in general && general.none { it.startsWith("github.") })
         assertTrue(IntentRouter().classify("Audite le dépôt https://github.com/o/r", true).coding)
-        assertTrue(c.contextEngine.systemPrompt.contains("Ne clone jamais pour lire"))
+        assertTrue(c.contextEngine.workMethod.contains("Ne clone jamais pour lire"))
     }
 
     @Test fun aCloneFetchesOneBranchOnly() {

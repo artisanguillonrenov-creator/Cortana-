@@ -1902,6 +1902,12 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/tools/CapabilityMatcher.kt",
+  "pattern": "(?i)github|d[ée]p[ôo]ts?\\b|\\brepo(s|sitor\\w*)?\\b|pull request|\\bissues?\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/tools/ToolDiscovery.kt",
   "pattern": "[^a-z0-9]+",
   "flags": 0,
