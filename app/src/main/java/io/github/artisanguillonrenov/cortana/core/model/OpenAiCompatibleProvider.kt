@@ -72,7 +72,13 @@ class OpenAiCompatibleProvider(
 
     private fun request(path: String): Request.Builder {
         val b = Request.Builder().url("$base$path")
-        apiKey()?.takeIf { it.isNotBlank() }?.let { b.header("Authorization", "Bearer $it") }
+        apiKey()?.takeIf { it.isNotBlank() }?.let { key ->
+            // A key never travels in clear text over the Internet (plain http stays possible on the local network).
+            if (base.startsWith("http://", ignoreCase = true) && !ModelGateway.isLocalUrl(base)) {
+                throw ModelException("Clé jamais envoyée en clair sur Internet : utilisez une adresse https:// pour ce fournisseur (http:// reste possible sur le réseau local).")
+            }
+            b.header("Authorization", "Bearer $key")
+        }
         quirks.extraHeaders.forEach { (k, v) -> b.header(k, v) }
         return b
     }

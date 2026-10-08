@@ -231,9 +231,11 @@ class ModelGateway(
         const val PRIVACY_LOCAL_ONLY = "local_only"
 
         /** On-device or LAN endpoint: the "Serveur local" preset, loopback, private/link-local IPs, .local/.lan/.home.arpa names. */
-        fun isLocal(p: ProviderEntity): Boolean {
-            if (p.presetId == "local") return true
-            val host = runCatching { java.net.URI(p.baseUrl).host }.getOrNull()?.lowercase()?.trim('[', ']') ?: return false
+        fun isLocal(p: ProviderEntity): Boolean = p.presetId == "local" || isLocalUrl(p.baseUrl)
+
+        /** A loopback, private, link-local or .local/.lan/.home.arpa/.internal address. */
+        fun isLocalUrl(url: String): Boolean {
+            val host = runCatching { java.net.URI(url).host }.getOrNull()?.lowercase()?.trim('[', ']') ?: return false
             if (host == "localhost" || host.endsWith(".local") || host.endsWith(".lan") || host.endsWith(".home.arpa") || host.endsWith(".internal")) return true
             val literal = host.matches(Regex("[0-9.]+")) || host.contains(':')
             if (!literal) return false

@@ -116,4 +116,14 @@ class ProviderHttpTest {
         assertTrue(check.isRunPodProxy("https://dfq6g338899rau-8080.proxy.runpod.net/v1"))
         assertTrue(!check.isRunPodProxy("https://api.openai.com/v1"))
     }
+
+    @Test fun aKeyIsNeverSentInClearTextOverTheInternet() = runBlocking {
+        val public = OpenAiCompatibleProvider("p", "http://api.example.com/v1", { "sk-secret-0123456789" }, ProviderQuirks(), client)
+        val e = runCatching { public.listModels() }.exceptionOrNull()
+        assertTrue(e?.message.orEmpty(), e is ModelException && e.message!!.contains("https://"))
+        // The local network keeps plain http (MockWebServer is on loopback), with its key.
+        server.enqueue(MockResponse().setBody("""{"data":[{"id":"m"}]}"""))
+        assertEquals(listOf("m"), provider().listModels().map { it.id })
+        assertEquals("Bearer sk-test-0123456789abcdef", server.takeRequest().getHeader("Authorization"))
+    }
 }
