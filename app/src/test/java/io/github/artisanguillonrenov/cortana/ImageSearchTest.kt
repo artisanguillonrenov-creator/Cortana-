@@ -197,4 +197,12 @@ class ImageSearchTest : CortanaTestBase() {
             assertTrue(runCatching { search.images("x", 6) }.exceptionOrNull()!!.message!!.contains("jeton de recherche"))
         } finally { ddg.shutdown() }
     }
+
+    @Test fun aToolLessConversationExplainsInsteadOfPretending() {
+        val s = session(toolset = io.github.artisanguillonrenov.cortana.core.tools.Toolsets.CONVERSATION)
+        runAndWait(s, "Trouve-moi une photo de la tour Eiffel sur Internet")
+        assertEquals(0, server.requestCount)
+        assertTrue(categories.isEmpty())
+        assertTrue(answer(s).text, answer(s).text.contains("mode « Discussion »") && answer(s).text.contains("Navigateur"))
+    }
 }

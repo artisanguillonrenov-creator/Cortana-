@@ -382,6 +382,14 @@ class Orchestrator(
                 val handled = runFastPath(tr, fp)
                 if (handled) return@execute null
             }
+            // The owner's toolset boundary stays, but a picture search in a tool-less conversation is
+            // told so plainly instead of being answered by a model that cannot search.
+            if (fp == null && session.toolset == Toolsets.CONVERSATION && workspaceKind == null &&
+                io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.let { it.search(request.objective) != null || it.isWebImageSearch(request.objective) }) {
+                reply(tr, "Cette discussion est en mode « Discussion », sans outils : je ne peux pas chercher d'images sur Internet ici. " +
+                    "Réactivez les outils de la discussion (au moins la puce « Navigateur » sous la zone de saisie), ou posez la question dans une nouvelle discussion.")
+                return@execute null
+            }
             val cap = settings.current.dailySpendCapUsd
             if (cap != null && gateway.spentToday() >= cap) {
                 reply(tr, "Plafond de dépense quotidien atteint (${"%.2f".format(cap)} $). Modifiez-le dans Réglages si nécessaire.")
