@@ -173,4 +173,28 @@ class ImageSearchTest : CortanaTestBase() {
         }
         assertTrue(answer(s).parts.none { it is MessagePart.Image })
     }
+
+    @Test fun duckDuckGoImagesWorkAndItsFailuresSayWhatToDo() = runBlocking {
+        val ddg = MockWebServer()
+        var page = "<script>vqd=\"4-123456789012345678901234567890\";</script>"
+        var api: () -> MockResponse = { MockResponse().setBody("""{"results":[{"title":"Tour","url":"https://ex.example/p","image":"https://ex.example/t.jpg","thumbnail":"https://ex.example/t-s.jpg","width":800,"height":600,"source":"Bing"}]}""") }
+        ddg.dispatcher = object : Dispatcher() {
+            override fun dispatch(request: RecordedRequest): MockResponse =
+                if (request.path!!.startsWith("/i.js")) {
+                    assertEquals("4-123456789012345678901234567890", request.requestUrl!!.queryParameter("vqd")); api()
+                } else MockResponse().setBody(page)
+        }
+        ddg.start()
+        try {
+            val search = io.github.artisanguillonrenov.cortana.executors.web.WebExecutor.DuckDuckGoHtmlSearch(okhttp3.OkHttpClient(), "test", ddg.url("/").toString())
+            val found = search.images("tour eiffel", 6)
+            assertEquals(listOf("https://ex.example/t.jpg"), found.map { it.mediaUrl })
+            api = { MockResponse().setResponseCode(429) }
+            assertTrue(runCatching { search.images("x", 6) }.exceptionOrNull()!!.message!!.contains("limite les recherches"))
+            api = { MockResponse().setBody("<html>captcha</html>") }
+            assertTrue(runCatching { search.images("x", 6) }.exceptionOrNull()!!.message!!.contains("illisible"))
+            page = "<html>rien</html>"
+            assertTrue(runCatching { search.images("x", 6) }.exceptionOrNull()!!.message!!.contains("jeton de recherche"))
+        } finally { ddg.shutdown() }
+    }
 }

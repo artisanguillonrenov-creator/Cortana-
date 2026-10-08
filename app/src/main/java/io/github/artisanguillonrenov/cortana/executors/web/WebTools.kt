@@ -263,7 +263,8 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
         }
     }
 
-    private class DuckDuckGoHtmlSearch(private val client: OkHttpClient, private val ua: String) : SearchProvider {
+    /** [base]: the DuckDuckGo address (a local server in tests). */
+    internal class DuckDuckGoHtmlSearch(private val client: OkHttpClient, private val ua: String, private val base: String = "https://duckduckgo.com") : SearchProvider {
         override val name = "DuckDuckGo"
         private val resultRe = Regex("(?is)<a[^>]*class=\"result__a\"[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>")
         private val snippetRe = Regex("(?is)<a[^>]*class=\"result__snippet\"[^>]*>(.*?)</a>")
@@ -280,18 +281,42 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
             }.filter { !it.url.contains("duckduckgo.com/y.js") }.take(count).toList()
         }
 
+        private val vqdRe = listOf(Regex("vqd=[\"']?([0-9]+-[0-9-]+)"), Regex("\"vqd\"\\s*:\\s*\"([0-9]+-[0-9-]+)\""), Regex("vqd=[\"']?([0-9-]{6,})"))
+        private val limited = "DuckDuckGo limite les recherches d'images en ce moment : réessayez dans une minute, ou choisissez Brave Search ou SearXNG (Réglages → Recherche web)"
+
+        /** The page token DuckDuckGo's image and video endpoints need, read from its search page. */
         private suspend fun vqd(query: String): String {
-            val url = "https://duckduckgo.com/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).build()
-            val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { it.body?.string().orEmpty() }
-            return Regex("vqd=[\"']?([0-9-]+)").find(html)?.groupValues?.get(1) ?: throw IllegalStateException("jeton DuckDuckGo introuvable")
+            val url = "${base.trimEnd('/')}/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).build()
+            val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { r ->
+                if (r.code == 403 || r.code == 429) throw IllegalStateException(limited)
+                if (!r.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${r.code}")
+                r.body?.string().orEmpty()
+            }
+            return vqdRe.firstNotNullOfOrNull { it.find(html)?.groupValues?.get(1) }
+                ?: throw IllegalStateException("DuckDuckGo n'a pas fourni son jeton de recherche (page modifiée ou accès limité) : réessayez, ou choisissez Brave Search ou SearXNG (Réglages → Recherche web)")
         }
 
+        /** One retry with a fresh token when DuckDuckGo refuses the first (expired token, short limit). */
         private suspend fun json(path: String, query: String): List<JsonObject> {
-            val url = "https://duckduckgo.com/$path".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("l", "fr-fr").addQueryParameter("o", "json")
-                .addQueryParameter("q", query).addQueryParameter("vqd", vqd(query)).addQueryParameter("p", "1").build()
-            val body = client.newCall(Request.Builder().url(url).header("User-Agent", ua).header("Referer", "https://duckduckgo.com/").get().build()).await()
-                .use { if (!it.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${it.code}"); it.body?.string().orEmpty() }
-            return AppJson.parseToJsonElement(body).jsonObject.a("results")
+            var last: Exception? = null
+            repeat(2) { attempt ->
+                try {
+                    val url = "${base.trimEnd('/')}/$path".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("l", "fr-fr").addQueryParameter("o", "json")
+                        .addQueryParameter("q", query).addQueryParameter("vqd", vqd(query)).addQueryParameter("p", "1").build()
+                    val body = client.newCall(Request.Builder().url(url).header("User-Agent", ua).header("Referer", "https://duckduckgo.com/").get().build()).await().use { r ->
+                        if (r.code == 403 || r.code == 429) throw IllegalStateException(limited)
+                        if (!r.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${r.code}")
+                        r.body?.string().orEmpty()
+                    }
+                    val o = runCatching { AppJson.parseToJsonElement(body) as? JsonObject }.getOrNull()
+                        ?: throw IllegalStateException("réponse DuckDuckGo illisible (format modifié ou accès limité)")
+                    return o.a("results")
+                } catch (e: IllegalStateException) {
+                    last = e
+                    if (attempt == 0) kotlinx.coroutines.delay(400)
+                }
+            }
+            throw last!!
         }
 
         override suspend fun images(query: String, count: Int): List<WebResultItem> = json("i.js", query).mapNotNull { o ->
