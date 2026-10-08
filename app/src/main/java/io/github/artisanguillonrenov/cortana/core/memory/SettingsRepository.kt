@@ -122,6 +122,8 @@ data class AppSettings(
     val councilPrefs: io.github.artisanguillonrenov.cortana.core.council.CouncilPrefs = io.github.artisanguillonrenov.cortana.core.council.CouncilPrefs(),
     /** Chat Workspace preferences (D-20260930-068): simple by default, advanced options on demand. */
     val chat: io.github.artisanguillonrenov.cortana.core.chat.ChatPrefs = io.github.artisanguillonrenov.cortana.core.chat.ChatPrefs(),
+    /** Last version of the preconfigured RunPod pod applied ([io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod]); 0 = never. */
+    val preconfiguredPodVersion: Int = 0,
 )
 
 /**

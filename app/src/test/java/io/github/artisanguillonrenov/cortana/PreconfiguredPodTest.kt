@@ -1,0 +1,70 @@
+package io.github.artisanguillonrenov.cortana
+
+import io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+
+/** The owner's RunPod pod is configured once by the update, never twice, never against the owner's later choices. */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [35])
+class PreconfiguredPodTest : CortanaTestBase() {
+
+    @Test fun notAppliedInUnitTestsByItself() = runBlocking {
+        // Application start never configures the real pod under Robolectric.
+        assertEquals(0, c.settings.current.preconfiguredPodVersion)
+        assertTrue(c.providers.all().none { it.baseUrl.contains("proxy.runpod.net") })
+    }
+
+    @Test fun createsChatAndMediaProvidersAndRoutesOnce() = runBlocking {
+        val previous = c.providers.create(c.presets.byId("infermatic")!!, "Infermatic", "https://api.totalgpt.ai/v1", null)
+        c.settings.update { it.copy(defaultProviderId = previous.id) }
+        var reindexed = 0
+        val pod = PreconfiguredPod(c.providers, c.settings) { reindexed++ }
+        val r = pod.apply()!!
+        val chat = c.providers.get(r.chatProviderId)!!
+        val media = c.providers.get(r.mediaProviderId)!!
+        assertEquals("https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1", chat.baseUrl)
+        assertEquals("cydonia-24b-elyndor", chat.defaultModelId)
+        assertEquals("https://36w1us6m7ogo2b-7860.proxy.runpod.net/v1", media.baseUrl)
+        assertTrue(chat.enabled && media.enabled)
+        assertNull("the pod has no API key", chat.apiKeyHandle)
+        val s = c.settings.current
+        assertEquals(chat.id, s.defaultProviderId)
+        assertEquals("${media.id}/lustify-sdxl-v4", s.imageRoute)
+        assertEquals("${media.id}/bge-m3", s.embeddingRoute)
+        assertEquals(PreconfiguredPod.VERSION, s.preconfiguredPodVersion)
+        assertEquals(1, reindexed)
+        // The previous provider is kept as it was (keys need the Android keystore, absent under Robolectric).
+        assertEquals(previous, c.providers.get(previous.id))
+
+        // A second start does nothing; the owner's later choices are never undone.
+        c.settings.update { it.copy(defaultProviderId = previous.id) }
+        c.providers.delete(media.id)
+        assertNull(pod.apply())
+        assertEquals(previous.id, c.settings.current.defaultProviderId)
+        assertNull(c.providers.get(media.id))
+        assertEquals(1, c.providers.all().count { it.baseUrl.contains("-8000.proxy.runpod.net") })
+    }
+
+    @Test fun reusesAProviderTheOwnerAlreadyCreatedForThePod() = runBlocking {
+        val mine = c.providers.create(c.presets.byId("custom")!!, "Mon pod", "https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1/", null)
+        val r = PreconfiguredPod(c.providers, c.settings).apply()!!
+        assertEquals(mine.id, r.chatProviderId)
+        assertEquals("Mon pod", c.providers.get(mine.id)!!.displayName)
+        assertEquals(1, c.providers.all().count { it.baseUrl.contains("-8000.proxy.runpod.net") })
+    }
+
+    @Test fun theChatModelUsesEmulatedToolsAndItsRealContext() {
+        // llama.cpp started without --jinja ignores native tools: Cortana's emulated tool calling is used.
+        val caps = c.capabilities.bundled("cydonia-24b-elyndor")
+        assertFalse(caps.nativeTools)
+        assertEquals(24576, caps.contextWindow)
+    }
+}

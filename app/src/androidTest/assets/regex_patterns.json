@@ -37,6 +37,12 @@
  },
  {
   "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)cydonia",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
   "pattern": "(?i)deepseek",
   "flags": 0,
   "kind": "static"

@@ -124,6 +124,8 @@ class AppContainer(val context: Context) {
     val capabilities = ModelCapabilities(context, db.providers())
     val tracer = Tracer()
     val gateway = ModelGateway(providers, capabilities, db.usage(), settings, tracer = tracer)
+    /** The owner's RunPod pod, configured once by the update (chat, images, embeddings). */
+    val preconfiguredPod = io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod(providers, settings) { memoryIndexer.request() }
 
     val killSwitch = KillSwitch(settings, audit, appScope)
     val uiPatterns = UiPatternsStore(context, settings)
@@ -590,6 +592,10 @@ class CortanaApp : Application() {
             override fun onStop(owner: LifecycleOwner) { container.orchestrator.appInForeground = false }
         })
         container.appScope.launch { container.maintenance.onStartup() }
+        // Unit tests (Robolectric) keep their scripted providers: the real pod is never configured there.
+        if (android.os.Build.FINGERPRINT != "robolectric") container.appScope.launch {
+            runCatching { container.preconfiguredPod.apply() }.onFailure { io.github.artisanguillonrenov.cortana.util.CLog.e("preconfigured pod failed", it) }
+        }
         container.appScope.launch { container.mcpLoop() }
         container.inbound.start(container.appScope)
     }
