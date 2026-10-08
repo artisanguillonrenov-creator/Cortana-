@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc10 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc10
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc10"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc10 on release/rc10 (ce2d958)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc10 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target ce2d958ecd3655ddbcdae0cfed147293764ad959 \
+            --title "Cortana 2.0.0-rc10" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc10-arm64-v8a.apk cortana-2.0.0-rc10-universal.apk cortana-update.json
