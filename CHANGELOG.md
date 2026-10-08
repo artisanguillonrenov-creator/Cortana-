@@ -1,5 +1,18 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc10 (versionCode 11) — Outils GitHub en ligne et méthode de travail
+
+S'installe par-dessus la **2.0.0-rc9** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Lire un dépôt GitHub en ligne, sans le cloner** : fiche du dépôt, arborescence, lecture de fichiers (lignes numérotées), recherche dans le code, historique et diff des commits, branches, pull requests, issues, intégration continue (Actions) et versions publiées.
+- **Écrire sur GitHub** (créer une issue, commenter, ouvrir une pull request) : toujours confirmé par vous, avec le jeton github.com de Réglages → Git.
+- **Méthode de travail** donnée au modèle quand des outils sont disponibles : lire avant d'agir, auditer en ligne sans cloner, aller du général au précis, prouver chaque constat (fichier:ligne), modifier le minimum puis vérifier, rapport honnête.
+- Les demandes d'audit de dépôt passent par le **modèle de code**.
+
+### Corrigé
+- **Clonage** : seule la branche demandée (ou la branche par défaut) est téléchargée, et les gros fichiers sont lus par morceaux. Un dépôt contenant des APK dans d'autres branches faisait manquer de mémoire la tablette.
+
 ## 2.0.0-rc9 (versionCode 10) — Modèle de code et de vision sur RunPod
 
 S'installe par-dessus la **2.0.0-rc8** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.

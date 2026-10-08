@@ -608,6 +608,36 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - `lintDebug` : non relancé. Rendu sur l'appareil : non exécuté.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 17. Rapport de la version candidate 2.0.0-rc10 (08/10/2026)
+
+**Contenu** : outils `github.*` (`executors/web/GitHubTools.kt`, client web protégé, API REST GitHub), méthode de travail (`prompts/method_fr.txt`, envoyée seulement quand des outils sont proposés), outils GitHub proposés seulement pour une demande qui parle d'un dépôt, audits routés vers le modèle de code, clonage d'une seule branche (`GitService.branchToClone`) et lecture en flux des objets de plus de 8 Mio. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 17.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc10-arm64-v8a.apk` (Galaxy Tab A11) | 59 831 645 o | `4123245ecef6a0c40ef1c342e7fd11f08fe0df2e6e5e908274ed51013d6ccc35` |
+| `cortana-2.0.0-rc10-universal.apk` (secours) | 81 266 952 o | `1aff24f4cb28300b6745ca7e97ec1b31cae1ca44a9144c11c0b3b8a78d09f433` |
+| `cortana-update.json` (manifeste signé, = `release/cortana-update.json`) | voir la Release | `812b6d12630dd863743e9c30281149e1a65241278398fe81b709f50639a09c30` |
+
+### 17.2 Identité
+
+- `aapt2` : versionCode **11**, versionName **2.0.0-rc10** ; `apksigner` : certificat **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc9).
+
+### 17.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc10 | **495 tests, 0 échec, 0 ignoré** (app 482, worker 8, contrats 5), dont 7 nouveaux (`GitHubToolsTest`) |
+| Régressions trouvées et corrigées pendant la préparation | `CouncilTest.c9` (outils GitHub proposés pour une question web générale) ; `ChatWorkspaceServiceTest.h6` (méthode envoyée inutilement en mode discussion) |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 401 expressions compilées, 0 refusée |
+
+### 17.4 Non exécuté, gates
+
+- Appels réels à api.github.com depuis la tablette, `lintDebug` : non exécutés.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -621,6 +651,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc7 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc8 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc9 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc10 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).
