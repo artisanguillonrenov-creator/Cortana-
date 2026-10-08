@@ -1,11 +1,14 @@
-# Debug build and unit tests of the Android app, the worker and the contracts.
+# Debug build, unit tests and lint of the Android app, the worker and the contracts, on work
+# branches, on main and on pull requests to main (a required check before merging).
 # Dependency verification (gradle/verification-metadata.xml) stays active; nothing is signed with
 # the release key (debug build only, no secrets used).
 name: Android build & tests
 
 on:
   push:
-    branches: ["claude/**"]
+    branches: ["claude/**", "main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -44,6 +47,9 @@ jobs:
       - name: Unit tests (contracts, worker, app)
         run: ./gradlew --no-daemon --stacktrace --continue :contracts:test :worker:test :app:testDebugUnitTest
 
+      - name: Lint (debug)
+        run: ./gradlew --no-daemon --stacktrace :app:lintDebug
+
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -53,4 +59,5 @@ jobs:
             */build/reports/tests/
             */build/test-results/
             build/reports/dependency-verification/
+            app/build/reports/lint-results-debug.*
           if-no-files-found: ignore
