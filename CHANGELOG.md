@@ -1,5 +1,16 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc9 (versionCode 10) — Modèle de code et de vision sur RunPod
+
+S'installe par-dessus la **2.0.0-rc8** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Nouveau fournisseur « RunPod · code & vision »** (pod `cortana-code-vision`, RTX 3090) : modèle multimodal `qwen3.6-27b`, appel d'outils natif, contexte de 32 768 jetons.
+  - Il devient le **modèle pour le code** (atelier logiciel) et le **modèle pour la vision** (photos, captures d'écran).
+  - Le modèle de discussion, les images et la mémoire restent sur elyndor-5090.
+- **Clé d'accès** : ce serveur est protégé. Saisissez sa clé une fois dans Réglages → Modèles → « RunPod · code & vision ». Elle n'est jamais incluse dans l'application ni dans le dépôt.
+- Appliqué une seule fois. Une installation venant de la rc8 ne rejoue pas la configuration d'elyndor-5090 : vos réglages restent tels quels.
+
 ## 2.0.0-rc8 (versionCode 9) — Connexion au pod RunPod elyndor-5090
 
 S'installe par-dessus la **2.0.0-rc7** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.

@@ -577,6 +577,37 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - `ReleaseTest` avec le manifeste rc8 et `lintDebug` : non relancés localement (à vérifier par la CI).
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 16. Rapport de la version candidate 2.0.0-rc9 (08/10/2026)
+
+**Contenu** : étape 2 de `PreconfiguredPod` (fournisseur « RunPod · code & vision », routes `codingRoute` et `visionRoute` vers `qwen3.6-27b`, clé d'API saisie par le propriétaire). Aucune autre modification. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 16.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc9-arm64-v8a.apk` (Galaxy Tab A11) | 59 765 151 o | `09088cad71d3ce6c5351c9cf96bc09314b026c1ad2442f46c0fa058ff5f20058` |
+| `cortana-2.0.0-rc9-universal.apk` (secours) | 81 200 458 o | `b305ec9057267e8041cdbd48640cc5ed50fb3348430cf495cf0681ae8d1d29a7` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `6b7dd327fcf595ace004f372cf343c11c02c4da42c934c2e721371c035080927` |
+
+### 16.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **10**, versionName **2.0.0-rc9**.
+- `apksigner` : un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc8).
+
+### 16.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc9 | **489 tests, 0 échec, 0 ignoré** (app 476, worker 8, contrats 5), dont 2 nouveaux (`PreconfiguredPodTest`) ; `ReleaseTest` vert |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 399 expressions compilées, 0 refusée |
+| Pod réel `cortana-code-vision` (RTX 3090, llama.cpp, `qwen3.6-27b` Q4_K_M + projecteur de vision) | 401 sans clé ; appel d'outils natif (`finish_reason: tool_calls`) ; description exacte d'une capture d'écran (titre, réseau, boutons, positions, couleurs) ; ~41 jetons/s en génération |
+
+### 16.4 Non exécuté, gates
+
+- `lintDebug` : non relancé. Rendu sur l'appareil : non exécuté.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -589,6 +620,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc6 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc7 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc8 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc9 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).
