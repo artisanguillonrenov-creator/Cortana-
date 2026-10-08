@@ -9,6 +9,7 @@ import io.github.artisanguillonrenov.cortana.core.model.ProviderQuirks
 import io.github.artisanguillonrenov.cortana.util.AppJson
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
@@ -52,6 +53,14 @@ class ProviderHttpTest {
         val body = provider(ProviderQuirks(minTemperature = 1e-8, forceN1 = true)).buildBody(ModelRequest("m", emptyList(), temperature = 0.0))
         assertEquals(1e-8, body["temperature"]!!.jsonPrimitive.content.toDouble(), 0.0)
         assertEquals("1", body["n"]!!.jsonPrimitive.content)
+    }
+
+    @Test fun extraBodyQuirkSelectsLlamaServerLora() {
+        val quirks = ProviderQuirks.parse("""{"extraBody":{"lora":[{"id":0,"scale":0.0},{"id":1,"scale":1.0}]}}""")
+        val body = provider(quirks).buildBody(ModelRequest("m", emptyList()))
+        val lora = body["lora"]!!.jsonArray
+        assertEquals("1.0", lora[1].jsonObject["scale"]!!.jsonPrimitive.content)
+        assertEquals("0.0", lora[0].jsonObject["scale"]!!.jsonPrimitive.content)
     }
 
     @Test fun listsModelsAndMapsAuthErrors() = runBlocking {

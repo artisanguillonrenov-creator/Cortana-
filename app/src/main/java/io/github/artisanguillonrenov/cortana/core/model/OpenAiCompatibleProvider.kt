@@ -46,6 +46,8 @@ data class ProviderQuirks(
     val noToolChoice: Boolean = false,
     val allowPrivateNetwork: Boolean = false,
     val extraHeaders: Map<String, String> = emptyMap(),
+    /** Champs ajoutés tels quels au corps de /chat/completions (ex. « lora » de llama-server). */
+    val extraBody: JsonObject = JsonObject(emptyMap()),
 ) {
     companion object {
         fun parse(json: String?): ProviderQuirks =
@@ -315,6 +317,7 @@ class OpenAiCompatibleProvider(
         put("stream", req.stream)
         if (req.stream && !quirks.noStreamUsage) putJsonObject("stream_options") { put("include_usage", true) }
         if (quirks.usageInclude) putJsonObject("usage") { put("include", true) }
+        quirks.extraBody.forEach { (k, v) -> put(k, v) }
     }
 
     private fun encodeMessage(m: ChatMessage): JsonObject = buildJsonObject {
