@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc8 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc8
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc8"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc8 on release/rc8 (2e2b9be)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc8 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target 2e2b9be0d6e2864ed9ac602329ac3b7ce9c5d0ce \
+            --title "Cortana 2.0.0-rc8" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc8-arm64-v8a.apk cortana-2.0.0-rc8-universal.apk cortana-update.json
