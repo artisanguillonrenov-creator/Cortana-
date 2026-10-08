@@ -1,5 +1,16 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc8 (versionCode 9) — Connexion au pod RunPod elyndor-5090
+
+S'installe par-dessus la **2.0.0-rc7** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Connexion automatique au pod RunPod « elyndor-5090 »** au premier démarrage de cette version :
+  - discussion : `cydonia-24b-elyndor` (llama.cpp, port 8000), devient le fournisseur par défaut ;
+  - images : `lustify-sdxl-v4` et mémoire (embeddings) : `bge-m3` (serveur médias, port 7860) ; la mémoire est ré-indexée.
+- Appliqué une seule fois : vos choix ultérieurs (autre fournisseur par défaut, fournisseur supprimé) ne sont jamais annulés. Les autres fournisseurs et les discussions liées à un modèle restent inchangés.
+- Les modèles `cydonia` utilisent l'appel d'outils émulé de Cortana (contexte 24 576).
+
 ## 2.0.0-rc7 (versionCode 8) — Résultats web enrichis dans la conversation
 
 S'installe par-dessus la **2.0.0-rc6** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.

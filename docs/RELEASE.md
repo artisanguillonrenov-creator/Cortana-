@@ -546,6 +546,37 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Recherche réelle contre DuckDuckGo, Brave et SearXNG (tests sur un SearXNG simulé) ; lecture Media3 et rendu sur l'appareil : non exécutés.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 15. Rapport de la version candidate 2.0.0-rc8 (08/10/2026)
+
+**Contenu** : configuration unique du pod RunPod du propriétaire (`PreconfiguredPod`, drapeau `preconfiguredPodVersion` dans les réglages), règle `cydonia` dans `model_caps.json`. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 15.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc8-arm64-v8a.apk` (Galaxy Tab A11) | 59 765 147 o | `d6c2678399dac40920a13823307866b4588084fa25285a5ce25eef4433f16009` |
+| `cortana-2.0.0-rc8-universal.apk` (secours) | 81 200 454 o | `4b37c3cf666ff7f5b92d76962513caae1da44b34c03cbe2c23e450958958212a` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `3d0ef542538bf8b2fee6060a3c17537193f0ed3bf0311c30d0b3b79e9b098600` |
+
+### 15.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **9**, versionName **2.0.0-rc8**.
+- `apksigner` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc7).
+
+### 15.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète (avant le changement de version) | **487 tests, 0 échec, 0 ignoré** (app 474, worker 8, contrats 5), dont 4 nouveaux (`PreconfiguredPodTest`) |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 399 expressions compilées, 0 refusée |
+| Pod réel (sonde HTTP) | `/v1/models`, discussion et flux sur le port 8000 ; embeddings `bge-m3` sur le port 7860 ; format d'outils émulé compris par le modèle |
+
+### 15.4 Non exécuté, gates
+
+- `ReleaseTest` avec le manifeste rc8 et `lintDebug` : non relancés localement (à vérifier par la CI).
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -557,6 +588,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc5 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc6 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc7 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc8 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).
