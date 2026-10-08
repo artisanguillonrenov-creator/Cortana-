@@ -28,8 +28,8 @@ class PreconfiguredPodTest : CortanaTestBase() {
         var reindexed = 0
         val pod = PreconfiguredPod(c.providers, c.settings) { reindexed++ }
         val r = pod.apply()!!
-        val chat = c.providers.get(r.chatProviderId)!!
-        val media = c.providers.get(r.mediaProviderId)!!
+        val chat = c.providers.get(r.chatProviderId!!)!!
+        val media = c.providers.get(r.mediaProviderId!!)!!
         assertEquals("https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1", chat.baseUrl)
         assertEquals("cydonia-24b-elyndor", chat.defaultModelId)
         assertEquals("https://36w1us6m7ogo2b-7860.proxy.runpod.net/v1", media.baseUrl)
@@ -41,6 +41,11 @@ class PreconfiguredPodTest : CortanaTestBase() {
         assertEquals("${media.id}/bge-m3", s.embeddingRoute)
         assertEquals(PreconfiguredPod.VERSION, s.preconfiguredPodVersion)
         assertEquals(1, reindexed)
+        val cv = c.providers.get(r.codeVisionProviderId!!)!!
+        assertEquals("https://dfq6g338899rau-8080.proxy.runpod.net/v1", cv.baseUrl)
+        assertNull("the API key is entered by the owner, never shipped", cv.apiKeyHandle)
+        assertEquals("${cv.id}/qwen3.6-27b", s.codingRoute)
+        assertEquals("${cv.id}/qwen3.6-27b", s.visionRoute)
         // The previous provider is kept as it was (keys need the Android keystore, absent under Robolectric).
         assertEquals(previous, c.providers.get(previous.id))
 
@@ -59,6 +64,33 @@ class PreconfiguredPodTest : CortanaTestBase() {
         assertEquals(mine.id, r.chatProviderId)
         assertEquals("Mon pod", c.providers.get(mine.id)!!.displayName)
         assertEquals(1, c.providers.all().count { it.baseUrl.contains("-8000.proxy.runpod.net") })
+    }
+
+    @Test fun upgradeFromRc8OnlyAddsCodeAndVision() = runBlocking {
+        val mine = c.providers.create(c.presets.byId("custom")!!, "Mon choix", "https://example.com/v1", null)
+        c.settings.update { it.copy(preconfiguredPodVersion = 1, defaultProviderId = mine.id, imageRoute = null, embeddingRoute = null) }
+        var reindexed = 0
+        val r = PreconfiguredPod(c.providers, c.settings) { reindexed++ }.apply()!!
+        assertNull(r.chatProviderId)
+        assertNull(r.mediaProviderId)
+        val s = c.settings.current
+        assertEquals("the rc8 step is not replayed", mine.id, s.defaultProviderId)
+        assertNull(s.imageRoute)
+        assertNull(s.embeddingRoute)
+        assertEquals(0, reindexed)
+        assertTrue(c.providers.all().none { it.baseUrl.contains("36w1us6m7ogo2b") })
+        assertEquals("${r.codeVisionProviderId}/qwen3.6-27b", s.codingRoute)
+        assertEquals("${r.codeVisionProviderId}/qwen3.6-27b", s.visionRoute)
+        assertEquals(2, s.preconfiguredPodVersion)
+        assertNull(PreconfiguredPod(c.providers, c.settings).apply())
+    }
+
+    @Test fun theCodeAndVisionModelUsesNativeToolsAndItsServerContext() {
+        // llama.cpp started with --jinja and -c 32768.
+        val caps = c.capabilities.bundled("qwen3.6-27b")
+        assertTrue(caps.nativeTools)
+        assertTrue(caps.nativeJson)
+        assertEquals(32768, caps.contextWindow)
     }
 
     @Test fun theChatModelUsesEmulatedToolsAndItsRealContext() {
