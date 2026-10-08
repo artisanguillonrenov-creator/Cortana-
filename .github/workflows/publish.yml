@@ -1,0 +1,20 @@
+# Adds the Cortana worker and its RunPod script to the 2.0.0-rc8 GitHub Release.
+name: Publish worker assets 2.0.0-rc8
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc8-worker"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS-worker
+      - name: Upload to release v2.0.0-rc8
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload v2.0.0-rc8 --repo "$GITHUB_REPOSITORY" --clobber \
+            cortana-worker.jar cortana-worker-runpod.sh SHA256SUMS-worker
