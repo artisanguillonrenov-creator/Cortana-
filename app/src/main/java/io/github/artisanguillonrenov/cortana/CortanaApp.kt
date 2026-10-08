@@ -287,6 +287,9 @@ class AppContainer(val context: Context) {
             byCapability(cap).let { d -> if (d == null) "capacité inconnue : $cap" else io.github.artisanguillonrenov.cortana.core.orchestrator.ScheduledRunner.watchRefusal(d) }
         }).tools())
         registerAll(web.tools())
+        registerAll(io.github.artisanguillonrenov.cortana.executors.web.GitHubTools(web.client, {
+            settings.current.gitCredentials["github.com"]?.split('|', limit = 2)?.getOrNull(1)?.let { secrets.get(it) }
+        }).tools())
         registerAll(files.tools())
         registerAll(system.tools())
         registerAll(UiTools(ui, uiClassifier, settings, visual) { context.getSystemService(android.app.KeyguardManager::class.java).isKeyguardLocked }.tools())

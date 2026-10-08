@@ -33,7 +33,7 @@ object ToolFamilies {
     val all = listOf(TOOLS, SYSTEM, FILES, TERMINAL, GIT, WEB)
 
     fun of(capability: String, category: ToolCategory): String = when {
-        capability.startsWith("repo.") -> GIT
+        capability.startsWith("repo.") || capability.startsWith("github.") -> GIT
         category == ToolCategory.DEV -> TERMINAL
         category == ToolCategory.WEB -> WEB
         category == ToolCategory.FILES -> FILES

@@ -1807,7 +1807,7 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
-  "pattern": "(?i)\\b(bugs?|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b",
+  "pattern": "(?i)\\b(bugs?|audit\\w*|github|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b",
   "flags": 0,
   "kind": "static"
  },
@@ -2108,6 +2108,12 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/media/MediaTools.kt",
   "pattern": "[^\\p{L}\\p{N}]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/GitHubTools.kt",
+  "pattern": "^[A-Za-z0-9_.-]+$",
   "flags": 0,
   "kind": "static"
  },

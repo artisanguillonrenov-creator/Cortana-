@@ -37,7 +37,7 @@ data class Classification(
 class IntentRouter {
     private val sequencing = Regex("(?i)\\b(puis|ensuite|après ça|après cela|et enfin|enfin|then|after that|finally)\\b")
     private val enumerated = Regex("(?m)^\\s*(\\d+[.)]|[-*•])\\s+\\S")
-    private val coding = Regex("(?i)\\b(bugs?|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b")
+    private val coding = Regex("(?i)\\b(bugs?|audit\\w*|github|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b")
     private val ui = Regex("(?i)\\b(ouvre|lance|clique|touche|appuie|tape|écris dans|fais défiler|application|appli|écran|paramètres|réglages|luminosit|volume|youtube|whatsapp)\\b")
     private val web = Regex("(?i)\\b(cherche|recherche|trouve|web|internet|site|page|article|actualit|news|http)\\b")
     private val files = Regex("(?i)\\b(fichier|dossier|document|pdf|docx|xlsx|csv|tableur|présentation|pptx)\\b")
