@@ -1,6 +1,10 @@
 package io.github.artisanguillonrenov.cortana.executors.media
 
 import io.github.artisanguillonrenov.cortana.core.browser.InjectionGuard
+import io.github.artisanguillonrenov.cortana.core.chat.AttachmentMode
+import io.github.artisanguillonrenov.cortana.core.chat.AttachmentRef
+import io.github.artisanguillonrenov.cortana.core.chat.ProducedImages
+import io.github.artisanguillonrenov.cortana.util.AppJson
 import io.github.artisanguillonrenov.cortana.core.documents.DocumentException
 import io.github.artisanguillonrenov.cortana.core.documents.DocumentService
 import io.github.artisanguillonrenov.cortana.core.media.AudioFormat
@@ -54,6 +58,15 @@ class MediaTools(private val media: MediaService, private val docs: DocumentServ
         }
     }
 
+    /** A successful result whose images are also carried as typed data, so the conversation shows them as pictures. */
+    private fun produced(text: String, outputs: List<DocumentService.Output>, origin: String): ToolResult {
+        val refs = outputs.map { o -> AttachmentRef(o.artifact.artifactId, o.artifact.name, o.artifact.mime, o.artifact.sizeBytes, AttachmentMode.REFERENCE, note = origin) }
+            .filter { ProducedImages.isBitmap(it.mime) }
+        return ToolResult(true, text, data = if (refs.isEmpty()) null else kotlinx.serialization.json.buildJsonObject {
+            put(ProducedImages.DATA_KEY, AppJson.encodeToJsonElement(kotlinx.serialization.builtins.ListSerializer(AttachmentRef.serializer()), refs))
+        })
+    }
+
     private suspend fun emitAll(items: List<MediaService.Produced>, base: String, ctx: ToolContext, cap: String, op: String, sources: List<DocumentService.Source>, saveTo: String?, type: String): List<DocumentService.Output> =
         items.mapIndexed { i, p ->
             val ext = when { p.mime.startsWith("image/") -> if (p.mime == "image/jpeg") "jpg" else p.mime.substringAfter('/'); p.mime.startsWith("audio/") -> AudioFormat.ext(p.mime); else -> VideoFormat.ext(p.mime) }
@@ -97,10 +110,15 @@ class MediaTools(private val media: MediaService, private val docs: DocumentServ
                 "references" to S.arr("Images de référence (artifact:<id> ou chemins)", S.str("Source")), "name" to name, "save_to" to saveTo, required = listOf("prompt")),
             Risk.L1, DataEgress.EXTERNAL, "Générer une image", listOf("dessiner", "illustration", "affiche", "logo", "image", "generer", "creer"), classifier = saveRisk, timeoutMs = 180_000,
         ) { a, ctx ->
+            // A request to find existing pictures on the web is never answered with a generated one.
+            if (io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isWebImageSearch(ctx.lastUserText) &&
+                !io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isGeneration(ctx.lastUserText)) {
+                return@def ToolResult.error("Le propriétaire demande des images existantes trouvées sur Internet, pas une image générée : utilise web_search avec mode=\"images\".")
+            }
             val refs = strings(a["references"]).map { docs.load(it) }
             val out = media.generateImages(a.str("prompt")!!, a.str("size") ?: "auto", a.int("n") ?: 1, a.bool("transparent") == true, a.str("quality"), refs)
             val arts = emitAll(out, a.str("name")?.let(::stem) ?: slug(a.str("prompt")!!), ctx, "media.image.generate", if (refs.isEmpty()) "generate" else "generate+references", refs, a.str("save_to"), "image")
-            ToolResult.ok("${arts.size} image(s) générée(s) :\n" + arts.joinToString("\n") { it.describe() } + (out.firstOrNull()?.meta?.get("revisedPrompt")?.let { "\nDescription retenue par le fournisseur : $it" } ?: ""))
+            produced("${arts.size} image(s) générée(s) (affichées dans la conversation) :\n" + arts.joinToString("\n") { it.describe() } + (out.firstOrNull()?.meta?.get("revisedPrompt")?.let { "\nDescription retenue par le fournisseur : $it" } ?: ""), arts, "image générée")
         },
 
         def("media.image.edit", "Retouche une image avec le fournisseur d'images (consigne en langage courant, masque PNG facultatif : zones transparentes = à modifier). Une copie sans métadonnées est envoyée ; l'original n'est pas modifié.",
@@ -112,7 +130,7 @@ class MediaTools(private val media: MediaService, private val docs: DocumentServ
             val mask = a.str("mask")?.let { docs.load(it) }
             val out = media.editImages(a.str("prompt")!!, srcs, mask, a.str("size") ?: "auto", a.int("n") ?: 1)
             val arts = emitAll(out, a.str("name")?.let(::stem) ?: (stem(srcs.first().name) + "-retouche"), ctx, "media.image.edit", "edit", srcs + listOfNotNull(mask), a.str("save_to"), "image")
-            ToolResult.ok("${arts.size} image(s) retouchée(s) :\n" + arts.joinToString("\n") { it.describe() })
+            produced("${arts.size} image(s) retouchée(s) (affichées dans la conversation) :\n" + arts.joinToString("\n") { it.describe() }, arts, "image retouchée")
         },
 
         def("media.image.transform", "Transforme une image sur la tablette, sans fournisseur : redimensionner (resize), recadrer (crop), pivoter (rotate), retourner (flip), niveaux de gris (grayscale), changer de format ; le résultat est réencodé sans métadonnées.",
@@ -128,7 +146,7 @@ class MediaTools(private val media: MediaService, private val docs: DocumentServ
             val ops = (a["operations"] as? JsonArray)?.mapNotNull { it as? JsonObject }.orEmpty()
             val out = media.transform(s, ops, a.str("format"), a.int("quality") ?: 90)
             val art = emitAll(listOf(out), a.str("name")?.let(::stem) ?: (stem(s.name) + "-transformee"), ctx, "media.image.transform", "transform", listOf(s), a.str("save_to"), "image").single()
-            ToolResult.ok("Image ${out.meta["operations"]} (${out.meta["width"]}×${out.meta["height"]}) : ${art.describe()}")
+            produced("Image ${out.meta["operations"]} (${out.meta["width"]}×${out.meta["height"]}) : ${art.describe()}", listOf(art), "image transformée")
         },
 
         def("media.tts.synthesize", "Enregistre un texte lu à voix haute dans un fichier audio WAV (artefact) avec le moteur de synthèse configuré ; ne lit rien à voix haute et n'ouvre pas de conversation vocale.",

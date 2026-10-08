@@ -755,6 +755,8 @@ class Orchestrator(
                 listener(tr),
             )
             outcome = o
+            // A result with rich data (web images, produced images) gets its tool row, so the conversation shows it.
+            if (o.result.ok && o.result.data != null) steps.recordToolMessage(tr, call, o.result, def)
             done += (def?.label ?: c.capability) to o.result
             if (!o.result.ok || o.uncertain || o.cancelTask) break
         }

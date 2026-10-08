@@ -258,6 +258,12 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatContracts.kt",
+  "pattern": "^[A-Za-z0-9-]{8,64}$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatService.kt",
   "pattern": "\"sessionId\":\"([^\"]+)\"",
   "flags": 0,
@@ -278,6 +284,66 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatTimeline.kt",
   "pattern": "^\\s*([0-9]{1,3})\\. (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)[\\s,]*(?:(?:sur|depuis) (?:internet|le web|google|youtube)|en ligne|s'il te pla[iî]t|s’il te pla[iî]t|stp|svp|merci|please)[\\s.,!?]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(dessine|imagine)\\w*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(dessin|illustration|logo|affiche|portrait|avatar|fond d'[ée]cran)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(g[ée]n[èeé]r\\w*|dessin\\w*|dessiner|cr[ée]{1,2}(?:r|z|s|e)?\\b|cr[ée]e-moi|imagin\\w*|fabriqu\\w*|produi\\w*|illustr\\w*|pein[st]\\w*|retouch\\w*|modifi\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(images?|photos?|photographies?)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(puis|ensuite|et (?:envoie|partage|enregistre|mets|sauvegarde|imprime|transf[èe]re))\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(sur (?:internet|le web|google|youtube)|en ligne|du web|d'internet)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^(?:la |le |les |l'|l’|un |une |des )",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^\\s*(?:(?:est-ce que\\s+)?(?:tu peux|peux-tu|pourrais-tu|tu pourrais)\\s+)?(?:me\\s+|nous\\s+)?(?:cherche|recherche|trouve|montre|affiche|donne|envoie|chercher|rechercher|trouver|montrer|afficher|donner|voir)(?:[- ](?:moi|nous))?\\s+(?:sur (?:internet|le web|google)\\s+)?(?:une?|des|la|les|quelques|\\d+)?\\s*(images?|photos?|photographies?|vid[ée]os?)\\b(.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^\\s*(?:de la |de l'|de l’|d'|d’|des |du |de |sur |avec )",
   "flags": 0,
   "kind": "static"
  },

@@ -31,8 +31,14 @@ class CapabilityMatcher(private val discovery: ToolDiscovery) {
         val strict = strategy == PlanStrategy.DAG && required.isNotEmpty()
         if (strict) return Selection(chosen.values.toList(), strict = true)
         // Tools offered only when the request is about them (they stay reachable through tools.discover).
-        val eligible = { d: ToolDefinition -> ON_DEMAND.none { (prefix, about) -> d.capability.startsWith(prefix) && !about.containsMatchIn(text) } }
+        // A web image search is never offered image generation (and the reverse is left to the model).
+        val webImages = io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isWebImageSearch(text) && !io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isGeneration(text)
+        val eligible = { d: ToolDefinition ->
+            ON_DEMAND.none { (prefix, about) -> d.capability.startsWith(prefix) && !about.containsMatchIn(text) } &&
+                !(webImages && d.capability in GENERATION)
+        }
         val ranked = discovery.rank(text, pool).filter { eligible(it.def) }
+        if (webImages) add(byCap["web.search"])
         ranked.filter { it.score >= ToolDiscovery.MIN_SCORE }.take(KEYWORD_HITS).forEach { if (chosen.size < max) add(it.def) }
         val score = ranked.associate { it.def.capability to it.score }
         for (cat in categories - ToolCategory.SERVICE) {
@@ -47,6 +53,7 @@ class CapabilityMatcher(private val discovery: ToolDiscovery) {
         const val DISCOVER = "tools.discover"
         val CORE = listOf("ask_user", DISCOVER, "memory.search", "memory.save")
         private const val KEYWORD_HITS = 8
+        private val GENERATION = setOf("media.image.generate", "media.image.edit")
         /** GitHub's online tools are for requests about a GitHub repository, never a general web question. */
         private val ON_DEMAND = listOf("github." to Regex("(?i)github|d[ée]p[ôo]ts?\\b|\\brepo(s|sitor\\w*)?\\b|pull request|\\bissues?\\b"))
         /** Tools a category cannot work without, offered first when the category is selected. */

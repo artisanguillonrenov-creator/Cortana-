@@ -395,9 +395,12 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
             category = ToolCategory.WEB, label = "Recherche web",
             destinationOf = { "moteur de recherche" },
             tags = listOf("chercher", "internet", "google", "actualités", "météo", "informations", "trouver"),
-        ) { args, _ ->
+        ) { args, ctx ->
             val q = args.str("query").orEmpty()
-            val mode = args.str("mode")?.takeIf { it in WebResults.MODES } ?: "web"
+            // The owner explicitly asked for pictures found on the web: images, even if the model forgot the mode.
+            val asked = io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.search(ctx.lastUserText)?.mode
+                ?: if (io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isWebImageSearch(ctx.lastUserText)) "images" else null
+            val mode = args.str("mode")?.takeIf { it in WebResults.MODES && !(it == "web" && asked != null) } ?: asked ?: "web"
             val p = searchProvider()
             val raw = runCatching { p.rich(q, mode, args.int("count") ?: 6) }.getOrElse { return@ToolDefinition ToolResult.error("Recherche impossible (${p.name}) : ${it.message}") }
             // Validated here and again when stored: nothing unsafe reaches the conversation.

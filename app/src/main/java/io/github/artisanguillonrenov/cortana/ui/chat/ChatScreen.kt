@@ -287,7 +287,21 @@ private fun ToolRow(m: MessageEntity) {
     val meta = remember(m.toolCallsJson) { m.toolCallsJson?.let { runCatching { AppJson.parseToJsonElement(it).jsonObject }.getOrNull() } }
     val ok = meta?.str("ok") != "false"
     val cap = meta?.str("capability") ?: meta?.str("name") ?: "outil"
+    // Same pictures as the Workspace: web images/videos/cards and images Cortana produced, never a bare file.
+    val rich = remember(m.metaJson) {
+        m.metaJson?.let { runCatching { AppJson.decodeFromString(io.github.artisanguillonrenov.cortana.core.chat.MessageMeta.serializer(), it) }.getOrNull() }
+    }
+    val web = remember(rich) { if (ok && cap == "web.search") io.github.artisanguillonrenov.cortana.core.chat.WebResults.sanitize(rich?.webResults.orEmpty()) else emptyList() }
+    val images = remember(rich) {
+        if (ok && cap in io.github.artisanguillonrenov.cortana.core.chat.ProducedImages.CAPABILITIES) io.github.artisanguillonrenov.cortana.core.chat.ProducedImages.sanitize(rich?.images.orEmpty()) else emptyList()
+    }
+    val uri = androidx.compose.ui.platform.LocalUriHandler.current
+    val c = LocalContainer.current
     Column(Modifier.fillMaxWidth().padding(start = 8.dp)) {
+        if (web.isNotEmpty()) io.github.artisanguillonrenov.cortana.ui.components.WebResultsView(web, onOpen = { url ->
+            if (url.startsWith("https://")) runCatching { uri.openUri(url) }
+        })
+        images.forEach { io.github.artisanguillonrenov.cortana.ui.components.ArtifactThumbnail(c.artifacts, it, Modifier.padding(vertical = 4.dp)) }
         Text(
             "${if (ok) "🔧" else "⚠️"} $cap ${if (expanded) "▾" else "▸"}",
             style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,

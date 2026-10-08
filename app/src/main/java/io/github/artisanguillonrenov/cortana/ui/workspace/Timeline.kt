@@ -320,7 +320,8 @@ fun PartView(p: MessagePart, prefs: ChatPrefs, actions: TimelineActions, color: 
         is MessagePart.Plain -> Text(p.text, style = MaterialTheme.typography.bodyLarge, color = color)
         is MessagePart.Citations -> SourcesView(p.sources, actions.render)
         is MessagePart.File -> AttachmentChip(p.attachment)
-        is MessagePart.Image -> AttachmentChip(p.attachment)
+        // A picture (sent, generated, retouched) is shown as a picture; a chip only when it cannot be decoded.
+        is MessagePart.Image -> ImageAttachment(p.attachment, actions)
         is MessagePart.Artifact -> AssistChip(onClick = { actions.render.openLink("artifact:${p.artifactId}") }, label = { Text("📄 ${p.name}") })
         is MessagePart.SystemEvent -> SystemLine(p.kind, p.text)
         is MessagePart.Error -> ErrorNotice(p) {}
