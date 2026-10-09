@@ -135,6 +135,7 @@ object ChatTimeline {
         val parts = mutableListOf<MessagePart>()
         val sources = mutableListOf<Source>()
         val web = mutableListOf<WebResultItem>()
+        val produced = mutableListOf<AttachmentRef>()
         val text = StringBuilder()
         var status = MessageStatus.COMPLETE
         var meta = MessageMeta()
@@ -162,6 +163,7 @@ object ChatTimeline {
                     if (ok) sources += Sources.from(cap, call?.arguments, detail, sources.size)
                     // Stored validated, validated again on display (a row written by an older version, or edited).
                     if (ok && cap == "web.search") web += WebResults.sanitize(mm.webResults)
+                    if (ok && cap in ProducedImages.CAPABILITIES) produced += ProducedImages.sanitize(mm.images)
                 }
             }
         }
@@ -172,6 +174,7 @@ object ChatTimeline {
             if (text.isNotEmpty() || status == MessageStatus.STREAMING) add(body)
             val rich = web.distinctBy { it.type + "|" + (it.mediaUrl ?: it.url) }.take(WebResults.MAX_ITEMS)
             if (rich.isNotEmpty()) add(MessagePart.WebResults(rich))
+            produced.distinctBy { it.artifactId }.forEach { add(MessagePart.Image(it)) }
             if (sources.isNotEmpty()) add(MessagePart.Citations(sources))
             when (status) {
                 MessageStatus.STOPPED -> add(MessagePart.SystemEvent("stopped", "Réponse arrêtée."))

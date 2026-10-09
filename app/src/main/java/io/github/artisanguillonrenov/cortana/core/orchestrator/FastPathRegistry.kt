@@ -116,6 +116,39 @@ class FastPathRegistry(private val paths: List<FastPath> = defaults()) {
                 }
             },
             object : FastPath {
+                // "Démarre le pod (elyndor-5090)": works with any model or none; always confirmed by the owner (paid).
+                override val id = "runpod.start"
+                override val version = 1
+                private val re = Regex("(?i)^\\s*(?:cortana[ ,]+)?(?:d[ée]marre|red[ée]marre|relance|allume|r[ée]veille|lance)(?:[- ]moi)?\\s+(?:le |mon |ton |les )?pods?\\b\\s*(.{0,60}?)\\s*[.!]?$")
+                override fun match(text: String, ctx: FastPathContext): FastPathMatch? {
+                    val m = re.find(text) ?: return null
+                    val name = m.groupValues[1].trim().removePrefix("de ").removePrefix("du ").trim()
+                    return FastPathMatch(id, "runpod.start", buildJsonObject { if (name.isNotEmpty()) put("pod", name) }, 0.95,
+                        render = { res -> if (res.ok) res.text else null }, stopOnFailure = true, ownerTextOnly = true)
+                }
+            },
+            object : FastPath {
+                // "Trouve-moi une photo de la tour Eiffel" shows real photos found on the web, inline,
+                // whatever the model would have chosen (never a generated image, never a file to open).
+                override val id = "web.images"
+                override val version = 1
+                override fun match(text: String, ctx: FastPathContext): FastPathMatch? {
+                    val s = io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.search(text) ?: return null
+                    val what = if (s.mode == "videos") "vidéos" else "images"
+                    return FastPathMatch(id, "web.search", buildJsonObject { put("query", s.query); put("mode", s.mode); put("count", 8) }, 0.9,
+                        render = { res ->
+                            val engine = res.untrustedSource?.substringAfter("web.search:", "")?.takeIf { it.isNotBlank() && it != "web.search" }
+                            when {
+                                !res.ok -> null
+                                res.text.startsWith("Aucun résultat") -> "Je n'ai trouvé aucune de ces $what pour « ${s.query} »${engine?.let { " ($it)" } ?: ""}. " +
+                                    "Essayez d'autres mots, ou un autre moteur dans Réglages → Recherche web."
+                                else -> "Voici des $what de « ${s.query} » trouvées sur le web${engine?.let { " ($it)" } ?: ""}. Touchez-en une pour l'agrandir ou ouvrir sa source."
+                            }
+                        },
+                        stopOnFailure = true, ownerTextOnly = true)
+                }
+            },
+            object : FastPath {
                 override val id = "volume.set"
                 override val version = 1
                 private val re = Regex("(?i)^\\s*(?:mets|règle|regle|passe)\\s+le\\s+volume\\s*(?:de\\s+la\\s+|du\\s+|des\\s+)?(média|musique|sonnerie|alarme|notifications?)?\\s*(?:à|a)\\s*(\\d{1,3})\\s*(?:%|pour ?cent)?\\s*[.!]?$")

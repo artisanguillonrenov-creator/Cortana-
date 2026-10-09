@@ -1,5 +1,83 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc13 (versionCode 14) — Nouveaux pods RunPod
+
+S'installe par-dessus la **2.0.0-rc12** sans désinstaller : même paquet, même certificat, schéma **v4** inchangé.
+
+- Cortana se rattache **automatiquement** aux nouveaux pods, au premier démarrage :
+  - **elyndor-5090-ro** : discussion (`cydonia-24b-elyndor`, port 8000), images (`lustify-sdxl-v4`) et mémoire (`bge-m3`) sur le port 7860 ;
+  - **cortana-code-vision** : code et vision (`qwen3.6-27b`, port 8080).
+- Les fournisseurs gardent leur identité : modèle par défaut, routes de code, vision, images et mémoire, et discussions continuent sans rien changer.
+- Chaque fournisseur retient le nom de son pod : une prochaine migration sera retrouvée toute seule (clé RunPod dans Réglages → RunPod).
+
+## 2.0.0-rc12 (versionCode 13) — SafeSearch désactivé, pods RunPod autonomes
+
+S'installe par-dessus la **2.0.0-rc11** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : données conservées.
+
+### Nouveau
+- **Recherche web sans SafeSearch** : contenu adulte autorisé sur DuckDuckGo (pages, images, vidéos), Brave et SearXNG. Les protections de sécurité (adresses locales, images https, pas de SVG, taille limitée) restent.
+- **Pods RunPod** (clé API dans Réglages → RunPod) :
+  - un pod **migré sur un autre GPU** est retrouvé par son nom : l'adresse du fournisseur est mise à jour toute seule (au démarrage, et après un échec de connexion, avec un nouvel essai) ; une ligne vous prévient et le journal d'audit garde l'ancienne et la nouvelle adresse ;
+  - **« Démarre le pod »** (ou « relance le pod elyndor-5090 ») démarre un pod arrêté, avec n'importe quel modèle ou sans modèle, **après votre confirmation** (prix affiché) ;
+  - si aucun GPU n'est libre, Cortana le dit et propose le secours ;
+  - « Vérifier mes pods » dans Réglages → RunPod.
+- Une adresse qui n'est pas celle d'un pod RunPod, ou un pod qui existe encore, n'est jamais modifiée ; deux pods de même nom ne sont jamais départagés au hasard.
+
+## 2.0.0-rc11 (versionCode 12) — Images dans la conversation, fournisseurs fiables
+
+S'installe par-dessus la **2.0.0-rc10** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration, conversations, réglages, mémoire et fichiers conservés.
+
+### Corrigé
+- **« Trouve-moi une photo de… sur Internet »** affiche directement les images trouvées dans la réponse (galerie, agrandissement, source), sans passer par le modèle, et encore après réouverture de la discussion. Fonctionne aussi pour « montre-moi des images de… » et les vidéos.
+- Une recherche d'images n'est **jamais** remplacée par une image générée, et une demande de génération ne lance pas de recherche.
+- **Images générées, retouchées ou transformées** par Cortana : affichées comme des images dans la conversation (plus seulement « artefact <id> »). Les images que vous envoyez s'affichent en vignette.
+- **Écran classique** : il affiche maintenant les images et vidéos trouvées sur le web et les images produites, comme l'écran Workspace.
+- **DuckDuckGo** : nouvel essai automatique et messages clairs quand il limite les recherches ou change de format.
+- En mode « Discussion » (sans outils), une recherche d'images explique comment réactiver les outils au lieu de répondre à côté.
+
+### Nouveau
+- **« Tester la connexion »** d'un fournisseur distingue : adresse obsolète, pod RunPod arrêté, clé refusée, modèle absent, serveur occupé ou en chargement, erreur serveur, délai dépassé — avec la marche à suivre.
+- Préréglage **Elyndor Cloud (RTX 5090)** (module LoRA agent), repris de `main`. La LoRA n'est envoyée que par ce préréglage.
+
+### Sécurité
+- Une clé de fournisseur n'est **jamais envoyée en clair** (http://) vers Internet ; le réseau local reste possible en http.
+- La préconfiguration des pods ne remplace plus un modèle de code ou de vision que vous aviez déjà choisi.
+
+## 2.0.0-rc10 (versionCode 11) — Outils GitHub en ligne et méthode de travail
+
+S'installe par-dessus la **2.0.0-rc9** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Lire un dépôt GitHub en ligne, sans le cloner** : fiche du dépôt, arborescence, lecture de fichiers (lignes numérotées), recherche dans le code, historique et diff des commits, branches, pull requests, issues, intégration continue (Actions) et versions publiées.
+- **Écrire sur GitHub** (créer une issue, commenter, ouvrir une pull request) : toujours confirmé par vous, avec le jeton github.com de Réglages → Git.
+- **Méthode de travail** donnée au modèle quand des outils sont disponibles : lire avant d'agir, auditer en ligne sans cloner, aller du général au précis, prouver chaque constat (fichier:ligne), modifier le minimum puis vérifier, rapport honnête.
+- Les demandes d'audit de dépôt passent par le **modèle de code**.
+
+### Corrigé
+- **Clonage** : seule la branche demandée (ou la branche par défaut) est téléchargée, et les gros fichiers sont lus par morceaux. Un dépôt contenant des APK dans d'autres branches faisait manquer de mémoire la tablette.
+
+## 2.0.0-rc9 (versionCode 10) — Modèle de code et de vision sur RunPod
+
+S'installe par-dessus la **2.0.0-rc8** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Nouveau fournisseur « RunPod · code & vision »** (pod `cortana-code-vision`, RTX 3090) : modèle multimodal `qwen3.6-27b`, appel d'outils natif, contexte de 32 768 jetons.
+  - Il devient le **modèle pour le code** (atelier logiciel) et le **modèle pour la vision** (photos, captures d'écran).
+  - Le modèle de discussion, les images et la mémoire restent sur elyndor-5090.
+- **Clé d'accès** : ce serveur est protégé. Saisissez sa clé une fois dans Réglages → Modèles → « RunPod · code & vision ». Elle n'est jamais incluse dans l'application ni dans le dépôt.
+- Appliqué une seule fois. Une installation venant de la rc8 ne rejoue pas la configuration d'elyndor-5090 : vos réglages restent tels quels.
+
+## 2.0.0-rc8 (versionCode 9) — Connexion au pod RunPod elyndor-5090
+
+S'installe par-dessus la **2.0.0-rc7** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.
+
+### Nouveau
+- **Connexion automatique au pod RunPod « elyndor-5090 »** au premier démarrage de cette version :
+  - discussion : `cydonia-24b-elyndor` (llama.cpp, port 8000), devient le fournisseur par défaut ;
+  - images : `lustify-sdxl-v4` et mémoire (embeddings) : `bge-m3` (serveur médias, port 7860) ; la mémoire est ré-indexée.
+- Appliqué une seule fois : vos choix ultérieurs (autre fournisseur par défaut, fournisseur supprimé) ne sont jamais annulés. Les autres fournisseurs et les discussions liées à un modèle restent inchangés.
+- Les modèles `cydonia` utilisent l'appel d'outils émulé de Cortana (contexte 24 576).
+
 ## 2.0.0-rc7 (versionCode 8) — Résultats web enrichis dans la conversation
 
 S'installe par-dessus la **2.0.0-rc6** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration.

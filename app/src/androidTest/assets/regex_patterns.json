@@ -37,6 +37,12 @@
  },
  {
   "file": "app/src/main/assets/configs/model_caps.json",
+  "pattern": "(?i)cydonia",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/assets/configs/model_caps.json",
   "pattern": "(?i)deepseek",
   "flags": 0,
   "kind": "static"
@@ -252,6 +258,12 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatContracts.kt",
+  "pattern": "^[A-Za-z0-9-]{8,64}$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatService.kt",
   "pattern": "\"sessionId\":\"([^\"]+)\"",
   "flags": 0,
@@ -272,6 +284,66 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ChatTimeline.kt",
   "pattern": "^\\s*([0-9]{1,3})\\. (.+)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)[\\s,]*(?:(?:sur|depuis) (?:internet|le web|google|youtube)|en ligne|s'il te pla[iî]t|s’il te pla[iî]t|stp|svp|merci|please)[\\s.,!?]*$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(dessine|imagine)\\w*",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(dessin|illustration|logo|affiche|portrait|avatar|fond d'[ée]cran)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(g[ée]n[èeé]r\\w*|dessin\\w*|dessiner|cr[ée]{1,2}(?:r|z|s|e)?\\b|cr[ée]e-moi|imagin\\w*|fabriqu\\w*|produi\\w*|illustr\\w*|pein[st]\\w*|retouch\\w*|modifi\\w*)",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(images?|photos?|photographies?)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(puis|ensuite|et (?:envoie|partage|enregistre|mets|sauvegarde|imprime|transf[èe]re))\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)\\b(sur (?:internet|le web|google|youtube)|en ligne|du web|d'internet)\\b",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^(?:la |le |les |l'|l’|un |une |des )",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^\\s*(?:(?:est-ce que\\s+)?(?:tu peux|peux-tu|pourrais-tu|tu pourrais)\\s+)?(?:me\\s+|nous\\s+)?(?:cherche|recherche|trouve|montre|affiche|donne|envoie|chercher|rechercher|trouver|montrer|afficher|donner|voir)(?:[- ](?:moi|nous))?\\s+(?:sur (?:internet|le web|google)\\s+)?(?:une?|des|la|les|quelques|\\d+)?\\s*(images?|photos?|photographies?|vid[ée]os?)\\b(.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/chat/ImageIntent.kt",
+  "pattern": "(?i)^\\s*(?:de la |de l'|de l’|d'|d’|des |du |de |sur |avec )",
   "flags": 0,
   "kind": "static"
  },
@@ -1602,6 +1674,18 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/model/RunPod.kt",
+  "pattern": "(?i)(-migration)+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/model/RunPod.kt",
+  "pattern": "^https://([a-z0-9]+)-(\\d{2,5})\\.proxy\\.runpod\\.net(/.*)?$",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/observability/Observability.kt",
   "pattern": "[0-9.]+",
   "flags": 0,
@@ -1705,6 +1789,12 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:d[ée]marre|red[ée]marre|relance|allume|r[ée]veille|lance)(?:[- ]moi)?\\s+(?:le |mon |ton |les )?pods?\\b\\s*(.{0,60}?)\\s*[.!]?$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
   "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:ouvre|lance|démarre|open)\\s+(?:l'application\\s+|l'appli\\s+|l’application\\s+)?(.{2,40}?)\\s*[.!]?$",
   "flags": 0,
   "kind": "static"
@@ -1801,7 +1891,7 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/planner/Planner.kt",
-  "pattern": "(?i)\\b(bugs?|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b",
+  "pattern": "(?i)\\b(bugs?|audit\\w*|github|compile|compiler|compilation|build|tests?|teste[rz]?|dépôt|repo|git|commit|branche|refactor\\w*|refactori\\w+|code source|du code|coder|diff|patch|corrige le code|projet (?:android|kotlin|web)|apk|gradle|npm|kotlin|python|javascript|typescript)\\b",
   "flags": 0,
   "kind": "static"
  },
@@ -1892,6 +1982,12 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/skills/SkillService.kt",
   "pattern": "\\{\\{([a-zA-Z0-9_]+)\\}\\}",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/tools/CapabilityMatcher.kt",
+  "pattern": "(?i)github|d[ée]p[ôo]ts?\\b|\\brepo(s|sitor\\w*)?\\b|pull request|\\bissues?\\b",
   "flags": 0,
   "kind": "static"
  },
@@ -2106,6 +2202,18 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/GitHubTools.kt",
+  "pattern": "^[A-Za-z0-9_.-]+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "\"vqd\"\\s*:\\s*\"([0-9]+-[0-9-]+)\"",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
   "pattern": "&#(\\d+);",
   "flags": 0,
@@ -2203,7 +2311,13 @@
  },
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
-  "pattern": "vqd=[\"']?([0-9-]+)",
+  "pattern": "vqd=[\"']?([0-9-]{6,})",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/executors/web/WebTools.kt",
+  "pattern": "vqd=[\"']?([0-9]+-[0-9-]+)",
   "flags": 0,
   "kind": "static"
  },

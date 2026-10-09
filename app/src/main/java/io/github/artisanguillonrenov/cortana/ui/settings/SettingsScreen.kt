@@ -106,6 +106,34 @@ fun SettingsScreen(onProviders: () -> Unit, onOnboarding: () -> Unit, onAudit: (
                 UpdateSettingsSection(s, ::upd)
                 NetworkSecretsSection(s, ::upd)
                 GitSettingsSection(s, ::upd)
+                SectionCard("RunPod") {
+                    Text("Avec votre clé API RunPod (lecture et écriture), Cortana retrouve un pod migré sur un autre GPU et met son adresse à jour toute seule, " +
+                        "et démarre un pod arrêté quand vous le demandez (« démarre le pod »), toujours après votre confirmation.", style = MaterialTheme.typography.bodySmall)
+                    var rpKey by remember { mutableStateOf("") }
+                    var rpStatus by remember { mutableStateOf<String?>(null) }
+                    val rpScope = rememberCoroutineScope()
+                    OutlinedTextField(rpKey, { rpKey = it }, label = { Text(if (c.secrets.has(s.runpodKeyHandle)) "Clé RunPod (enregistrée 🔒)" else "Clé API RunPod") },
+                        visualTransformation = PasswordVisualTransformation(), singleLine = true, modifier = Modifier.fillMaxWidth())
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        TextButton(enabled = rpKey.isNotBlank(), onClick = {
+                            val h = s.runpodKeyHandle ?: c.secrets.newHandle()
+                            c.secrets.put(h, rpKey.trim()); rpKey = ""
+                            upd { it.copy(runpodKeyHandle = h) }
+                        }) { Text("Enregistrer la clé") }
+                        TextButton(enabled = c.secrets.has(s.runpodKeyHandle), onClick = {
+                            rpScope.launch {
+                                rpStatus = "Vérification…"
+                                rpStatus = runCatching {
+                                    val pods = c.runpod.pods()
+                                    val r = c.runpodResolver.refresh()
+                                    (pods.joinToString("\n") { "${it.name} : ${if (it.running) "en marche" else "arrêté"}${it.gpu?.let { g -> " · $g" }.orEmpty()}" } +
+                                        r.changes.joinToString("") { "\nAdresse mise à jour : ${it.providerName}" } + r.problems.joinToString("") { "\nÀ vérifier : $it" }).ifBlank { "Aucun pod." }
+                                }.getOrElse { "✗ ${it.message}" }
+                            }
+                        }) { Text("Vérifier mes pods") }
+                    }
+                    rpStatus?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
+                }
                 SectionCard("Recherche web") {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         listOf("duckduckgo" to "DuckDuckGo (sans clé)", "brave" to "Brave Search", "searxng" to "SearXNG").forEach { (k, l) ->

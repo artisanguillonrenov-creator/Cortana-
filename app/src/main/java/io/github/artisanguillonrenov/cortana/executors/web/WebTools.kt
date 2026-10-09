@@ -263,13 +263,25 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
         }
     }
 
-    private class DuckDuckGoHtmlSearch(private val client: OkHttpClient, private val ua: String) : SearchProvider {
+    /** [base]: the DuckDuckGo address (a local server in tests). */
+    companion object {
+        /**
+         * SafeSearch is off on every search engine (owner's choice, an adult's personal assistant): adult
+         * content is allowed in pages, images and videos. DuckDuckGo: kp=-2 (and p=-1 on its image and
+         * video endpoints); Brave: safesearch=off; SearXNG: safesearch=0. Security filters (private
+         * addresses, https pictures, no SVG, size limits) are unchanged.
+         */
+        const val SAFE_SEARCH_OFF_KP = "-2"
+    }
+
+    internal class DuckDuckGoHtmlSearch(private val client: OkHttpClient, private val ua: String, private val base: String = "https://duckduckgo.com") : SearchProvider {
         override val name = "DuckDuckGo"
         private val resultRe = Regex("(?is)<a[^>]*class=\"result__a\"[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>")
         private val snippetRe = Regex("(?is)<a[^>]*class=\"result__snippet\"[^>]*>(.*?)</a>")
 
         override suspend fun search(query: String, count: Int): List<SearchHit> {
-            val url = "https://html.duckduckgo.com/html/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).addQueryParameter("kl", "fr-fr").build()
+            val url = "https://html.duckduckgo.com/html/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).addQueryParameter("kl", "fr-fr")
+                .addQueryParameter("kp", SAFE_SEARCH_OFF_KP).build()
             val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { it.body?.string().orEmpty() }
             val snippets = snippetRe.findAll(html).map { HtmlText.decodeEntities(it.groupValues[1].replace(Regex("<[^>]+>"), "")).trim() }.toList()
             return resultRe.findAll(html).mapIndexed { i, m ->
@@ -280,18 +292,42 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
             }.filter { !it.url.contains("duckduckgo.com/y.js") }.take(count).toList()
         }
 
+        private val vqdRe = listOf(Regex("vqd=[\"']?([0-9]+-[0-9-]+)"), Regex("\"vqd\"\\s*:\\s*\"([0-9]+-[0-9-]+)\""), Regex("vqd=[\"']?([0-9-]{6,})"))
+        private val limited = "DuckDuckGo limite les recherches d'images en ce moment : réessayez dans une minute, ou choisissez Brave Search ou SearXNG (Réglages → Recherche web)"
+
+        /** The page token DuckDuckGo's image and video endpoints need, read from its search page. */
         private suspend fun vqd(query: String): String {
-            val url = "https://duckduckgo.com/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).build()
-            val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { it.body?.string().orEmpty() }
-            return Regex("vqd=[\"']?([0-9-]+)").find(html)?.groupValues?.get(1) ?: throw IllegalStateException("jeton DuckDuckGo introuvable")
+            val url = "${base.trimEnd('/')}/".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("q", query).addQueryParameter("kp", SAFE_SEARCH_OFF_KP).build()
+            val html = client.newCall(Request.Builder().url(url).header("User-Agent", ua).get().build()).await().use { r ->
+                if (r.code == 403 || r.code == 429) throw IllegalStateException(limited)
+                if (!r.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${r.code}")
+                r.body?.string().orEmpty()
+            }
+            return vqdRe.firstNotNullOfOrNull { it.find(html)?.groupValues?.get(1) }
+                ?: throw IllegalStateException("DuckDuckGo n'a pas fourni son jeton de recherche (page modifiée ou accès limité) : réessayez, ou choisissez Brave Search ou SearXNG (Réglages → Recherche web)")
         }
 
+        /** One retry with a fresh token when DuckDuckGo refuses the first (expired token, short limit). */
         private suspend fun json(path: String, query: String): List<JsonObject> {
-            val url = "https://duckduckgo.com/$path".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("l", "fr-fr").addQueryParameter("o", "json")
-                .addQueryParameter("q", query).addQueryParameter("vqd", vqd(query)).addQueryParameter("p", "1").build()
-            val body = client.newCall(Request.Builder().url(url).header("User-Agent", ua).header("Referer", "https://duckduckgo.com/").get().build()).await()
-                .use { if (!it.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${it.code}"); it.body?.string().orEmpty() }
-            return AppJson.parseToJsonElement(body).jsonObject.a("results")
+            var last: Exception? = null
+            repeat(2) { attempt ->
+                try {
+                    val url = "${base.trimEnd('/')}/$path".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("l", "fr-fr").addQueryParameter("o", "json")
+                        .addQueryParameter("q", query).addQueryParameter("vqd", vqd(query)).addQueryParameter("p", "-1").addQueryParameter("kp", SAFE_SEARCH_OFF_KP).build()
+                    val body = client.newCall(Request.Builder().url(url).header("User-Agent", ua).header("Referer", "https://duckduckgo.com/").get().build()).await().use { r ->
+                        if (r.code == 403 || r.code == 429) throw IllegalStateException(limited)
+                        if (!r.isSuccessful) throw IllegalStateException("DuckDuckGo HTTP ${r.code}")
+                        r.body?.string().orEmpty()
+                    }
+                    val o = runCatching { AppJson.parseToJsonElement(body) as? JsonObject }.getOrNull()
+                        ?: throw IllegalStateException("réponse DuckDuckGo illisible (format modifié ou accès limité)")
+                    return o.a("results")
+                } catch (e: IllegalStateException) {
+                    last = e
+                    if (attempt == 0) kotlinx.coroutines.delay(400)
+                }
+            }
+            throw last!!
         }
 
         override suspend fun images(query: String, count: Int): List<WebResultItem> = json("i.js", query).mapNotNull { o ->
@@ -311,7 +347,7 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
         override suspend fun search(query: String, count: Int): List<SearchHit> {
             if (key.isNullOrBlank()) throw IllegalStateException("Clé Brave Search manquante (Réglages → Recherche web)")
             val url = "https://api.search.brave.com/res/v1/web/search".toHttpUrlOrNull()!!.newBuilder()
-                .addQueryParameter("q", query).addQueryParameter("count", count.toString()).addQueryParameter("search_lang", "fr").build()
+                .addQueryParameter("q", query).addQueryParameter("count", count.toString()).addQueryParameter("search_lang", "fr").addQueryParameter("safesearch", "off").build()
             val body = client.newCall(Request.Builder().url(url).header("Accept", "application/json").header("X-Subscription-Token", key).get().build())
                 .await().use { if (!it.isSuccessful) throw IllegalStateException("Brave HTTP ${it.code}"); it.body?.string().orEmpty() }
             val results = (AppJson.parseToJsonElement(body).jsonObject["web"] as? JsonObject)?.get("results") as? JsonArray ?: return emptyList()
@@ -329,7 +365,7 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
         private suspend fun api(kind: String, query: String, count: Int): List<JsonObject> {
             if (key.isNullOrBlank()) throw IllegalStateException("Clé Brave Search manquante (Réglages → Recherche web)")
             val url = "https://api.search.brave.com/res/v1/$kind/search".toHttpUrlOrNull()!!.newBuilder()
-                .addQueryParameter("q", query).addQueryParameter("count", count.toString()).addQueryParameter("search_lang", "fr").build()
+                .addQueryParameter("q", query).addQueryParameter("count", count.toString()).addQueryParameter("search_lang", "fr").addQueryParameter("safesearch", "off").build()
             val body = client.newCall(Request.Builder().url(url).header("Accept", "application/json").header("X-Subscription-Token", key).get().build())
                 .await().use { if (!it.isSuccessful) throw IllegalStateException("Brave HTTP ${it.code}"); it.body?.string().orEmpty() }
             return AppJson.parseToJsonElement(body).jsonObject.a("results")
@@ -352,7 +388,7 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
         override val name = "SearXNG"
         override suspend fun search(query: String, count: Int): List<SearchHit> {
             val url = ("${base.trimEnd('/')}/search").toHttpUrlOrNull()?.newBuilder()
-                ?.addQueryParameter("q", query)?.addQueryParameter("format", "json")?.addQueryParameter("language", "fr")?.build()
+                ?.addQueryParameter("q", query)?.addQueryParameter("format", "json")?.addQueryParameter("language", "fr")?.addQueryParameter("safesearch", "0")?.build()
                 ?: throw IllegalStateException("Adresse SearXNG invalide (Réglages → Recherche web)")
             val body = client.newCall(Request.Builder().url(url).get().build()).await().use { it.body?.string().orEmpty() }
             val results = AppJson.parseToJsonElement(body).jsonObject["results"] as? JsonArray ?: return emptyList()
@@ -365,7 +401,7 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
 
         private suspend fun category(category: String, query: String): List<JsonObject> {
             val url = ("${base.trimEnd('/')}/search").toHttpUrlOrNull()?.newBuilder()
-                ?.addQueryParameter("q", query)?.addQueryParameter("format", "json")?.addQueryParameter("language", "fr")?.addQueryParameter("categories", category)?.build()
+                ?.addQueryParameter("q", query)?.addQueryParameter("format", "json")?.addQueryParameter("language", "fr")?.addQueryParameter("safesearch", "0")?.addQueryParameter("categories", category)?.build()
                 ?: throw IllegalStateException("Adresse SearXNG invalide (Réglages → Recherche web)")
             val body = client.newCall(Request.Builder().url(url).get().build()).await().use { it.body?.string().orEmpty() }
             return AppJson.parseToJsonElement(body).jsonObject.a("results")
@@ -395,9 +431,12 @@ class WebExecutor(baseClient: OkHttpClient, private val settings: SettingsReposi
             category = ToolCategory.WEB, label = "Recherche web",
             destinationOf = { "moteur de recherche" },
             tags = listOf("chercher", "internet", "google", "actualités", "météo", "informations", "trouver"),
-        ) { args, _ ->
+        ) { args, ctx ->
             val q = args.str("query").orEmpty()
-            val mode = args.str("mode")?.takeIf { it in WebResults.MODES } ?: "web"
+            // The owner explicitly asked for pictures found on the web: images, even if the model forgot the mode.
+            val asked = io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.search(ctx.lastUserText)?.mode
+                ?: if (io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isWebImageSearch(ctx.lastUserText)) "images" else null
+            val mode = args.str("mode")?.takeIf { it in WebResults.MODES && !(it == "web" && asked != null) } ?: asked ?: "web"
             val p = searchProvider()
             val raw = runCatching { p.rich(q, mode, args.int("count") ?: 6) }.getOrElse { return@ToolDefinition ToolResult.error("Recherche impossible (${p.name}) : ${it.message}") }
             // Validated here and again when stored: nothing unsafe reaches the conversation.

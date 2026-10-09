@@ -89,7 +89,8 @@ class GitService(
 
     init {
         // Android has no JMX: never let JGit try to register MBeans.
-        runCatching { WindowCacheConfig().apply { setExposeStatsViaJmx(false) }.install() }
+        // Blobs above 8 MiB are streamed instead of loaded whole: a tablet app has a ~256 MiB heap.
+        runCatching { WindowCacheConfig().apply { setExposeStatsViaJmx(false); setStreamFileThreshold(STREAM_THRESHOLD) }.install() }
         configDir?.let { d ->
             d.mkdirs()
             val current = SystemReader.getInstance()
@@ -130,8 +131,14 @@ class GitService(
         if (uri.scheme != "https") throw GitRefused("Seuls les dépôts https:// peuvent être clonés")
         val w = workspaces.create(name ?: uri.humanishName.ifBlank { "depot" }, origin = "cloned:${redactUrl(url)}", trust = WorkspaceTrust.UNTRUSTED)
         try {
+            // One branch only (the requested one, else the remote's default): other branches of a public
+            // repository can carry release binaries far larger than the app's heap.
+            val refs = runCatching {
+                Git.lsRemoteRepository().setRemote(url).apply { credentialsFor(url)?.let { setCredentialsProvider(it) } }.callAsMap()
+            }.getOrDefault(emptyMap())
+            val only = branchToClone(refs, branch)
             Git.cloneRepository().setURI(url).setDirectory(root(w)).setCloneAllBranches(false).apply {
-                branch?.let { setBranch(it) }
+                only?.let { setBranchesToClone(listOf(Constants.R_HEADS + it)); setBranch(Constants.R_HEADS + it) }
                 credentialsFor(url)?.let { setCredentialsProvider(it) }
             }.call().use { g ->
                 val head = g.repository.resolve(Constants.HEAD)?.name
@@ -450,6 +457,23 @@ class GitService(
     }
 
     companion object {
+        const val STREAM_THRESHOLD = 8 * 1024 * 1024
+
+        /**
+         * The single branch a clone fetches: [requested] when given, else the branch the remote HEAD
+         * points to (symbolic ref, else same commit, preferring main/master), else main, master or the
+         * first branch. Null only when the remote advertises no branch at all.
+         */
+        fun branchToClone(refs: Map<String, org.eclipse.jgit.lib.Ref>, requested: String?): String? {
+            requested?.takeIf { it.isNotBlank() }?.let { return it.removePrefix(Constants.R_HEADS) }
+            val heads = refs.keys.filter { it.startsWith(Constants.R_HEADS) }.map { it.removePrefix(Constants.R_HEADS) }
+            fun preferred(c: List<String>) = c.firstOrNull { it == "main" } ?: c.firstOrNull { it == "master" } ?: c.firstOrNull()
+            val head = refs[Constants.HEAD]
+            head?.takeIf { it.isSymbolic }?.target?.name?.takeIf { it.startsWith(Constants.R_HEADS) }?.let { return it.removePrefix(Constants.R_HEADS) }
+            head?.objectId?.let { id -> preferred(heads.filter { refs[Constants.R_HEADS + it]?.objectId == id })?.let { return it } }
+            return preferred(heads)
+        }
+
         fun redactUrl(url: String): String = url.replace(Regex("//[^/@]+@"), "//")
         fun sanitize(e: Exception): String = redactUrl((e.cause?.message ?: e.message ?: e.javaClass.simpleName)).take(300)
         fun defaultIdentity(name: String = "Cortana", email: String = "cortana@localhost") = PersonIdent(name, email, java.util.Date(), TimeZone.getDefault())

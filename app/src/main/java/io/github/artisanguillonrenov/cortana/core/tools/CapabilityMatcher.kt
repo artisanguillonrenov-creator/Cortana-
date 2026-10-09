@@ -30,11 +30,19 @@ class CapabilityMatcher(private val discovery: ToolDiscovery) {
         // A DAG step with declared capabilities gets exactly those (+ core + discovered): restricted toolset.
         val strict = strategy == PlanStrategy.DAG && required.isNotEmpty()
         if (strict) return Selection(chosen.values.toList(), strict = true)
-        val ranked = discovery.rank(text, pool)
+        // Tools offered only when the request is about them (they stay reachable through tools.discover).
+        // A web image search is never offered image generation (and the reverse is left to the model).
+        val webImages = io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isWebImageSearch(text) && !io.github.artisanguillonrenov.cortana.core.chat.ImageIntent.isGeneration(text)
+        val eligible = { d: ToolDefinition ->
+            ON_DEMAND.none { (prefix, about) -> d.capability.startsWith(prefix) && !about.containsMatchIn(text) } &&
+                !(webImages && d.capability in GENERATION)
+        }
+        val ranked = discovery.rank(text, pool).filter { eligible(it.def) }
+        if (webImages) add(byCap["web.search"])
         ranked.filter { it.score >= ToolDiscovery.MIN_SCORE }.take(KEYWORD_HITS).forEach { if (chosen.size < max) add(it.def) }
         val score = ranked.associate { it.def.capability to it.score }
         for (cat in categories - ToolCategory.SERVICE) {
-            pool.filter { it.category == cat }
+            pool.filter { it.category == cat && eligible(it) }
                 .sortedWith(compareByDescending<ToolDefinition> { score[it.capability] ?: 0.0 }.thenBy { CATEGORY_PRIORITY.indexOf(it.capability).let { i -> if (i < 0) Int.MAX_VALUE else i } }.thenBy { it.capability })
                 .forEach { if (chosen.size < max) add(it) }
         }
@@ -45,6 +53,9 @@ class CapabilityMatcher(private val discovery: ToolDiscovery) {
         const val DISCOVER = "tools.discover"
         val CORE = listOf("ask_user", DISCOVER, "memory.search", "memory.save")
         private const val KEYWORD_HITS = 8
+        private val GENERATION = setOf("media.image.generate", "media.image.edit")
+        /** GitHub's online tools are for requests about a GitHub repository, never a general web question. */
+        private val ON_DEMAND = listOf("github." to Regex("(?i)github|d[ée]p[ôo]ts?\\b|\\brepo(s|sitor\\w*)?\\b|pull request|\\bissues?\\b"))
         /** Tools a category cannot work without, offered first when the category is selected. */
         private val CATEGORY_PRIORITY = listOf(
             "android.ui.observe", "android.ui.click", "android.ui.type", "android.ui.scroll", "android.ui.wait_for", "android.ui.submit",

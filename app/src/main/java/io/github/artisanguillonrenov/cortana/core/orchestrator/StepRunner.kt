@@ -186,6 +186,7 @@ class StepRunner(
             }
             tr.counters = tr.counters.copy(modelCalls = tr.counters.modelCalls + 1)
             listener.countersChanged(tr.counters)
+            result.notice?.let { n -> conversations.addMessage(tr.session.id, Roles.SYSTEM, "ℹ️ $n", taskId = tr.taskId) }
             result.fellBackFrom?.let { from ->
                 conversations.addMessage(tr.session.id, Roles.SYSTEM, "ℹ️ $from indisponible : réponse obtenue via ${result.route?.providerName} (${result.route?.modelId}).", taskId = tr.taskId)
             }
@@ -470,7 +471,7 @@ class StepRunner(
         }
     }
 
-    private suspend fun recordToolMessage(tr: TaskRun, call: ToolCall, result: ToolResult, def: ToolDefinition?) {
+    internal suspend fun recordToolMessage(tr: TaskRun, call: ToolCall, result: ToolResult, def: ToolDefinition?) {
         val max = def?.maxOutputBytes ?: 8000
         var text = Redactor.redact(result.text).truncateBytes(max)
         if (!result.ok) text = "ERREUR : $text"
@@ -485,22 +486,27 @@ class StepRunner(
             put("capability", def?.capability ?: call.name)
             put("ok", result.ok)
         }.toString()
-        conversations.addMessage(tr.session.id, Roles.TOOL, text, taskId = tr.taskId, toolCallsJson = meta, metaJson = webResultsMeta(result, def))
+        conversations.addMessage(tr.session.id, Roles.TOOL, text, taskId = tr.taskId, toolCallsJson = meta, metaJson = richMeta(result, def))
     }
 
     /**
-     * Rich results of a successful `web.search` (images, videos, page cards) are kept with its tool row, so the
-     * conversation shows them again after a restart. Only that capability may produce them, and they are
-     * validated again here: external, untrusted data, displayed by typed views only.
+     * Rich results kept with their tool row, so the conversation shows them again after a restart:
+     * the images, videos and page cards of a successful `web.search` (external, untrusted data,
+     * validated again here) and the images a media tool produced (local artifacts). Only those
+     * capabilities may produce them, and they are displayed by typed views only.
      */
-    private fun webResultsMeta(result: ToolResult, def: ToolDefinition?): String? {
-        if (!result.ok || def?.capability != "web.search") return null
-        val raw = (result.data as? kotlinx.serialization.json.JsonObject)?.get(io.github.artisanguillonrenov.cortana.core.chat.WebResults.DATA_KEY) ?: return null
-        val items = runCatching {
-            AppJson.decodeFromJsonElement(ListSerializer(io.github.artisanguillonrenov.cortana.core.chat.WebResultItem.serializer()), raw)
-        }.getOrNull() ?: return null
-        val safe = io.github.artisanguillonrenov.cortana.core.chat.WebResults.sanitize(items).takeIf { it.isNotEmpty() } ?: return null
-        return AppJson.encodeToString(io.github.artisanguillonrenov.cortana.core.chat.MessageMeta.serializer(), io.github.artisanguillonrenov.cortana.core.chat.MessageMeta(webResults = safe))
+    private fun richMeta(result: ToolResult, def: ToolDefinition?): String? {
+        if (!result.ok) return null
+        val data = result.data as? kotlinx.serialization.json.JsonObject ?: return null
+        val web = if (def?.capability != "web.search") emptyList() else data[io.github.artisanguillonrenov.cortana.core.chat.WebResults.DATA_KEY]?.let { raw ->
+            runCatching { AppJson.decodeFromJsonElement(ListSerializer(io.github.artisanguillonrenov.cortana.core.chat.WebResultItem.serializer()), raw) }.getOrNull()
+        }?.let { io.github.artisanguillonrenov.cortana.core.chat.WebResults.sanitize(it) }.orEmpty()
+        val images = if (def?.capability !in io.github.artisanguillonrenov.cortana.core.chat.ProducedImages.CAPABILITIES) emptyList()
+            else data[io.github.artisanguillonrenov.cortana.core.chat.ProducedImages.DATA_KEY]?.let { raw ->
+                runCatching { AppJson.decodeFromJsonElement(ListSerializer(io.github.artisanguillonrenov.cortana.core.chat.AttachmentRef.serializer()), raw) }.getOrNull()
+            }?.let { io.github.artisanguillonrenov.cortana.core.chat.ProducedImages.sanitize(it) }.orEmpty()
+        if (web.isEmpty() && images.isEmpty()) return null
+        return AppJson.encodeToString(io.github.artisanguillonrenov.cortana.core.chat.MessageMeta.serializer(), io.github.artisanguillonrenov.cortana.core.chat.MessageMeta(webResults = web, images = images))
     }
 }
 

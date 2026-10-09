@@ -401,16 +401,8 @@ class WorkspaceViewModel(private val c: AppContainer) : ViewModel() {
     fun stopVoice() = c.voice.stop("Retour au texte")
 
     /** A thumbnail of an image attachment (sampled down, never the full bitmap in memory). */
-    suspend fun thumbnail(artifactId: String, maxPx: Int = 640): androidx.compose.ui.graphics.ImageBitmap? = kotlinx.coroutines.withContext(Dispatchers.IO) {
-        val a = c.artifacts.get(artifactId) ?: return@withContext null
-        val f = c.artifacts.file(a)
-        if (!f.isFile || !a.mime.startsWith("image/")) return@withContext null
-        val bounds = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        android.graphics.BitmapFactory.decodeFile(f.path, bounds)
-        var sample = 1
-        while (bounds.outWidth / sample > maxPx * 2 || bounds.outHeight / sample > maxPx * 2) sample *= 2
-        runCatching { android.graphics.BitmapFactory.decodeFile(f.path, android.graphics.BitmapFactory.Options().apply { inSampleSize = sample })?.asImageBitmap() }.getOrNull()
-    }
+    suspend fun thumbnail(artifactId: String, maxPx: Int = 640): androidx.compose.ui.graphics.ImageBitmap? =
+        io.github.artisanguillonrenov.cortana.ui.components.ArtifactImages.thumbnail(c.artifacts, artifactId, maxPx)
 
     /** "Analyser" an image (doc 10 §10.4): a new message with the image attached for analysis. */
     fun analyseImage(ref: AttachmentRef) {

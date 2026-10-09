@@ -546,6 +546,167 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Recherche réelle contre DuckDuckGo, Brave et SearXNG (tests sur un SearXNG simulé) ; lecture Media3 et rendu sur l'appareil : non exécutés.
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 15. Rapport de la version candidate 2.0.0-rc8 (08/10/2026)
+
+**Contenu** : configuration unique du pod RunPod du propriétaire (`PreconfiguredPod`, drapeau `preconfiguredPodVersion` dans les réglages), règle `cydonia` dans `model_caps.json`. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 15.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc8-arm64-v8a.apk` (Galaxy Tab A11) | 59 765 147 o | `d6c2678399dac40920a13823307866b4588084fa25285a5ce25eef4433f16009` |
+| `cortana-2.0.0-rc8-universal.apk` (secours) | 81 200 454 o | `4b37c3cf666ff7f5b92d76962513caae1da44b34c03cbe2c23e450958958212a` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `3d0ef542538bf8b2fee6060a3c17537193f0ed3bf0311c30d0b3b79e9b098600` |
+
+### 15.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **9**, versionName **2.0.0-rc8**.
+- `apksigner` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc7).
+
+### 15.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète (avant le changement de version) | **487 tests, 0 échec, 0 ignoré** (app 474, worker 8, contrats 5), dont 4 nouveaux (`PreconfiguredPodTest`) |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 399 expressions compilées, 0 refusée |
+| Pod réel (sonde HTTP) | `/v1/models`, discussion et flux sur le port 8000 ; embeddings `bge-m3` sur le port 7860 ; format d'outils émulé compris par le modèle |
+
+### 15.4 Non exécuté, gates
+
+- `ReleaseTest` avec le manifeste rc8 et `lintDebug` : non relancés localement (à vérifier par la CI).
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
+## 16. Rapport de la version candidate 2.0.0-rc9 (08/10/2026)
+
+**Contenu** : étape 2 de `PreconfiguredPod` (fournisseur « RunPod · code & vision », routes `codingRoute` et `visionRoute` vers `qwen3.6-27b`, clé d'API saisie par le propriétaire). Aucune autre modification. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 16.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc9-arm64-v8a.apk` (Galaxy Tab A11) | 59 765 151 o | `09088cad71d3ce6c5351c9cf96bc09314b026c1ad2442f46c0fa058ff5f20058` |
+| `cortana-2.0.0-rc9-universal.apk` (secours) | 81 200 458 o | `b305ec9057267e8041cdbd48640cc5ed50fb3348430cf495cf0681ae8d1d29a7` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `6b7dd327fcf595ace004f372cf343c11c02c4da42c934c2e721371c035080927` |
+
+### 16.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **10**, versionName **2.0.0-rc9**.
+- `apksigner` : un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc8).
+
+### 16.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc9 | **489 tests, 0 échec, 0 ignoré** (app 476, worker 8, contrats 5), dont 2 nouveaux (`PreconfiguredPodTest`) ; `ReleaseTest` vert |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 399 expressions compilées, 0 refusée |
+| Pod réel `cortana-code-vision` (RTX 3090, llama.cpp, `qwen3.6-27b` Q4_K_M + projecteur de vision) | 401 sans clé ; appel d'outils natif (`finish_reason: tool_calls`) ; description exacte d'une capture d'écran (titre, réseau, boutons, positions, couleurs) ; ~41 jetons/s en génération |
+
+### 16.4 Non exécuté, gates
+
+- `lintDebug` : non relancé. Rendu sur l'appareil : non exécuté.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
+## 17. Rapport de la version candidate 2.0.0-rc10 (08/10/2026)
+
+**Contenu** : outils `github.*` (`executors/web/GitHubTools.kt`, client web protégé, API REST GitHub), méthode de travail (`prompts/method_fr.txt`, envoyée seulement quand des outils sont proposés), outils GitHub proposés seulement pour une demande qui parle d'un dépôt, audits routés vers le modèle de code, clonage d'une seule branche (`GitService.branchToClone`) et lecture en flux des objets de plus de 8 Mio. Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 17.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc10-arm64-v8a.apk` (Galaxy Tab A11) | 59 831 645 o | `4123245ecef6a0c40ef1c342e7fd11f08fe0df2e6e5e908274ed51013d6ccc35` |
+| `cortana-2.0.0-rc10-universal.apk` (secours) | 81 266 952 o | `1aff24f4cb28300b6745ca7e97ec1b31cae1ca44a9144c11c0b3b8a78d09f433` |
+| `cortana-update.json` (manifeste signé, = `release/cortana-update.json`) | voir la Release | `812b6d12630dd863743e9c30281149e1a65241278398fe81b709f50639a09c30` |
+
+### 17.2 Identité
+
+- `aapt2` : versionCode **11**, versionName **2.0.0-rc10** ; `apksigner` : certificat **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc9).
+
+### 17.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc10 | **495 tests, 0 échec, 0 ignoré** (app 482, worker 8, contrats 5), dont 7 nouveaux (`GitHubToolsTest`) |
+| Régressions trouvées et corrigées pendant la préparation | `CouncilTest.c9` (outils GitHub proposés pour une question web générale) ; `ChatWorkspaceServiceTest.h6` (méthode envoyée inutilement en mode discussion) |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 401 expressions compilées, 0 refusée |
+
+### 17.4 Non exécuté, gates
+
+- Appels réels à api.github.com depuis la tablette, `lintDebug` : non exécutés.
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
+## 18. Rapport de la version candidate 2.0.0-rc11 (08/10/2026)
+
+**Contenu** : chantier de stabilisation (voir `docs/RAPPORT_CHANTIER_CORTANA.md`) : images web affichées dans la réponse (`ImageIntent`, raccourci `web.images`, mode `images` imposé pour une demande explicite, génération exclue), images produites typées (`MessageMeta.images`, `ProducedImages`), écran classique enrichi, DuckDuckGo fiabilisé, diagnostic des fournisseurs (`ProviderHealthCheck`), routes du propriétaire conservées, clé jamais envoyée en clair vers Internet, préréglage Elyndor Cloud repris de `main`, CI sur `main` et les PR avec lint.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 18.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc11-arm64-v8a.apk` (Galaxy Tab A11) | 59 864 613 o | `8c1ebb2222aa0142b1e6f956be5e49704871e06cfa6e5332f385caa479883437` |
+| `cortana-2.0.0-rc11-universal.apk` (secours) | 81 299 920 o | `29fe3015deac02d2ed4c4f9b2edb28933226ad9cd8667c159f12d9e141283b81` |
+| `cortana-update.json` (manifeste signé, APK arm64-v8a, = `release/cortana-update.json`) | voir la Release | `896dc00c173cbbd8a62f2cb6ac7ea412b5e6e8fc87797f05c2779594ecb28a85` |
+
+### 18.2 Identité
+
+- `aapt2` : paquet `io.github.artisanguillonrenov.cortana`, versionCode **12**, versionName **2.0.0-rc11**, non débogable ; ABI `arm64-v8a` (APK tablette) et les quatre ABI (APK universel).
+- `apksigner verify --verbose --print-certs` : schéma v2, un seul signataire, certificat SHA-256 **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`** (identique à la 1.2.0 et aux rc1 à rc10).
+
+### 18.3 Contrôles exécutés
+
+| Contrôle | Résultat |
+|---|---|
+| Suite complète avec le manifeste rc11 (`:contracts:test :worker:test :app:testDebugUnitTest`) | **508 tests, 0 échec, 0 ignoré** (app 495, worker 8, contrats 5), dont 13 nouveaux (`ImageSearchTest` 8, `ProviderHttpTest` 4 dont 1 repris de `main`, `PreconfiguredPodTest` 1) ; `ReleaseTest` vert |
+| `./gradlew :app:lintDebug` | **0 erreur**, 93 avertissements, 8 suggestions |
+| `verifyReleaseVersion` et `androidRegexCheck` | OK ; ICU4C 74.2 : 414 expressions compilées, 0 refusée |
+
+### 18.4 Non exécuté, gates
+
+- Aucun test sur la Galaxy Tab A11 (aucun appareil connecté) : affichage réel des images, installation par-dessus la rc10.
+- Recherches réelles DuckDuckGo/Brave (tests sur serveurs simulés).
+- Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
+
+## 19. Rapport de la version candidate 2.0.0-rc12 (09/10/2026)
+
+**Contenu** : SafeSearch désactivé sur les trois moteurs (`WebTools.kt`) ; RunPod (`core/model/RunPod.kt` : client, adresses, résolution des pods migrés ; `ModelGateway.addressRecovery` ; outils `runpod.pods` L1 et `runpod.start` L3 financier ; raccourci « démarre le pod » ; Réglages → RunPod). Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 19.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc12-arm64-v8a.apk` (Galaxy Tab A11) | 59 930 153 o | `d4627f329a4af83eab880a1171a5a820ac53972e676fdad7a5457234f5517487` |
+| `cortana-2.0.0-rc12-universal.apk` (secours) | 81 365 460 o | `2ab499873d0782e66e3b6814a089bf893c05a1153269be80802a9077870d5401` |
+| `cortana-update.json` (manifeste signé) | voir la Release | `a369535c4088c00cdd6ff84223ab11b7f58f7f6bde46e7ed8208ff5b52063a03` |
+
+### 19.2 Identité et contrôles
+
+- `aapt2` : versionCode **13**, versionName **2.0.0-rc12**, non débogable ; `apksigner` : un signataire, **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`**.
+- Suite complète avec le manifeste rc12 : **515 tests, 0 échec, 0 ignoré** (app 502, worker 8, contrats 5), dont 7 nouveaux (`RunPodTest`) et les contrôles SafeSearch ; `lintDebug` : 0 erreur, 93 avertissements ; ICU4C : 417 expressions, 0 refusée.
+
+### 19.3 Non exécuté
+
+- Appels réels à l'API RunPod et à DuckDuckGo depuis la tablette (serveurs simulés) ; aucun test sur la Galaxy Tab A11. Gate tablette : **BLOCKED_EXTERNAL**.
+
+## 20. Rapport de la version candidate 2.0.0-rc13 (09/10/2026)
+
+**Contenu** : `PreconfiguredPod` version 3 (fournisseurs déplacés de `36w1us6m7ogo2b` vers `u0nb7hefflw2rg` « elyndor-5090-ro », de `dfq6g338899rau` vers `biiby2y7jd3kf7` « cortana-code-vision », noms de pods liés). Module LoRA « agent » non activé (JSON d'outil émulé incomplet lors d'un essai réel).
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc13-arm64-v8a.apk` | 59 946 533 o | `2cfc28ed5f8231072223eee27be661cafdc3f4074f2ba545e69f9ba982fd7f8e` |
+| `cortana-2.0.0-rc13-universal.apk` | 81 381 840 o | `6674a304ca14dec741a45a89647d1344888fc4869bab232b8539ef5a448be961` |
+| `cortana-update.json` | voir la Release | `ea6a8ece98de03e018b07b83b9a5b0e7ee86b426e062176aa06935f2c2039363` |
+
+- `aapt2` : versionCode **14**, versionName **2.0.0-rc13** ; `apksigner` : **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`**.
+- Suite complète avec le manifeste rc13 : **516 tests, 0 échec, 0 ignoré** (app 503, worker 8, contrats 5).
+- Pods réels (09/10/2026) : 8000 `cydonia-24b-elyndor` (outil émulé correct, ~95 jetons/s) ; 7860 `lustify-sdxl-v4` (image générée) et `bge-m3` (1024 dimensions) ; 8080 `qwen3.6-27b` (appel d'outil natif, description d'image exacte).
+- Non exécuté : installation sur la tablette. Gate tablette : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -557,6 +718,12 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc5 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc6 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc7 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc8 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc9 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc10 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc11 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc12 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc13 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).

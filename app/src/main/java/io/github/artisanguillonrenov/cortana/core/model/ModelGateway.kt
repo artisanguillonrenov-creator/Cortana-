@@ -43,6 +43,8 @@ data class GatewayResult(
     val retryAfterMs: Long? = null,
     /** Why the provider ended the answer (stop | length | tool_calls…), when it said so. */
     val finishReason: String? = null,
+    /** Something the owner should know about this call (e.g. a pod address updated automatically). */
+    val notice: String? = null,
 )
 
 /**
@@ -59,6 +61,9 @@ class ModelGateway(
     /** Every model call is a `gen_ai.*` span (phase 28): model, provider, role, tokens, outcome — never content. */
     private val tracer: io.github.artisanguillonrenov.cortana.core.observability.Tracer = io.github.artisanguillonrenov.cortana.core.observability.Tracer(),
 ) {
+    /** Finds a migrated RunPod pod again (set by the container once the resolver exists): new provider + what changed. */
+    var addressRecovery: (suspend (ProviderEntity) -> Pair<ProviderEntity, RunPodResolver.Change>?)? = null
+
     private fun genAi(op: String, p: ProviderEntity, model: String, role: String) = mapOf(
         "gen_ai.operation.name" to op, "gen_ai.provider.name" to p.presetId, "gen_ai.request.model" to model, "cortana.role" to role, "cortana.provider" to p.displayName,
     )
@@ -210,10 +215,19 @@ class ModelGateway(
                 continue
             }
             val r = ModelRoute(p.id, model, p.displayName, route.localOnly)
-            val res = attempt(p, r, messages, tools, tracked, role, jsonMode, maxTokens, temperature, reasoningEffort)
+            var res = attempt(p, r, messages, tools, tracked, role, jsonMode, maxTokens, temperature, reasoningEffort)
+            var notice: String? = null
+            // A RunPod pod migrated to another GPU has a new address: found again by its name, then retried once.
+            if (res.error != null && !emitted && res.result.httpCode != 401 && res.result.httpCode != 403 && res.result.httpCode != 413) {
+                addressRecovery?.let { recover -> runCatching { recover(p) }.getOrNull() }?.let { (moved, change) ->
+                    notice = "Le pod « ${change.podName} » a changé d'adresse : ${p.displayName} mis à jour automatiquement."
+                    res = attempt(moved, r, messages, tools, tracked, role, jsonMode, maxTokens, temperature, reasoningEffort)
+                }
+            }
             if (res.error == null) {
                 health.onSuccess(p.id)
-                return if (p.id != primary.id) res.result.copy(fellBackFrom = primary.displayName) else res.result
+                val ok = if (p.id != primary.id) res.result.copy(fellBackFrom = primary.displayName) else res.result
+                return if (notice != null) ok.copy(notice = notice) else ok
             }
             health.onFailure(p.id, res.error, res.retryable)
             lastError = res.error
@@ -231,9 +245,11 @@ class ModelGateway(
         const val PRIVACY_LOCAL_ONLY = "local_only"
 
         /** On-device or LAN endpoint: the "Serveur local" preset, loopback, private/link-local IPs, .local/.lan/.home.arpa names. */
-        fun isLocal(p: ProviderEntity): Boolean {
-            if (p.presetId == "local") return true
-            val host = runCatching { java.net.URI(p.baseUrl).host }.getOrNull()?.lowercase()?.trim('[', ']') ?: return false
+        fun isLocal(p: ProviderEntity): Boolean = p.presetId == "local" || isLocalUrl(p.baseUrl)
+
+        /** A loopback, private, link-local or .local/.lan/.home.arpa/.internal address. */
+        fun isLocalUrl(url: String): Boolean {
+            val host = runCatching { java.net.URI(url).host }.getOrNull()?.lowercase()?.trim('[', ']') ?: return false
             if (host == "localhost" || host.endsWith(".local") || host.endsWith(".lan") || host.endsWith(".home.arpa") || host.endsWith(".internal")) return true
             val literal = host.matches(Regex("[0-9.]+")) || host.contains(':')
             if (!literal) return false

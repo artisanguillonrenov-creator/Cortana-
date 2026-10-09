@@ -71,7 +71,26 @@ data class MessageMeta(
     val artifactIds: List<String> = emptyList(),
     /** Rich web results (images, videos, page cards) a `web.search` row returned — untrusted, validated data. */
     val webResults: List<WebResultItem> = emptyList(),
+    /** Images a media tool produced (generated, retouched, transformed): local artifacts shown as pictures. */
+    val images: List<AttachmentRef> = emptyList(),
 )
+
+/**
+ * Images produced by Cortana's media tools, carried as typed data from the tool to the conversation so
+ * they are shown as pictures (never as a file to open) and again after a restart. Only these
+ * capabilities may produce them; anything that is not a bitmap image is dropped.
+ */
+object ProducedImages {
+    const val DATA_KEY = "producedImages"
+    val CAPABILITIES = setOf("media.image.generate", "media.image.edit", "media.image.transform")
+    private val ID = Regex("^[A-Za-z0-9-]{8,64}$")
+    private val BITMAP = setOf("image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp", "image/heic", "image/heif")
+
+    fun isBitmap(mime: String): Boolean = mime.lowercase().substringBefore(';').trim() in BITMAP
+
+    fun sanitize(items: List<AttachmentRef>): List<AttachmentRef> =
+        items.filter { it.artifactId.matches(ID) && isBitmap(it.mime) }.distinctBy { it.artifactId }.take(8)
+}
 
 /** Per-conversation choices (`sessions.settingsJson`). */
 @Serializable

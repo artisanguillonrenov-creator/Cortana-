@@ -4,7 +4,7 @@ Ne pas modifier à la main : `ToolCapabilitiesDocTest` compare ce fichier au reg
 
 Risque de base : L0 lecture, L1 réversible local, L2 confirmation du propriétaire, L3 empreinte/biométrie. Le risque effectif n'est jamais inférieur au risque de base : traits, classification des arguments, contenu non fiable et destination peuvent l'élever (`PolicyEngine`).
 
-Total : 166 capacités.
+Total : 181 capacités.
 
 ## dev
 
@@ -108,6 +108,8 @@ Total : 166 capacités.
 | `mcp.servers` | L0 | none | intrinsic | local |  | Serveurs MCP |
 | `plugin.documents` | L0 | none | intrinsic | local |  | Documents de plugin |
 | `plugins.list` | L0 | none | intrinsic | local |  | Plugins installés |
+| `runpod.pods` | L1 | none | intrinsic | external | network_egress | Pods RunPod |
+| `runpod.start` | L3 | external | none | external | network_egress, financial | Démarrer un pod RunPod |
 | `webhook.send` | L2 | external | keyed | external | network_egress | Envoyer un webhook |
 
 ## media
@@ -213,6 +215,19 @@ Total : 166 capacités.
 | `browser.type` | L1 | reversible | intrinsic | local |  | Remplir un champ |
 | `browser.upload` | L1 | reversible | intrinsic | local |  | Joindre un fichier |
 | `browser.wait` | L1 | none | intrinsic | external | network_egress | Attendre sur une page |
+| `github.actions` | L1 | none | intrinsic | external | network_egress | GitHub : intégration continue |
+| `github.branches` | L1 | none | intrinsic | external | network_egress | GitHub : branches |
+| `github.comment` | L2 | external | none | external | network_egress, user_visible_to_third_party | GitHub : commenter |
+| `github.commits` | L1 | none | intrinsic | external | network_egress | GitHub : historique |
+| `github.file` | L1 | none | intrinsic | external | network_egress | GitHub : lire un fichier |
+| `github.issue.create` | L2 | external | none | external | network_egress, user_visible_to_third_party | GitHub : créer une issue |
+| `github.issues` | L1 | none | intrinsic | external | network_egress | GitHub : issues |
+| `github.pull.create` | L2 | external | none | external | network_egress, user_visible_to_third_party | GitHub : ouvrir une pull request |
+| `github.pulls` | L1 | none | intrinsic | external | network_egress | GitHub : pull requests |
+| `github.releases` | L1 | none | intrinsic | external | network_egress | GitHub : versions publiées |
+| `github.repo` | L1 | none | intrinsic | external | network_egress | GitHub : dépôt |
+| `github.search` | L1 | none | intrinsic | external | network_egress | GitHub : chercher dans le code |
+| `github.tree` | L1 | none | intrinsic | external | network_egress | GitHub : arborescence |
 | `research.run` | L1 | none | intrinsic | external | network_egress | Recherche approfondie |
 | `web.fetch` | L1 | none | intrinsic | external | network_egress | Lecture d'une page web |
 | `web.search` | L1 | none | intrinsic | external | network_egress | Recherche web |
