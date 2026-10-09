@@ -1,0 +1,25 @@
+# Publishes the Cortana 2.0.0-rc12 GitHub Release from the signed files of this branch.
+name: Publish release 2.0.0-rc12
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc12"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS
+      - name: Create release v2.0.0-rc12 on release/rc12 (a48ea51)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v2.0.0-rc12 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target a48ea51fd2ac313b36f3717561f43f741ef62e1e \
+            --title "Cortana 2.0.0-rc12" \
+            --prerelease \
+            --notes-file NOTES.md \
+            cortana-2.0.0-rc12-arm64-v8a.apk cortana-2.0.0-rc12-universal.apk cortana-update.json SHA256SUMS
