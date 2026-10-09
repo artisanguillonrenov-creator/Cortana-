@@ -24,7 +24,7 @@ import io.github.artisanguillonrenov.cortana.util.str
 class RunPodTools(private val runpod: RunPodClient, private val resolver: RunPodResolver, private val settings: SettingsRepository) {
 
     private fun linkedNames(): Set<String> = settings.current.runpodPodNames.values.map { RunPodAddress.baseName(it).lowercase() }.toSet() +
-        setOf("elyndor-5090", "cortana-code-vision")
+        setOf("elyndor-5090", io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod.POD_NAME, io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod.CODE_VISION_POD_NAME)
 
     /** The pod a request names (or the only stopped pod Cortana uses), with an explanation when none or several fit. */
     private suspend fun pick(name: String?): Pair<RunPodClient.Pod?, String?> {

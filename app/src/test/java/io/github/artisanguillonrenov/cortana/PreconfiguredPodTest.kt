@@ -30,9 +30,9 @@ class PreconfiguredPodTest : CortanaTestBase() {
         val r = pod.apply()!!
         val chat = c.providers.get(r.chatProviderId!!)!!
         val media = c.providers.get(r.mediaProviderId!!)!!
-        assertEquals("https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1", chat.baseUrl)
+        assertEquals("https://u0nb7hefflw2rg-8000.proxy.runpod.net/v1", chat.baseUrl)
         assertEquals("cydonia-24b-elyndor", chat.defaultModelId)
-        assertEquals("https://36w1us6m7ogo2b-7860.proxy.runpod.net/v1", media.baseUrl)
+        assertEquals("https://u0nb7hefflw2rg-7860.proxy.runpod.net/v1", media.baseUrl)
         assertTrue(chat.enabled && media.enabled)
         assertNull("the pod has no API key", chat.apiKeyHandle)
         val s = c.settings.current
@@ -42,7 +42,7 @@ class PreconfiguredPodTest : CortanaTestBase() {
         assertEquals(PreconfiguredPod.VERSION, s.preconfiguredPodVersion)
         assertEquals(1, reindexed)
         val cv = c.providers.get(r.codeVisionProviderId!!)!!
-        assertEquals("https://dfq6g338899rau-8080.proxy.runpod.net/v1", cv.baseUrl)
+        assertEquals("https://biiby2y7jd3kf7-8080.proxy.runpod.net/v1", cv.baseUrl)
         assertNull("the API key is entered by the owner, never shipped", cv.apiKeyHandle)
         assertEquals("${cv.id}/qwen3.6-27b", s.codingRoute)
         assertEquals("${cv.id}/qwen3.6-27b", s.visionRoute)
@@ -59,7 +59,7 @@ class PreconfiguredPodTest : CortanaTestBase() {
     }
 
     @Test fun reusesAProviderTheOwnerAlreadyCreatedForThePod() = runBlocking {
-        val mine = c.providers.create(c.presets.byId("custom")!!, "Mon pod", "https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1/", null)
+        val mine = c.providers.create(c.presets.byId("custom")!!, "Mon pod", "https://u0nb7hefflw2rg-8000.proxy.runpod.net/v1/", null)
         val r = PreconfiguredPod(c.providers, c.settings).apply()!!
         assertEquals(mine.id, r.chatProviderId)
         assertEquals("Mon pod", c.providers.get(mine.id)!!.displayName)
@@ -81,7 +81,7 @@ class PreconfiguredPodTest : CortanaTestBase() {
         assertTrue(c.providers.all().none { it.baseUrl.contains("36w1us6m7ogo2b") })
         assertEquals("${r.codeVisionProviderId}/qwen3.6-27b", s.codingRoute)
         assertEquals("${r.codeVisionProviderId}/qwen3.6-27b", s.visionRoute)
-        assertEquals(2, s.preconfiguredPodVersion)
+        assertEquals(PreconfiguredPod.VERSION, s.preconfiguredPodVersion)
         assertNull(PreconfiguredPod(c.providers, c.settings).apply())
     }
 
@@ -106,5 +106,26 @@ class PreconfiguredPodTest : CortanaTestBase() {
         val r = PreconfiguredPod(c.providers, c.settings).apply()!!
         assertEquals("${mine.id}/mon-codeur", c.settings.current.codingRoute)
         assertEquals("a route towards a deleted provider is replaced", "${r.codeVisionProviderId}/qwen3.6-27b", c.settings.current.visionRoute)
+    }
+
+    @Test fun anUpgradeMovesTheProvidersOfTheOldPodsToTheNewOnesAndLinksTheirNames() = runBlocking {
+        val chat = c.providers.create(c.presets.byId("custom")!!, "RunPod · elyndor-5090", "https://36w1us6m7ogo2b-8000.proxy.runpod.net/v1", null)
+        val media = c.providers.create(c.presets.byId("custom")!!, "RunPod · elyndor-5090 (médias)", "https://36w1us6m7ogo2b-7860.proxy.runpod.net/v1", null)
+        val cv = c.providers.create(c.presets.byId("custom")!!, "RunPod · code & vision", "https://dfq6g338899rau-8080.proxy.runpod.net/v1", null)
+        val other = c.providers.create(c.presets.byId("custom")!!, "Autre pod", "https://zzzother1-8000.proxy.runpod.net/v1", null)
+        c.settings.update { it.copy(preconfiguredPodVersion = 2, defaultProviderId = chat.id, codingRoute = "${cv.id}/qwen3.6-27b", imageRoute = "${media.id}/lustify-sdxl-v4") }
+        val r = PreconfiguredPod(c.providers, c.settings).apply()!!
+        assertEquals(setOf(chat.id, media.id, cv.id), r.moved.toSet())
+        assertEquals("https://u0nb7hefflw2rg-8000.proxy.runpod.net/v1", c.providers.get(chat.id)!!.baseUrl)
+        assertEquals("https://u0nb7hefflw2rg-7860.proxy.runpod.net/v1", c.providers.get(media.id)!!.baseUrl)
+        assertEquals("https://biiby2y7jd3kf7-8080.proxy.runpod.net/v1", c.providers.get(cv.id)!!.baseUrl)
+        assertEquals("another pod is never touched", "https://zzzother1-8000.proxy.runpod.net/v1", c.providers.get(other.id)!!.baseUrl)
+        // Same provider ids: the default model, the routes and the conversations keep working.
+        val s = c.settings.current
+        assertEquals(chat.id, s.defaultProviderId); assertEquals("${cv.id}/qwen3.6-27b", s.codingRoute)
+        assertEquals(1, c.providers.all().count { it.baseUrl.contains("-8000.proxy.runpod.net") && it.baseUrl.contains("u0nb7hefflw2rg") })
+        assertEquals("elyndor-5090-ro", s.runpodPodNames[chat.id]); assertEquals("cortana-code-vision", s.runpodPodNames[cv.id])
+        assertEquals(3, s.preconfiguredPodVersion)
+        assertNull(PreconfiguredPod(c.providers, c.settings).apply())
     }
 }

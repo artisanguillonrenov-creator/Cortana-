@@ -12,6 +12,10 @@ import io.github.artisanguillonrenov.cortana.core.memory.SettingsRepository
  * - version 2 (2.0.0-rc9), pod "cortana-code-vision": llama.cpp on port 8080 serving the multimodal
  *   `qwen3.6-27b` for both the coding and the vision routes. This server requires an API key, which
  *   is never shipped: the owner enters it once in the provider's settings.
+ * - version 3 (2.0.0-rc13): both pods were recreated (new addresses, owner's request). Providers on
+ *   the old pods are moved to the new ones (same port, same path, same id, so every route and
+ *   conversation keeps working), and each provider is linked to its pod's name so later migrations
+ *   are found again automatically (RunPodResolver).
  *
  * Each version's step runs at most once, from the version already applied: providers are created
  * (or reused when the same address already exists) and the routes of that step are set. Nothing
@@ -21,7 +25,7 @@ import io.github.artisanguillonrenov.cortana.core.memory.SettingsRepository
  */
 class PreconfiguredPod(private val providers: ProviderRepository, private val settings: SettingsRepository, private val onEmbeddingsChanged: () -> Unit = {}) {
     /** What this run configured; a provider id is null when its step was already applied. */
-    data class Result(val chatProviderId: String?, val mediaProviderId: String?, val codeVisionProviderId: String?)
+    data class Result(val chatProviderId: String?, val mediaProviderId: String?, val codeVisionProviderId: String?, val moved: List<String> = emptyList())
 
     /** Applies the steps never applied; null when there is nothing to do. */
     suspend fun apply(): Result? {
@@ -44,8 +48,28 @@ class PreconfiguredPod(private val providers: ProviderRepository, private val se
             media = provider(MEDIA_NAME, MEDIA_BASE_URL, IMAGE_MODEL)
         }
         val codeVision = if (from < 2) provider(CODE_VISION_NAME, CODE_VISION_BASE_URL, CODE_VISION_MODEL) else null
+        // Version 3: the pods were recreated; providers still on an old pod move to the new one.
+        val moved = mutableListOf<String>()
+        if (from < 3) {
+            for (p in providers.all()) {
+                val parts = RunPodAddress.parse(p.baseUrl) ?: continue
+                val target = when (parts.podId) { in OLD_POD_IDS -> POD_ID; in OLD_CODE_VISION_POD_IDS -> CODE_VISION_POD_ID; else -> null } ?: continue
+                providers.update(p.copy(baseUrl = RunPodAddress.build(target, parts.port, parts.path)), null)
+                moved += p.id
+            }
+        }
+        val after = providers.all()
         settings.update {
             var s = it.copy(preconfiguredPodVersion = VERSION)
+            // Each provider on a known pod remembers the pod's name (found again after a migration).
+            val names = s.runpodPodNames.toMutableMap()
+            for (p in after) {
+                when (RunPodAddress.parse(p.baseUrl)?.podId) {
+                    POD_ID -> names.putIfAbsent(p.id, POD_NAME)
+                    CODE_VISION_POD_ID -> names.putIfAbsent(p.id, CODE_VISION_POD_NAME)
+                }
+            }
+            s = s.copy(runpodPodNames = names)
             if (chat != null && media != null) {
                 s = s.copy(defaultProviderId = chat.id, imageRoute = "${media.id}/$IMAGE_MODEL", embeddingRoute = "${media.id}/$EMBEDDING_MODEL")
             }
@@ -58,12 +82,15 @@ class PreconfiguredPod(private val providers: ProviderRepository, private val se
             s
         }
         if (media != null) onEmbeddingsChanged()
-        return Result(chat?.id, media?.id, codeVision?.id)
+        return Result(chat?.id, media?.id, codeVision?.id, moved)
     }
 
     companion object {
-        const val VERSION = 2
-        const val POD_ID = "36w1us6m7ogo2b"
+        const val VERSION = 3
+        /** Pod "elyndor-5090-ro" (since rc13; the first pod, 36w1us6m7ogo2b, was replaced). */
+        const val POD_ID = "u0nb7hefflw2rg"
+        const val POD_NAME = "elyndor-5090-ro"
+        val OLD_POD_IDS = setOf("36w1us6m7ogo2b")
         const val CHAT_NAME = "RunPod · elyndor-5090"
         const val MEDIA_NAME = "RunPod · elyndor-5090 (médias)"
         const val CHAT_BASE_URL = "https://$POD_ID-8000.proxy.runpod.net/v1"
@@ -71,7 +98,10 @@ class PreconfiguredPod(private val providers: ProviderRepository, private val se
         const val CHAT_MODEL = "cydonia-24b-elyndor"
         const val IMAGE_MODEL = "lustify-sdxl-v4"
         const val EMBEDDING_MODEL = "bge-m3"
-        const val CODE_VISION_POD_ID = "dfq6g338899rau"
+        /** Pod "cortana-code-vision" (since rc13; the first one, dfq6g338899rau, was replaced). */
+        const val CODE_VISION_POD_ID = "biiby2y7jd3kf7"
+        const val CODE_VISION_POD_NAME = "cortana-code-vision"
+        val OLD_CODE_VISION_POD_IDS = setOf("dfq6g338899rau")
         const val CODE_VISION_NAME = "RunPod · code & vision"
         const val CODE_VISION_BASE_URL = "https://$CODE_VISION_POD_ID-8080.proxy.runpod.net/v1"
         const val CODE_VISION_MODEL = "qwen3.6-27b"

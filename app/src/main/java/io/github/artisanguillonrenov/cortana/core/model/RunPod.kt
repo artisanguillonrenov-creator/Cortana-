@@ -108,8 +108,9 @@ class RunPodResolver(
 
     /** Names of the preconfigured pods, known without asking RunPod. */
     private fun knownName(podId: String): String? = when (podId) {
-        PreconfiguredPod.POD_ID -> "elyndor-5090"
-        PreconfiguredPod.CODE_VISION_POD_ID -> "cortana-code-vision"
+        PreconfiguredPod.POD_ID -> PreconfiguredPod.POD_NAME
+        in PreconfiguredPod.OLD_POD_IDS -> "elyndor-5090"
+        PreconfiguredPod.CODE_VISION_POD_ID, in PreconfiguredPod.OLD_CODE_VISION_POD_IDS -> PreconfiguredPod.CODE_VISION_POD_NAME
         else -> null
     }
 
