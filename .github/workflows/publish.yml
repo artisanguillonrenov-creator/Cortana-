@@ -1,0 +1,15 @@
+name: Publish release 2.0.0-rc14
+on:
+  push:
+    branches: ["release-assets/2.0.0-rc14"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sha256sum -c SHA256SUMS
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create v2.0.0-rc14 --repo "$GITHUB_REPOSITORY" --target 2bfeebec43135135a799f681eeeca4e4af38c6ea --title "Cortana 2.0.0-rc14" --prerelease --notes-file NOTES.md cortana-2.0.0-rc14-arm64-v8a.apk cortana-2.0.0-rc14-universal.apk cortana-update.json SHA256SUMS
