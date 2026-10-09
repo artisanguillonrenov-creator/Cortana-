@@ -54,7 +54,9 @@ class ChatWorkspaceServiceTest : CortanaTestBase() {
         val s = session(toolset = Toolsets.CONVERSATION)
         server.enqueue(slow())
         runBlocking { sent(chat.send(s.id, "Écris une longue phrase")) }
-        until("first words streamed") { c.chatHub.live.value.values.any { it.sessionId == s.id && it.text.contains("Mot1") } }
+        // MockWebServer's throttleBody also slows the *request* upload (48 B / 250 ms): the first words
+        // arrive only after the whole system prompt is sent, so this wait scales with the prompt size.
+        until("first words streamed", ms = 45_000) { c.chatHub.live.value.values.any { it.sessionId == s.id && it.text.contains("Mot1") } }
         // the answer row exists from its first words (crash-safe), marked streaming
         until("snapshot row") { path(s).any { it.role == Roles.ASSISTANT && it.status == MessageStatus.STREAMING } }
         chat.stop()

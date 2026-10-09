@@ -136,6 +136,15 @@ class ContextAndDiscoveryTest : CortanaTestBase() {
         assertFalse(sys.contains("Lyon"))
     }
 
+    @Test fun theAdultProfileIsInThePromptAndItsReminderClosesTheSystemMessage() = runBlocking {
+        val s = c.conversations.createSession()
+        val sys = engine.build(ContextRequest(s, "Bonjour", emptyList(), window)).messages.first().content!!
+        assertTrue(sys.contains("Profil de contenu : ADULTE"))
+        assertTrue("legal limits stay", sys.contains("rien qui implique des mineurs"))
+        assertTrue("no invented internal rules", sys.contains("n'invente jamais un fichier"))
+        assertTrue("the reminder comes last", sys.trimEnd().endsWith(engine.adultReminder))
+    }
+
     @Test fun modelSummaryIsUsedWhenChosenAndFallsBackToExtractive() {
         val s = longSession()
         runBlocking { c.settings.update { it.copy(contextSummaryMode = ContextEngine.SUMMARY_MODEL) } }
