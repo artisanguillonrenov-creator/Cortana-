@@ -21,8 +21,8 @@ android {
         applicationId = "io.github.artisanguillonrenov.cortana"
         minSdk = 30
         targetSdk = 36
-        versionCode = 13
-        versionName = "2.0.0-rc12"
+        versionCode = 14
+        versionName = "2.0.0-rc13"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

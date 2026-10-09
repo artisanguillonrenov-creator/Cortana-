@@ -692,6 +692,21 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 
 - Appels réels à l'API RunPod et à DuckDuckGo depuis la tablette (serveurs simulés) ; aucun test sur la Galaxy Tab A11. Gate tablette : **BLOCKED_EXTERNAL**.
 
+## 20. Rapport de la version candidate 2.0.0-rc13 (09/10/2026)
+
+**Contenu** : `PreconfiguredPod` version 3 (fournisseurs déplacés de `36w1us6m7ogo2b` vers `u0nb7hefflw2rg` « elyndor-5090-ro », de `dfq6g338899rau` vers `biiby2y7jd3kf7` « cortana-code-vision », noms de pods liés). Module LoRA « agent » non activé (JSON d'outil émulé incomplet lors d'un essai réel).
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc13-arm64-v8a.apk` | 59 946 533 o | `2cfc28ed5f8231072223eee27be661cafdc3f4074f2ba545e69f9ba982fd7f8e` |
+| `cortana-2.0.0-rc13-universal.apk` | 81 381 840 o | `6674a304ca14dec741a45a89647d1344888fc4869bab232b8539ef5a448be961` |
+| `cortana-update.json` | voir la Release | `ea6a8ece98de03e018b07b83b9a5b0e7ee86b426e062176aa06935f2c2039363` |
+
+- `aapt2` : versionCode **14**, versionName **2.0.0-rc13** ; `apksigner` : **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`**.
+- Suite complète avec le manifeste rc13 : **516 tests, 0 échec, 0 ignoré** (app 503, worker 8, contrats 5).
+- Pods réels (09/10/2026) : 8000 `cydonia-24b-elyndor` (outil émulé correct, ~95 jetons/s) ; 7860 `lustify-sdxl-v4` (image générée) et `bge-m3` (1024 dimensions) ; 8080 `qwen3.6-27b` (appel d'outil natif, description d'image exacte).
+- Non exécuté : installation sur la tablette. Gate tablette : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -708,6 +723,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc10 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc11 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc12 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc13 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).

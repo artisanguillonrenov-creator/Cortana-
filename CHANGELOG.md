@@ -1,5 +1,15 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc13 (versionCode 14) — Nouveaux pods RunPod
+
+S'installe par-dessus la **2.0.0-rc12** sans désinstaller : même paquet, même certificat, schéma **v4** inchangé.
+
+- Cortana se rattache **automatiquement** aux nouveaux pods, au premier démarrage :
+  - **elyndor-5090-ro** : discussion (`cydonia-24b-elyndor`, port 8000), images (`lustify-sdxl-v4`) et mémoire (`bge-m3`) sur le port 7860 ;
+  - **cortana-code-vision** : code et vision (`qwen3.6-27b`, port 8080).
+- Les fournisseurs gardent leur identité : modèle par défaut, routes de code, vision, images et mémoire, et discussions continuent sans rien changer.
+- Chaque fournisseur retient le nom de son pod : une prochaine migration sera retrouvée toute seule (clé RunPod dans Réglages → RunPod).
+
 ## 2.0.0-rc12 (versionCode 13) — SafeSearch désactivé, pods RunPod autonomes
 
 S'installe par-dessus la **2.0.0-rc11** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : données conservées.
