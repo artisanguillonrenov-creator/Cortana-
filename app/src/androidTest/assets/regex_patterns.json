@@ -1674,6 +1674,18 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/model/RunPod.kt",
+  "pattern": "(?i)(-migration)+$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/model/RunPod.kt",
+  "pattern": "^https://([a-z0-9]+)-(\\d{2,5})\\.proxy\\.runpod\\.net(/.*)?$",
+  "flags": 66,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/observability/Observability.kt",
   "pattern": "[0-9.]+",
   "flags": 0,
@@ -1772,6 +1784,12 @@
  {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
   "pattern": "(?i)^(tests?|build|compilation|projet\\b.*|dépôt\\b.*)$",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/orchestrator/FastPathRegistry.kt",
+  "pattern": "(?i)^\\s*(?:cortana[ ,]+)?(?:d[ée]marre|red[ée]marre|relance|allume|r[ée]veille|lance)(?:[- ]moi)?\\s+(?:le |mon |ton |les )?pods?\\b\\s*(.{0,60}?)\\s*[.!]?$",
   "flags": 0,
   "kind": "static"
  },

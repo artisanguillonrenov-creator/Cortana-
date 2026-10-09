@@ -37,7 +37,7 @@ object ProviderHealthCheck {
     }
 
     fun classify(e: Throwable, pod: Boolean): Diagnosis {
-        val stoppedHint = if (pod) " Le pod RunPod est peut-être arrêté : démarrez-le dans la console RunPod, ou vérifiez son adresse." else ""
+        val stoppedHint = if (pod) " Le pod RunPod est peut-être arrêté : dites à Cortana « démarre le pod » (clé RunPod dans Réglages), ou démarrez-le dans la console RunPod." else ""
         return when (e) {
             is ModelException -> when (val code = e.httpCode) {
                 401, 403 -> Diagnosis(Kind.AUTH, "Accès refusé (HTTP $code) : clé absente ou incorrecte. Vérifiez la clé de ce fournisseur.")

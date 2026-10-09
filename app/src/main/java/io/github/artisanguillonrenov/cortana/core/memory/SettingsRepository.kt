@@ -124,6 +124,10 @@ data class AppSettings(
     val chat: io.github.artisanguillonrenov.cortana.core.chat.ChatPrefs = io.github.artisanguillonrenov.cortana.core.chat.ChatPrefs(),
     /** Last version of the preconfigured RunPod pod applied ([io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod]); 0 = never. */
     val preconfiguredPodVersion: Int = 0,
+    /** RunPod API key (secret handle): find migrated pods again, start a stopped pod on the owner's request. */
+    val runpodKeyHandle: String? = null,
+    /** Provider id → name of its RunPod pod (without "-migration" suffixes), learnt from RunPod. */
+    val runpodPodNames: Map<String, String> = emptyMap(),
 )
 
 /**

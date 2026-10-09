@@ -4,7 +4,7 @@ Ne pas modifier à la main : `ToolCapabilitiesDocTest` compare ce fichier au reg
 
 Risque de base : L0 lecture, L1 réversible local, L2 confirmation du propriétaire, L3 empreinte/biométrie. Le risque effectif n'est jamais inférieur au risque de base : traits, classification des arguments, contenu non fiable et destination peuvent l'élever (`PolicyEngine`).
 
-Total : 179 capacités.
+Total : 181 capacités.
 
 ## dev
 
@@ -108,6 +108,8 @@ Total : 179 capacités.
 | `mcp.servers` | L0 | none | intrinsic | local |  | Serveurs MCP |
 | `plugin.documents` | L0 | none | intrinsic | local |  | Documents de plugin |
 | `plugins.list` | L0 | none | intrinsic | local |  | Plugins installés |
+| `runpod.pods` | L1 | none | intrinsic | external | network_egress | Pods RunPod |
+| `runpod.start` | L3 | external | none | external | network_egress, financial | Démarrer un pod RunPod |
 | `webhook.send` | L2 | external | keyed | external | network_egress | Envoyer un webhook |
 
 ## media

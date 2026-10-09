@@ -124,6 +124,10 @@ class AppContainer(val context: Context) {
     val capabilities = ModelCapabilities(context, db.providers())
     val tracer = Tracer()
     val gateway = ModelGateway(providers, capabilities, db.usage(), settings, tracer = tracer)
+    /** The owner's RunPod account (Réglages → RunPod): migrated pods found again, stopped pods started on request. */
+    val runpod = io.github.artisanguillonrenov.cortana.core.model.RunPodClient(http, { secrets.get(settings.current.runpodKeyHandle) })
+    val runpodResolver = io.github.artisanguillonrenov.cortana.core.model.RunPodResolver(providers, settings, runpod, audit)
+        .also { r -> gateway.addressRecovery = { p -> r.recover(p) } }
     /** The owner's RunPod pod, configured once by the update (chat, images, embeddings). */
     val preconfiguredPod = io.github.artisanguillonrenov.cortana.core.model.PreconfiguredPod(providers, settings) { memoryIndexer.request() }
 
@@ -287,6 +291,7 @@ class AppContainer(val context: Context) {
             byCapability(cap).let { d -> if (d == null) "capacité inconnue : $cap" else io.github.artisanguillonrenov.cortana.core.orchestrator.ScheduledRunner.watchRefusal(d) }
         }).tools())
         registerAll(web.tools())
+        registerAll(io.github.artisanguillonrenov.cortana.executors.runpod.RunPodTools(runpod, runpodResolver, settings).tools())
         registerAll(io.github.artisanguillonrenov.cortana.executors.web.GitHubTools(web.client, {
             settings.current.gitCredentials["github.com"]?.split('|', limit = 2)?.getOrNull(1)?.let { secrets.get(it) }
         }).tools())
@@ -598,6 +603,8 @@ class CortanaApp : Application() {
         // Unit tests (Robolectric) keep their scripted providers: the real pod is never configured there.
         if (android.os.Build.FINGERPRINT != "robolectric") container.appScope.launch {
             runCatching { container.preconfiguredPod.apply() }.onFailure { io.github.artisanguillonrenov.cortana.util.CLog.e("preconfigured pod failed", it) }
+            // Pods migrated while the app was closed get their new address before the first message.
+            runCatching { container.runpodResolver.refresh() }.onFailure { io.github.artisanguillonrenov.cortana.util.CLog.w("runpod refresh failed", it) }
         }
         container.appScope.launch { container.mcpLoop() }
         container.inbound.start(container.appScope)

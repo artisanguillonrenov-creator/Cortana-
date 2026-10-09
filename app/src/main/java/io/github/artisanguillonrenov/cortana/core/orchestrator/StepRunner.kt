@@ -186,6 +186,7 @@ class StepRunner(
             }
             tr.counters = tr.counters.copy(modelCalls = tr.counters.modelCalls + 1)
             listener.countersChanged(tr.counters)
+            result.notice?.let { n -> conversations.addMessage(tr.session.id, Roles.SYSTEM, "ℹ️ $n", taskId = tr.taskId) }
             result.fellBackFrom?.let { from ->
                 conversations.addMessage(tr.session.id, Roles.SYSTEM, "ℹ️ $from indisponible : réponse obtenue via ${result.route?.providerName} (${result.route?.modelId}).", taskId = tr.taskId)
             }
