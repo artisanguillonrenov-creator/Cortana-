@@ -670,6 +670,28 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 - Recherches réelles DuckDuckGo/Brave (tests sur serveurs simulés).
 - Gate « aucun blocker critique sur la tablette » : **BLOCKED_EXTERNAL**.
 
+## 19. Rapport de la version candidate 2.0.0-rc12 (09/10/2026)
+
+**Contenu** : SafeSearch désactivé sur les trois moteurs (`WebTools.kt`) ; RunPod (`core/model/RunPod.kt` : client, adresses, résolution des pods migrés ; `ModelGateway.addressRecovery` ; outils `runpod.pods` L1 et `runpod.start` L3 financier ; raccourci « démarre le pod » ; Réglages → RunPod). Voir `CHANGELOG.md`.
+- Schéma **inchangé (v4)**. Même clé, même paquet. Aucune nouvelle dépendance.
+
+### 19.1 Artefacts
+
+| Fichier | Taille | SHA-256 |
+|---|---|---|
+| `cortana-2.0.0-rc12-arm64-v8a.apk` (Galaxy Tab A11) | 59 930 153 o | `d4627f329a4af83eab880a1171a5a820ac53972e676fdad7a5457234f5517487` |
+| `cortana-2.0.0-rc12-universal.apk` (secours) | 81 365 460 o | `2ab499873d0782e66e3b6814a089bf893c05a1153269be80802a9077870d5401` |
+| `cortana-update.json` (manifeste signé) | voir la Release | `a369535c4088c00cdd6ff84223ab11b7f58f7f6bde46e7ed8208ff5b52063a03` |
+
+### 19.2 Identité et contrôles
+
+- `aapt2` : versionCode **13**, versionName **2.0.0-rc12**, non débogable ; `apksigner` : un signataire, **`6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33`**.
+- Suite complète avec le manifeste rc12 : **515 tests, 0 échec, 0 ignoré** (app 502, worker 8, contrats 5), dont 7 nouveaux (`RunPodTest`) et les contrôles SafeSearch ; `lintDebug` : 0 erreur, 93 avertissements ; ICU4C : 417 expressions, 0 refusée.
+
+### 19.3 Non exécuté
+
+- Appels réels à l'API RunPod et à DuckDuckGo depuis la tablette (serveurs simulés) ; aucun test sur la Galaxy Tab A11. Gate tablette : **BLOCKED_EXTERNAL**.
+
 ## 9. Rapport RC sur la tablette
 
 | Version | Date | Source | Résultat |
@@ -685,6 +707,7 @@ Deux builds release depuis `git archive` du commit `986a4b8` (répertoires disti
 | 2.0.0-rc9 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc10 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 | 2.0.0-rc11 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
+| 2.0.0-rc12 | — | `RC_CHECKLIST.md` (dont §14 à §16) | **Non exécuté à ce jour.** |
 
 À remplir par le propriétaire avec `RC_CHECKLIST.md` (date, version de One UI, lignes ✅ / ❌, blockers
 critiques, écarts).

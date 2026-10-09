@@ -1,5 +1,18 @@
 # Journal des versions — Cortana
 
+## 2.0.0-rc12 (versionCode 13) — SafeSearch désactivé, pods RunPod autonomes
+
+S'installe par-dessus la **2.0.0-rc11** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : données conservées.
+
+### Nouveau
+- **Recherche web sans SafeSearch** : contenu adulte autorisé sur DuckDuckGo (pages, images, vidéos), Brave et SearXNG. Les protections de sécurité (adresses locales, images https, pas de SVG, taille limitée) restent.
+- **Pods RunPod** (clé API dans Réglages → RunPod) :
+  - un pod **migré sur un autre GPU** est retrouvé par son nom : l'adresse du fournisseur est mise à jour toute seule (au démarrage, et après un échec de connexion, avec un nouvel essai) ; une ligne vous prévient et le journal d'audit garde l'ancienne et la nouvelle adresse ;
+  - **« Démarre le pod »** (ou « relance le pod elyndor-5090 ») démarre un pod arrêté, avec n'importe quel modèle ou sans modèle, **après votre confirmation** (prix affiché) ;
+  - si aucun GPU n'est libre, Cortana le dit et propose le secours ;
+  - « Vérifier mes pods » dans Réglages → RunPod.
+- Une adresse qui n'est pas celle d'un pod RunPod, ou un pod qui existe encore, n'est jamais modifiée ; deux pods de même nom ne sont jamais départagés au hasard.
+
 ## 2.0.0-rc11 (versionCode 12) — Images dans la conversation, fournisseurs fiables
 
 S'installe par-dessus la **2.0.0-rc10** et toutes les versions précédentes, sans désinstaller : même paquet, même certificat. Schéma de base inchangé (**v4**) : aucune migration, conversations, réglages, mémoire et fichiers conservés.

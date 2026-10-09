@@ -13,6 +13,7 @@
     { "versionName": "2.0.0-rc8", "versionCode": 9, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
     { "versionName": "2.0.0-rc9", "versionCode": 10, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
     { "versionName": "2.0.0-rc10", "versionCode": 11, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
-    { "versionName": "2.0.0-rc11", "versionCode": 12, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" }
+    { "versionName": "2.0.0-rc11", "versionCode": 12, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" },
+    { "versionName": "2.0.0-rc12", "versionCode": 13, "dbSchema": 4, "dbIdentityHash": "9abbf3f6376ca6789cd7631f2cd4cdd7", "signingCertSha256": "6d98375a1ea959ee53922439bf07810cc4d1fb8f3f3ed2f4a6d772b849eeda33" }
   ]
 }
