@@ -46,6 +46,7 @@ class ImageSearchTest : CortanaTestBase() {
     private lateinit var searx: MockWebServer
     private val categories = CopyOnWriteArrayList<String>()
     private val queries = CopyOnWriteArrayList<String>()
+    private val safe = CopyOnWriteArrayList<String>()
     private var empty = false
 
     private val images = """{"results":[
@@ -59,6 +60,7 @@ class ImageSearchTest : CortanaTestBase() {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 categories += request.requestUrl!!.queryParameter("categories") ?: "general"
                 queries += request.requestUrl!!.queryParameter("q").orEmpty()
+                safe += request.requestUrl!!.queryParameter("safesearch") ?: "absent"
                 val body = if (empty) """{"results":[]}""" else images
                 return MockResponse().setHeader("Content-Type", "application/json").setBody(body)
             }
@@ -100,6 +102,7 @@ class ImageSearchTest : CortanaTestBase() {
         assertEquals("the model is never asked", 0, server.requestCount)
         assertEquals(listOf("images"), categories.toList())
         assertEquals(listOf("tour Eiffel"), queries.toList())
+        assertEquals("SafeSearch off on SearXNG", listOf("0"), safe.toList())
         val call = calls().single()
         assertEquals("web.search" to "ok", call.capability to call.outcome)
         assertTrue(call.inputJson, call.inputJson.contains("\"mode\":\"images\""))
@@ -181,7 +184,9 @@ class ImageSearchTest : CortanaTestBase() {
         ddg.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest): MockResponse =
                 if (request.path!!.startsWith("/i.js")) {
-                    assertEquals("4-123456789012345678901234567890", request.requestUrl!!.queryParameter("vqd")); api()
+                    assertEquals("4-123456789012345678901234567890", request.requestUrl!!.queryParameter("vqd"))
+                    // SafeSearch off: p=-1 (p=1 turned the filter on) and kp=-2.
+                    assertEquals("-1", request.requestUrl!!.queryParameter("p")); assertEquals("-2", request.requestUrl!!.queryParameter("kp")); api()
                 } else MockResponse().setBody(page)
         }
         ddg.start()
