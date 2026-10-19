@@ -210,7 +210,8 @@ class ConnectionTools(
                     c == null -> null
                     domain !in home.allowed(c) -> RiskAssessment(Risk.L2, deny = true, denyReason = "Domaine $domain non permis sur « ${c.name} »")
                     a.str("entity")?.substringBefore('.') != domain && domain !in setOf("scene", "script") -> RiskAssessment(Risk.L2, deny = true, denyReason = "L'entité n'appartient pas au domaine $domain")
-                    domain in home.sensitive(c) -> RiskAssessment(Risk.L3, listOf("Action physique sensible (${domain})"), targetDescription = target)
+                    (domain in home.sensitive(c) || domain in setOf("lock", "alarm_control_panel", "cover", "valve")) ->
+                        RiskAssessment(Risk.L3, listOf("Action physique sensible (${domain})"), targetDescription = target)
                     else -> RiskAssessment(Risk.L2, listOf("Action sur un appareil de la maison"), targetDescription = target)
                 }
             },
