@@ -100,8 +100,8 @@ Total : 182 capacités.
 | `email.reply` | L2 | external | keyed | external | network_egress | Répondre à un e-mail |
 | `email.search` | L0 | none | intrinsic | external | network_egress | Chercher des e-mails |
 | `email.send` | L2 | external | keyed | external | network_egress | Envoyer un e-mail |
-| `home.call` | L2 | external | keyed | external | network_egress | Commander la maison |
 | `home.briefing` | L1 | none | intrinsic | external | network_egress | Bilan de la maison |
+| `home.call` | L2 | external | keyed | external | network_egress | Commander la maison |
 | `home.states` | L1 | none | intrinsic | external | network_egress | État de la maison |
 | `http.request` | L1 | external | intrinsic | external | network_egress | Appeler une API |
 | `mcp.prompts` | L1 | none | intrinsic | external | network_egress | Modèles MCP |
