@@ -18,6 +18,8 @@ class RemoteSttProvider(
     private val maxUtteranceMs: Int = 30_000,
     private val noSpeechTimeoutMs: Int = 8_000,
     override val local: Boolean = false,
+    /** Optional consent-gated speaker encoder: raw audio is never saved by this provider. */
+    private val onUtteranceCaptured: (suspend (ShortArray, Int) -> Unit)? = null,
 ) : SttProvider {
     override val id = "remote-stt"
     override val streaming = false
@@ -57,6 +59,15 @@ class RemoteSttProvider(
         stopMic()
         val pcm = ShortArray(frames.sumOf { it.size }).also { out -> var i = 0; frames.forEach { f -> f.copyInto(out, i); i += f.size } }
         job = scope.launch {
+            // The speaker encoder is optional and never delays transcription. A failure must not
+            // impersonate the owner or prevent ordinary STT from working.
+            onUtteranceCaptured?.let { observer ->
+                launch {
+                    try { observer(pcm.copyOf(), source.sampleRate) }
+                    catch (e: CancellationException) { throw e }
+                    catch (_: Exception) { /* speaker attribution is advisory only */ }
+                }
+            }
             try {
                 val text = transcribe(Wav.encode(pcm, source.sampleRate), language)
                 if (text.isBlank()) listener.onError("Rien compris", recoverable = true) else listener.onFinal(text)
