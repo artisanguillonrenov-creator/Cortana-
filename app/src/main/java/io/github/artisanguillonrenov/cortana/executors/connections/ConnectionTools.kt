@@ -7,6 +7,7 @@ import io.github.artisanguillonrenov.cortana.core.connections.ConnectorKinds
 import io.github.artisanguillonrenov.cortana.core.connections.EmailConnector
 import io.github.artisanguillonrenov.cortana.core.connections.HomeAssistantConnector
 import io.github.artisanguillonrenov.cortana.core.connections.HomeBriefing
+import io.github.artisanguillonrenov.cortana.core.connections.HomeRoomTarget
 import io.github.artisanguillonrenov.cortana.core.connections.HttpConnector
 import io.github.artisanguillonrenov.cortana.core.connections.MailAttachment
 import io.github.artisanguillonrenov.cortana.core.connections.WebhookOutConnector
@@ -197,7 +198,9 @@ class ConnectionTools(
         },
         def("home.call", "Commande un appareil de la maison (Home Assistant) : service d'un domaine permis, ex. light.turn_on sur light.salon. Les domaines sensibles (serrures, alarme, volets…) demandent une confirmation forte.",
             S.obj("connection" to connection, "domain" to S.str("Domaine, ex. light"), "service" to S.str("Service, ex. turn_on"), "entity" to S.str("Entité, ex. light.salon"),
-                "data" to S.anyObj("Paramètres, ex. {\"brightness_pct\": 40}"), required = listOf("connection", "domain", "service", "entity")),
+                "data" to S.anyObj("Paramètres, ex. {\"brightness_pct\": 40}"),
+                "room" to S.str("Pièce explicitement visée, pour refuser une entité d'une autre pièce si connue par son nom"),
+                required = listOf("connection", "domain", "service", "entity")),
             Risk.L2, SideEffect.EXTERNAL, Idempotency.KEYED, DataEgress.EXTERNAL, "Commander la maison", listOf("maison", "allumer", "eteindre", "ouvrir", "fermer", "domotique"),
             classifier = { a, _ ->
                 val c = runCatching { mgr.usable(a.str("connection")!!, "home_assistant") }.getOrNull()
@@ -214,6 +217,16 @@ class ConnectionTools(
             destination = { a -> "home:" + a.str("connection") },
         ) { a, ctx ->
             val c = mgr.usable(a.str("connection")!!, "home_assistant")
+            // For explicit room requests, verify the target against actual Home Assistant
+            // states BEFORE making a physical change. No inferred room may grant access.
+            val room = a.str("room")?.trim()?.takeIf { it.isNotEmpty() }
+            if (room != null) {
+                val actual = home.state(c, a.str("entity")!!)
+                if (!HomeRoomTarget.matches(actual, room)) {
+                    throw ConnectionException("La pièce « ${room.take(60)} » n'est pas confirmée pour ${actual.id}. " +
+                        "Vérifiez le nom de l'appareil dans Home Assistant ou retirez le filtre de pièce.")
+                }
+            }
             val data = JsonObject((a.obj("data") ?: JsonObject(emptyMap())) + ("entity_id" to JsonPrimitive(a.str("entity")!!)))
             val n = home.call(c, a.str("domain")!!, a.str("service")!!, data)
             mgr.record(c.id, "outbound", "ok", "${a.str("domain")}.${a.str("service")} ${a.str("entity")}", ctx.taskId)
