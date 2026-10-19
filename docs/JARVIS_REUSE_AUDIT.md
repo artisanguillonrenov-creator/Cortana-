@@ -43,3 +43,31 @@
 4. Mettre à jour la documentation et les tests de sécurité en cas de futur routage de mémoire par identité.
 
 **Statut : changement sur branche de travail, non fusionné sur `main`.**
+
+## Intégrations complémentaires réalisées dans le même lot
+
+| Source Jarvis | Résultat dans Cortana | Limites explicites |
+| --- | --- | --- |
+| `sam3gp8/jarvis-aio` — `proactive_briefing.py` | `HomeBriefing.kt` résume les états déjà lus par le connecteur Home Assistant existant; outil `home.briefing` disponible en chat, vocal, planification | Bilan **à la demande** ou via une tâche programmée par le propriétaire : aucun déclencheur caméra/présence permanent |
+| `sosoj92/jarvis-assistant-vocal` — `core/satellite.py` (contexte de pièce) | `HomeRoomTarget.kt` et `home.call.room` facultatif : vérifie que la pièce citée figure dans le nom/identifiant réel de l'entité, avant l'action | Pas de véritable satellite, pas d'arbitrage multi-micros, pas de localisation HA si ses noms ne contiennent pas la pièce |
+| `InterGenJLU/jarvis` — `core/speaker_id.py` | `SpeakerMatcher.kt`, hook de phrase transcrite, tests et notice MIT | Sans encodeur ECAPA, enregistrement, consentement ni intégration UI, aucun utilisateur ne peut encore être reconnu |
+| Système de sécurité maison | Domaine `lock`, `alarm_control_panel`, `cover`, `valve` reste systématiquement au risque L3, même si la configuration de domaines sensibles a été modifiée | Confirmation existante toujours obligatoire; aucune action automatique créée |
+
+### Exemples de demandes possibles dans l'application
+- « Fais-moi un bilan de la maison » → utilise `home.briefing` **si Home Assistant est déjà connecté et autorisé**.
+- « Fais-moi le point sur la cuisine » → `home.briefing` avec `room=cuisine`, par correspondance sur les noms des entités.
+- « Allume la lumière de la cuisine » → `home.call` avec `room=cuisine` facultatif : si le nom effectif du dispositif ne confirme pas la pièce, Cortana bloque l'action et demande de vérifier.
+- « Prépare un bilan chaque matin » → **l'utilisateur doit créer explicitement** une planification existante ; aucun monitoring discret n'est activé.
+
+### Inventaire des composants **non copiés**
+- Orchestrateurs, pipelines STT/TTS, registres d'outils, mémoire, services MCP : doublons déjà couverts par Cortana.
+- Plugins Android d'accessibilité et écrans HUD tiers : ne justifient pas une seconde application/interface.
+- Implémentations AGPL, GPL, CC-NC ou licences absentes : pas de copie brute sans examen juridique.
+- Satellites physiques, modèles vocaux et profils biométriques persistants : nécessitent de vrais tests matériels et une conception d'autorisation biométrique. Ils ne sont **pas présentés comme intégrés**.
+- Actions domotiques Home Assistant : Cortana les possédait **avant** ce travail; seule leur sécurité et le bilan ont été enrichis.
+
+### Validation
+- `SpeakerMatcherTest`, `VoiceTest`, `HomeBriefingTest`, `HomeRoomTargetTest` ajoutés/étendus.
+- `docs/TOOL_CAPABILITIES.md` synchronisé avec le registre (182 capacités prévues).
+- Un doublon littéral du dernier enregistrement `release/released.json` (rc14/versionCode 15, deux entrées identiques) a été retiré afin de corriger un test de base existant, sans changement de version ni signature.
+- **Ne pas déclarer la fonctionnalité comme validée tant que le workflow GitHub du dernier commit n'est pas vert.**
