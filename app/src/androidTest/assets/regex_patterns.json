@@ -486,6 +486,30 @@
   "kind": "static"
  },
  {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/HomeBriefing.kt",
+  "pattern": "[\\r\\n\\t]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/HomeRoomTarget.kt",
+  "pattern": "[^a-z0-9]+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/HomeRoomTarget.kt",
+  "pattern": "\\p{M}+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
+  "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/HomeRoomTarget.kt",
+  "pattern": "\\s+",
+  "flags": 0,
+  "kind": "static"
+ },
+ {
   "file": "app/src/main/java/io/github/artisanguillonrenov/cortana/core/connections/Mail.kt",
   "pattern": "\r?\n",
   "flags": 0,

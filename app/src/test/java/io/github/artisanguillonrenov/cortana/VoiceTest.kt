@@ -121,11 +121,17 @@ class VoiceTest : CortanaTestBase() {
         server.enqueue(MockResponse().setHeader("Content-Type", "application/json").setBody("""{"text":"Bonjour Cortana"}"""))
         val mic = ScriptedMic(silence(400) + tone(600) + silence(900) + tone(3000))
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-        val stt = RemoteSttProvider(scope, mic, { wav, lang -> c.gateway.transcribe(c.gateway.routeFor("${s.providerId}/whisper-1")!!, wav, lang) })
+        val captures = CopyOnWriteArrayList<Pair<Int, Int>>()
+        val stt = RemoteSttProvider(scope, mic,
+            { wav, lang -> c.gateway.transcribe(c.gateway.routeFor("${s.providerId}/whisper-1")!!, wav, lang) },
+            onUtteranceCaptured = { pcm, rate -> captures += pcm.size to rate })
         val finals = CopyOnWriteArrayList<String>()
         stt.start("fr-FR", object : SttListener { override fun onFinal(text: String) { finals += text }; override fun onError(message: String, recoverable: Boolean) { finals += "ERR $message" } })
         waitUntil("transcription") { finals.isNotEmpty() }
         assertEquals(listOf("Bonjour Cortana"), finals)
+        waitUntil("speaker hook received captured audio") { captures.isNotEmpty() }
+        assertEquals(16_000, captures.single().second)
+        assertTrue("the speaker hook gets one bounded utterance, not continuous room audio", captures.single().first in 20_000..40_000)
         assertFalse("microphone closed at the end of the utterance", mic.running)
         val req = server.takeRequest()
         assertEquals("/v1/audio/transcriptions", req.path)

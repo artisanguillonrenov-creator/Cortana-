@@ -4,7 +4,7 @@ Ne pas modifier à la main : `ToolCapabilitiesDocTest` compare ce fichier au reg
 
 Risque de base : L0 lecture, L1 réversible local, L2 confirmation du propriétaire, L3 empreinte/biométrie. Le risque effectif n'est jamais inférieur au risque de base : traits, classification des arguments, contenu non fiable et destination peuvent l'élever (`PolicyEngine`).
 
-Total : 181 capacités.
+Total : 182 capacités.
 
 ## dev
 
@@ -100,6 +100,7 @@ Total : 181 capacités.
 | `email.reply` | L2 | external | keyed | external | network_egress | Répondre à un e-mail |
 | `email.search` | L0 | none | intrinsic | external | network_egress | Chercher des e-mails |
 | `email.send` | L2 | external | keyed | external | network_egress | Envoyer un e-mail |
+| `home.briefing` | L1 | none | intrinsic | external | network_egress | Bilan de la maison |
 | `home.call` | L2 | external | keyed | external | network_egress | Commander la maison |
 | `home.states` | L1 | none | intrinsic | external | network_egress | État de la maison |
 | `http.request` | L1 | external | intrinsic | external | network_egress | Appeler une API |
