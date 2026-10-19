@@ -6,6 +6,7 @@ import io.github.artisanguillonrenov.cortana.core.connections.ConnectionManager
 import io.github.artisanguillonrenov.cortana.core.connections.ConnectorKinds
 import io.github.artisanguillonrenov.cortana.core.connections.EmailConnector
 import io.github.artisanguillonrenov.cortana.core.connections.HomeAssistantConnector
+import io.github.artisanguillonrenov.cortana.core.connections.HomeBriefing
 import io.github.artisanguillonrenov.cortana.core.connections.HttpConnector
 import io.github.artisanguillonrenov.cortana.core.connections.MailAttachment
 import io.github.artisanguillonrenov.cortana.core.connections.WebhookOutConnector
@@ -170,6 +171,20 @@ class ConnectionTools(
         },
 
         // ------------------------------------------------------------ home automation
+        // One read-only household briefing, not another scheduler or domotics engine.
+        // Existing scheduled tasks can request home.briefing on a cadence chosen by the owner.
+        def("home.briefing", "Fait un bilan court des appareils connectés : lumières, ouvrants, alarmes déclenchées, température et éléments indisponibles. Lecture seule, limitée aux domaines autorisés par Home Assistant.",
+            S.obj("connection" to connection, "room" to S.str("Pièce ou partie du nom des appareils (filtre facultatif)"),
+                required = listOf("connection")),
+            Risk.L1, SideEffect.NONE, Idempotency.INTRINSIC, DataEgress.EXTERNAL, "Bilan de la maison",
+            listOf("maison", "domotique", "bilan", "lumiere", "alarme", "home assistant"),
+            maxOutputBytes = 10_000,
+        ) { a, _ ->
+            val c = mgr.usable(a.str("connection")!!, "home_assistant")
+            val states = home.states(c, domain = null, search = null)
+            val snapshot = HomeBriefing.summarize(states, room = a.str("room"))
+            untrusted(snapshot.format(), "home:${c.name}")
+        },
         def("home.states", "Lit l'état des appareils de la maison (Home Assistant) : lumières, prises, volets, climatisation… limité aux domaines permis par le propriétaire.",
             S.obj("connection" to connection, "entity" to S.str("Entité précise, ex. light.salon"), "domain" to S.str("Domaine, ex. light"), "search" to S.str("Texte à chercher dans le nom"), required = listOf("connection")),
             Risk.L1, SideEffect.NONE, Idempotency.INTRINSIC, DataEgress.EXTERNAL, "État de la maison", listOf("maison", "lumiere", "chauffage", "volet", "domotique", "home assistant"),
