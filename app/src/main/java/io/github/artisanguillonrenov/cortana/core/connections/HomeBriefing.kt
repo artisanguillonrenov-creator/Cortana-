@@ -60,15 +60,19 @@ object HomeBriefing {
         val unavailable = values { _, state -> state in setOf("unavailable", "unknown") }
         val activeLights = values { domain, state -> domain == "light" && state == "on" }
         val activeSwitches = values { domain, state -> domain == "switch" && state == "on" }
-        val openAccess = values { domain, state ->
+        val openAccess = selected.asSequence().filter { e ->
+            val domain = e.id.substringBefore('.')
+            val state = e.state.lowercase()
             (domain == "lock" && state == "unlocked") ||
                 (domain == "cover" && state in setOf("open", "opening")) ||
-                (domain == "binary_sensor" && state == "on")
-        }
-        val urgent = values { domain, state ->
-            (domain == "alarm_control_panel" && state == "triggered") ||
-                (domain == "smoke" && state == "on")
-        }
+                (domain == "binary_sensor" && state == "on" &&
+                    e.attributes["device_class"] in setOf("door", "window", "opening"))
+        }.map(::safe).take(maxPerSection).toList()
+        val urgent = selected.asSequence().filter { e ->
+            (e.id.substringBefore('.') == "alarm_control_panel" && e.state.lowercase() == "triggered") ||
+                (e.id.substringBefore('.') == "binary_sensor" && e.state.lowercase() == "on" &&
+                    e.attributes["device_class"] in setOf("smoke", "carbon_monoxide", "gas"))
+        }.map(::safe).take(maxPerSection).toList()
         val temperatures = selected.asSequence().filter { it.id.startsWith("climate.") }
             .filter { it.state.lowercase() !in setOf("unknown", "unavailable") }
             .mapNotNull { e ->
